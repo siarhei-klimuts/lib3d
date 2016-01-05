@@ -1,13 +1,10 @@
 import THREE from 'three';
 
+var vertexShader = require('./shaders/BookMaterial.vs');
+var fragmentShader = require('./shaders/BookMaterial.fs');
+
 export default class BookMaterial extends THREE.ShaderMaterial {
 	constructor(mapImage, bumpMapImage, specularMapImage, coverMapImage) {
-		var VERTEX_SHADER_ID = 'BookMaterialVertexShader';
-		var FRAGMENT_SHADER_ID = 'BookMaterialFragmentShader';
-
-		var vertexShader = document.getElementById(VERTEX_SHADER_ID).textContent;
-		var fragmentShader = document.getElementById(FRAGMENT_SHADER_ID).textContent;
-
 		var defines = {};
 		var uniforms;
 		var parameters;

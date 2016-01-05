@@ -1,3 +1,5 @@
+/** @module lib3d*/
+
 import THREE from 'three';
 
 import camera from './camera';
@@ -18,7 +20,14 @@ export {default as SelectorMetaDto} from './models/SelectorMetaDto';
 var loops = [];
 export var renderer;
 
-export function init(width, height, canvas) {
+/**
+ * Inits lib3d, should be called first
+ * @param {canvas} canvas - chould be provided for lib3d output
+ */
+export function init(canvas) {
+	var width = canvas.width;
+	var height = canvas.height;
+	
 	renderer = new THREE.WebGLRenderer({canvas: canvas || undefined, antialias: true});
 	renderer.setSize(width, height);
 
@@ -28,11 +37,19 @@ export function init(width, height, canvas) {
 	startRenderLoop();
 }
 
+/**
+ * Adds function to render loop
+ * @param {function} func - function will be called on every render call
+ */
 export function addLoop(func) {
 	loops.push(func);
 }
 
-//TODO: replace by export environment.loadLibrary as load
+//TODO: make separate loader module
+/**
+ * Loads library by an object
+ * @param {object} dto - full library structure
+ */
 export function load(dto) {
 	return environment.loadLibrary(dto);
 }
@@ -49,5 +66,3 @@ export {
 	camera,
 	environment
 };
-
-console.log('*');

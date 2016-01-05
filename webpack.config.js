@@ -12,14 +12,16 @@ var config = {
     },
     output: {
         pathinfo: true,
-        path: __dirname + '/build',
+        path: __dirname + '/dist',
+        publicPath: '/dist',
         filename: '/bundle.js',
         libraryTarget: 'umd',
         library: 'lib3d'
     },
     module: {
         loaders: [
-            {test: /\.js/, exclude: /(node_modules)/, loader: 'babel!jshint'}
+            {test: /\.js/, exclude: /(node_modules)/, loader: 'babel!jshint'},
+            {test: /\.(glsl|vs|fs)$/, loader: 'shader'}
         ],
         noParse: [],
     },

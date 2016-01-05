@@ -4,12 +4,41 @@
 	<title></title>
 </head>
 <body>
-	asd
 	<canvas id="LIBRARY"></canvas>
+
 	<script src="http://localhost:8080/vendors.js"></script>
 	<script src="http://localhost:8080/bundle.js"></script>
+
 	<script type="text/javascript">
-	console.log('***', lib3d);
+		lib3d.init(document.getElementById("LIBRARY"));
+		lib3d.load({
+			model: "library_0001",
+			sections: [
+				{
+					id: 9,
+			      	pos_x: -0.4,
+			      	pos_y: 0,
+			      	pos_z: -1.5,
+      				model: "bookshelf_0001",
+      				books: [
+				        {
+				          "id": 91,
+				          "pos_x": -0.268246169007469,
+				          "pos_y": -0.069276,
+				          "pos_z": -0.046377028631726,
+				          "shelfId": 4,
+				          "model": "book_0001",
+				          "sectionId": 9,
+				          "userId": 1,
+				          "cover": {
+				            "id": 86,
+				            "url": "http://res.cloudinary.com/galiaf/image/upload/v1429344169/vb/books/covers/r1jwbbfqqtu1jf0vtxj5.jpg"
+			          		}
+			        	}
+      				]
+				}
+			]
+		});
 	</script>
 </body>
 </html>
