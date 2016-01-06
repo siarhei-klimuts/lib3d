@@ -53,6 +53,8 @@ if (isProd) {
         'webpack/hot/only-dev-server');
     config.devtool = 'eval';
     config.devServer = {
+        contentBase: 'dist/',
+        publicPath: '/',
         historyApiFallback: false,
         hot: true,
         inline: true,
