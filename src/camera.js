@@ -13,10 +13,7 @@ var camera = {
 	}
 };
 
-var init = function() {
-	var width = window.innerWidth;
-	var height = window.innerHeight;
-	
+var init = function(width, height) {	
 	camera.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 50);
 	camera.object.position.set(0, camera.HEIGTH, 0);
 	camera.object.rotation.order = 'YXZ';
@@ -53,6 +50,6 @@ camera.getVector = function() {
 	return vector.applyEuler(this.object.rotation);
 };
 
-init();
+init(1024, 768);
 
 export default camera;

@@ -9,12 +9,12 @@ var PLANE_MULTIPLIER = 2;
 var COLOR_SELECT = 0x005533;
 var COLOR_FOCUS = 0x003355;
 
-var select;
-var focus;
+var selectPlane;
+var focusPlane;
 
 var init = function() {
 	var materialProperties = {
-		map: new THREE.ImageUtils.loadTexture( 'img/glow.png' ),
+		map: new THREE.ImageUtils.loadTexture(require('./img/glow.png')),
 		transparent: true, 
 		side: THREE.DoubleSide,
 		blending: THREE.AdditiveBlending,
@@ -29,11 +29,11 @@ var init = function() {
 
 	var geometry = new THREE.PlaneBufferGeometry(1, 1, 1);
 
-	select = new THREE.Mesh(geometry, materialSelect);
-	select.rotation.x = PLANE_ROTATION;
+	selectPlane = new THREE.Mesh(geometry, materialSelect);
+	selectPlane.rotation.x = PLANE_ROTATION;
 
-	focus = new THREE.Mesh(geometry, materialFocus);
-	focus.rotation.x = PLANE_ROTATION;
+	focusPlane = new THREE.Mesh(geometry, materialFocus);
+	focusPlane.rotation.x = PLANE_ROTATION;
 };
 
 var commonHighlight = function(which, obj) {
@@ -53,15 +53,15 @@ var commonHighlight = function(which, obj) {
 };
 
 highlight.enable = function(enable) {
-	focus.visible = select.visible = enable;
+	focusPlane.visible = selectPlane.visible = enable;
 };
 
 highlight.focus = function(obj) {
-	commonHighlight(focus, obj);
+	commonHighlight(focusPlane, obj);
 };
 
 highlight.select = function(obj) {
-	commonHighlight(select, obj);
+	commonHighlight(selectPlane, obj);
 };
 
 init();

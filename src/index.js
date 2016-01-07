@@ -24,10 +24,7 @@ export var renderer;
  * Inits lib3d, should be called first
  * @param {canvas} canvas - chould be provided for lib3d output
  */
-export function init(canvas) {
-	var width = canvas.width;
-	var height = canvas.height;
-	
+export function init(canvas, width, height) {
 	renderer = new THREE.WebGLRenderer({canvas: canvas || undefined, antialias: true});
 	renderer.setSize(width, height);
 
@@ -56,10 +53,9 @@ export function load(dto) {
 
 function startRenderLoop() {
 	requestAnimationFrame(startRenderLoop);
+	renderer.render(environment.scene, camera.camera);
 
 	loops.forEach(func => func());
-	
-	renderer.render(environment.scene, camera.camera);
 }
 
 export {
