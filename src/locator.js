@@ -1,4 +1,5 @@
 import THREE from 'three';
+import _ from 'lodash';
 
 import GridCalculator from './gridCalculator';
 import BaseObject from './models/BaseObject';
@@ -138,7 +139,7 @@ function getOccupiedMatrix(objects, matrixPrecision, obj) {
 	var minKeyX;
 	var maxKeyX;
 	var minKeyZ;
-	var maxKeyZ;		
+	var maxKeyZ;
 	var z, x;
 
 	objects.forEach(function (child) {
