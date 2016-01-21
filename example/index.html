@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>lib3d example</title>
 </head>
 <body>
+	<style type="text/css">
+		.menu {
+			float: right;
+			list-style-type: none;
+		}
+	</style>
 	<canvas id="LIBRARY"></canvas>
+
+	<ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
+		<li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
+		<li><button onmousedown="lib3d.navigation.goRight()">right</button></li>
+		<li><button onmousedown="lib3d.navigation.goForward()">forward</button></li>
+		<li><button onmousedown="lib3d.navigation.goBackward()">backward</button></li>
+		<li><button onmousedown="lib3d.navigation.goUp()">up</button></li>
+		<li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
+	</ul>
 
 	<script src="http://localhost:8080/vendors.js"></script>
 	<script src="http://localhost:8080/bundle.js"></script>
 
 	<script type="text/javascript">
 		lib3d.init(document.getElementById("LIBRARY"), 800, 600);
+		lib3d.addLoop(lib3d.navigation.update);
+
 		lib3d.load({
 			model: "library_0001",
 			sections: [
@@ -39,6 +56,8 @@
 				}
 			]
 		});
+
+
 	</script>
 </body>
 </html>
