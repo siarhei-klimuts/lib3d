@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 
-import camera from './camera';
+import * as camera from './camera';
 import * as environment from './environment';
 
 export {locator} from './locator';
@@ -28,10 +28,13 @@ var loops = [];
 /**
  * Inits lib3d, should be called first
  * @param {canvas} canvas - chould be provided for lib3d output
+ * @param {Number} width - viewport width
+ * @param {Number} height- viewport height
  */
 export function init(canvas, width, height) {
 	renderer = new THREE.WebGLRenderer({canvas: canvas || undefined, antialias: true});
 	renderer.setSize(width, height);
+	camera.setAspect(width / height);
 
 	startRenderLoop();
 }

@@ -2,6 +2,9 @@ import THREE from 'three';
 
 import * as lib3d from 'index.js';
 import * as repository from 'repository';
+import * as environment from 'environment';
+import {locator} from 'locator';
+
 import SectionObject from 'models/SectionObject';
 
 describe('locator.js', function () {
@@ -42,7 +45,7 @@ describe('locator.js', function () {
 				model: 'bookshelf_0001'
 			};
 
-			return lib3d.locator.placeSection(dto)
+			return locator.placeSection(dto)
 				.then(position => {
                     let newDto = {
                         id: dto.id,
@@ -53,7 +56,7 @@ describe('locator.js', function () {
                         pos_z: position.z
                     };
 
-					return lib3d.environment.updateSection(newDto)
+					return environment.updateSection(newDto)
                         .then(() => placed++);
 				});
 		}
@@ -72,7 +75,7 @@ describe('locator.js', function () {
         .then(done, fail);
 
         function checkSections() {
-            let library = lib3d.environment.library;
+            let library = environment.library;
 
     		library.children.forEach(function (section) {
                 if (!(section instanceof SectionObject)) return;

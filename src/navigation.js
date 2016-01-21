@@ -3,7 +3,7 @@
  * @description Helper for smooth camera control
  */
 
-import camera from './camera';
+import * as camera from './camera';
 export var navigation = {};
 
 navigation.BUTTONS_ROTATE_SPEED = 100;
