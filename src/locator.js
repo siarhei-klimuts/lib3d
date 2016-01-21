@@ -5,7 +5,7 @@ import GridCalculator from './gridCalculator';
 import BaseObject from './models/BaseObject';
 
 import * as cache from './cache';
-import environment from './environment';
+import * as environment from './environment';
 
 export var locator = {};
 

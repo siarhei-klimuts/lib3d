@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import environment from './environment';
+import * as environment from './environment';
 
 var highlight = {};
 

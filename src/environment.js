@@ -10,29 +10,27 @@ import {locator} from './locator';
 import * as cache from './cache';
 import * as repository from './repository';
 
-var environment = {};
+export const CLEARANCE = 0.001;
 
-environment.CLEARANCE = 0.001;
- 
-var libraryDto = null;
+export var scene = new THREE.Scene();
+export var library = null;
+
 var sections = {};
 var books = {};
 
-environment.scene = null;
-environment.library = null;
-
-environment.loadLibrary = function(dto) {
+export function loadLibrary(dto) {
 	clearScene(); // inits some fields
 
 	var dict = parseLibraryDto(dto);
+
+	scene.fog = new THREE.Fog(0x000000, 4, 7);
 		
 	sections = dict.sections;
 	books = dict.books;
-	libraryDto = dto;
 
-	return initCache(libraryDto, dict.sections, dict.books)
+	return initCache(dto, dict.sections, dict.books)
 	.then(function () {
-		createLibrary(libraryDto);
+		createLibrary(dto);
 		return createSections(sections);
 	})
 	.then(function () {
@@ -41,50 +39,50 @@ environment.loadLibrary = function(dto) {
 	.then(function () {
 		return createBooks(books);
 	});
-};
+}
 
-environment.getBook = function(bookId) {
+export function getBook(bookId) {
 	return getDictObject(books, bookId);
-};
+}
 
-environment.getSection = function(sectionId) {
+export function getSection(sectionId) {
 	return getDictObject(sections, sectionId);
-};
+}
 
-environment.getShelf = function(sectionId, shelfId) {
-	var section = environment.getSection(sectionId);
+export function getShelf(sectionId, shelfId) {
+	var section = getSection(sectionId);
 	var shelf = section && section.shelves[shelfId];
 
 	return shelf;
-};
+}
 
-environment.updateSection = function(dto) {
-	if(dto.libraryId == environment.library.getId()) {
-		environment.removeSection(dto.id);
+export function updateSection(dto) {
+	if(dto.libraryId == library.getId()) {
+		removeSection(dto.id);
 		return createSection(dto);
 	} else {
-		environment.removeSection(dto.id);
+		removeSection(dto.id);
 		return Promise.resolve(dto);
 	}
-};
+}
 
-environment.updateBook = function(dto) {
+export function updateBook(dto) {
 	if(getBookShelf(dto)) {
-		environment.removeBook(dto.id);
+		removeBook(dto.id);
 		return createBook(dto);
 	} else {
-		environment.removeBook(dto.id);
+		removeBook(dto.id);
 		return Promise.resolve(true);
 	}
-};
+}
 
-environment.removeBook = function(id) {
+export function removeBook(id) {
 	removeObject(books, id);
-};
+}
 
-environment.removeSection = function(id) {
+export function removeSection(id) {
 	removeObject(sections, id);
-};
+}
 
 function removeObject(dict, key) {
 	var dictItem = dict[key];
@@ -116,15 +114,15 @@ function initCache(libraryDto, sectionsDict, booksDict) {
 }
 
 function clearScene() {
-	environment.library = null;
+	library = null;
 	sections = {};
 	books = {};
 
-	while(environment.scene.children.length > 0) {
-		if(environment.scene.children[0].dispose) {
-			environment.scene.children[0].dispose();
+	while(scene.children.length > 0) {
+		if(scene.children[0].dispose) {
+			scene.children[0].dispose();
 		}
-		environment.scene.remove(environment.scene.children[0]);
+		scene.remove(scene.children[0]);
 	}
 }
 
@@ -152,7 +150,6 @@ function parseLibraryDto(libraryDto) {
 }
 
 function createLibrary(libraryDto) {
-	var library = null;
 	var libraryCache = cache.getLibrary();
     var texture = new THREE.Texture(libraryCache.mapImage);
     var material = new THREE.MeshPhongMaterial({map: texture});
@@ -163,8 +160,7 @@ function createLibrary(libraryDto) {
 	library.add(new THREE.AmbientLight(0x333333));
 	camera.setParent(library);
 	
-	environment.scene.add(library);
-	environment.library = library;
+	scene.add(library);
 }
 
 function createSections(sectionsDict) {
@@ -197,7 +193,7 @@ function createSection(sectionDto) {
 
         section = new SectionObject(sectionDto, sectionCache.geometry, material);
 
-		environment.library.add(section);
+		library.add(section);
 		addToDict(sections, section);
 
 		return sectionDto;
@@ -238,12 +234,10 @@ function getDictObject(dict, objectId) {
 }
 
 function getBookShelf(bookDto) {
-	return environment.getShelf(bookDto.sectionId, bookDto.shelfId);
+	return getShelf(bookDto.sectionId, bookDto.shelfId);
 }
 
 function placeBookOnShelf(book) {
 	var shelf = getBookShelf(book.dataObject);
 	shelf.add(book);
 }
-
-export default environment;

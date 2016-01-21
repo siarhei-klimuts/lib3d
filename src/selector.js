@@ -3,7 +3,7 @@ import ShelfObject from './models/ShelfObject';
 import BookObject from './models/BookObject';
 import SectionObject from './models/SectionObject';
 
-import environment from './environment';
+import * as environment from './environment';
 import highlight from './highlight';
 import {preview} from './preview';
 

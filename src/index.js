@@ -3,7 +3,7 @@
 import THREE from 'three';
 
 import camera from './camera';
-import environment from './environment';
+import * as environment from './environment';
 
 export {locator} from './locator';
 export {mouse} from './mouse';
@@ -32,9 +32,6 @@ var loops = [];
 export function init(canvas, width, height) {
 	renderer = new THREE.WebGLRenderer({canvas: canvas || undefined, antialias: true});
 	renderer.setSize(width, height);
-
-	environment.scene = new THREE.Scene();
-	environment.scene.fog = new THREE.Fog(0x000000, 4, 7);
 
 	startRenderLoop();
 }
