@@ -6,7 +6,7 @@ import BookObject from './models/BookObject';
 import SectionObject from './models/SectionObject';
 
 import * as camera from './camera';
-import {locator} from './locator';
+import * as locator from './locator';
 import * as cache from './cache';
 import * as repository from './repository';
 

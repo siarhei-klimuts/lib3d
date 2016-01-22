@@ -3,7 +3,7 @@ import THREE from 'three';
 import * as lib3d from 'index.js';
 import * as repository from 'repository';
 import * as environment from 'environment';
-import {locator} from 'locator';
+import * as locator from 'locator';
 
 import SectionObject from 'models/SectionObject';
 

@@ -4,8 +4,8 @@ import THREE from 'three';
 
 import * as camera from './camera';
 import * as environment from './environment';
+import * as locator from './locator';
 
-export {locator} from './locator';
 export {mouse} from './mouse';
 export {preview} from './preview';
 export {selector} from './selector';
@@ -19,7 +19,8 @@ export {default as SelectorMetaDto} from './models/SelectorMetaDto';
 
 export {
 	camera,
-	environment
+	environment,
+	locator
 };
 
 export var renderer;
