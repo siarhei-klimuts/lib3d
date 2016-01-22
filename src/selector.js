@@ -4,8 +4,8 @@ import BookObject from './models/BookObject';
 import SectionObject from './models/SectionObject';
 
 import * as environment from './environment';
+import * as preview from './preview';
 import highlight from './highlight';
-import {preview} from './preview';
 
 export var selector = {};
 

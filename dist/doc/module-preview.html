@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: locator</title>
+    <title>JSDoc: Module: preview</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: locator</h1>
+    <h1 class="page-title">Module: preview</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Helper for finding free place for new objects</div>
+            <div class="description">Closer look on books</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="locator.js.html">locator.js</a>, <a href="locator.js.html#line1">line 1</a>
+        <a href="preview.js.html">preview.js</a>, <a href="preview.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -137,14 +137,96 @@
 
     
 
-    <h4 class="name" id=".centerObject"><span class="type-signature">(static) </span>centerObject<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".disable"><span class="type-signature">(static) </span>disable<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Center an object on scene and avoid collisions
+    Disable preview mode
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="preview.js.html">preview.js</a>, <a href="preview.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".enable"><span class="type-signature">(static) </span>enable<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Show an object in preview mode
 </div>
 
 
@@ -186,7 +268,7 @@
             <td class="type">
             
                 
-<span class="param-type">BaseObject</span>
+<span class="param-type">BookObject</span>
 
 
             
@@ -196,7 +278,7 @@
 
             
 
-            <td class="description last">an instance of BaseObject,should have calculated bounding box</td>
+            <td class="description last">an instance of BookObject</td>
         </tr>
 
     
@@ -237,7 +319,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="locator.js.html">locator.js</a>, <a href="locator.js.html#line21">line 21</a>
+        <a href="preview.js.html">preview.js</a>, <a href="preview.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -268,14 +350,114 @@
 
     
 
-    <h4 class="name" id=".placeBook"><span class="type-signature">(static) </span>placeBook<span class="signature">(bookDto, shelf)</span><span class="type-signature"> &rarr; {Promise|THREE.Vector3}</span></h4>
+    <h4 class="name" id=".isActive"><span class="type-signature">(static) </span>isActive<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Find free space for book in provided shelf
+    Is preview active
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="preview.js.html">preview.js</a>, <a href="preview.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".rotate"><span class="type-signature">(static) </span>rotate<span class="signature">(dX)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotate an object in preview mode
 </div>
 
 
@@ -311,13 +493,13 @@
 
         <tr>
             
-                <td class="name"><code>bookDto</code></td>
+                <td class="name"><code>dX</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Number</span>
 
 
             
@@ -327,30 +509,7 @@
 
             
 
-            <td class="description last">object with model attributeto find appropriate geometry</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>shelf</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">ShelfObject</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">an instance of ShelfObject</td>
+            <td class="description last">Vertical rotation value</td>
         </tr>
 
     
@@ -391,7 +550,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="locator.js.html">locator.js</a>, <a href="locator.js.html#line62">line 62</a>
+        <a href="preview.js.html">preview.js</a>, <a href="preview.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -414,187 +573,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    free position
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-|
-
-<span class="param-type">THREE.Vector3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".placeSection"><span class="type-signature">(static) </span>placeSection<span class="signature">(sectionDto)</span><span class="type-signature"> &rarr; {Promise|THREE.Vector3}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Find free space for section in current library
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sectionDto</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">object with model attributeto find appropriate geometry</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="locator.js.html">locator.js</a>, <a href="locator.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    free position
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-|
-
-<span class="param-type">THREE.Vector3</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

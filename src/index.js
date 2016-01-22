@@ -6,8 +6,8 @@ import * as camera from './camera';
 import * as environment from './environment';
 import * as locator from './locator';
 import * as mouse from './mouse';
+import * as preview from './preview';
 
-export {preview} from './preview';
 export {selector} from './selector';
 export {navigation} from './navigation';
 
@@ -21,7 +21,8 @@ export {
 	camera,
 	environment,
 	locator,
-	mouse
+	mouse,
+	preview
 };
 
 export var renderer;
