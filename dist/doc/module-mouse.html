@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: camera</title>
+    <title>JSDoc: Module: mouse</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: camera</h1>
+    <h1 class="page-title">Module: mouse</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Represents camera</div>
+            <div class="description">Contains current mouse state,functions to update state trough mouse events,helps to find clicked 3D object</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line1">line 1</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -132,22 +132,16 @@
 
         
             
-<h4 class="name" id=".camera"><span class="type-signature">(static) </span>camera<span class="type-signature"> :THREE.PerspectiveCamera</span></h4>
+<h4 class="name" id=".dX"><span class="type-signature">(static) </span>dX<span class="type-signature"></span></h4>
 
 
 
 
+<div class="description">
+    Delta X - horisontal distance between two move events
+</div>
 
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">THREE.PerspectiveCamera</span>
-
-
-        </li>
-    </ul>
 
 
 
@@ -182,7 +176,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line15">line 15</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -200,22 +194,16 @@
 
         
             
-<h4 class="name" id=".object"><span class="type-signature">(static) </span>object<span class="type-signature"> :CameraObject</span></h4>
+<h4 class="name" id=".dY"><span class="type-signature">(static) </span>dY<span class="type-signature"></span></h4>
 
 
 
 
+<div class="description">
+    Delta Y - vertical distance between two move events
+</div>
 
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">CameraObject</span>
-
-
-        </li>
-    </ul>
 
 
 
@@ -250,7 +238,193 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line20">line 20</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".keys"><span class="type-signature">(static) </span>keys<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Keys states
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".longX"><span class="type-signature">(static) </span>longX<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Horisontal distance of mouse pointer to canvas center
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".longY"><span class="type-signature">(static) </span>longY<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Vertical distance of mouse pointer to canvas center
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -277,14 +451,14 @@
 
     
 
-    <h4 class="name" id=".getPosition"><span class="type-signature">(static) </span>getPosition<span class="signature">()</span><span class="type-signature"> &rarr; {THREE.Vector3}</span></h4>
+    <h4 class="name" id=".down"><span class="type-signature">(static) </span>down<span class="signature">(event)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Camera position
+    Update current state by onmousedown event
 </div>
 
 
@@ -293,6 +467,50 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -328,7 +546,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line34">line 34</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -351,24 +569,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">THREE.Vector3</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -377,15 +577,12 @@
 
     
 
-    <h4 class="name" id=".getVector"><span class="type-signature">(static) </span>getVector<span class="signature">()</span><span class="type-signature"> &rarr; {THREE.Vector3}</span></h4>
+    <h4 class="name" id=".getIntersected"><span class="type-signature">(static) </span>getIntersected<span class="signature">(objects, recursive, searchFor)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
 
 
-<div class="description">
-    Look vector
-</div>
 
 
 
@@ -393,6 +590,100 @@
 
 
 
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>objects</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Objects to check for collisions</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>recursive</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Recursive check</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>searchFor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of classes to check</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -428,7 +719,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line71">line 71</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -455,7 +746,7 @@
 
         
 <div class="param-desc">
-    camera look vector
+    The closest intersected object
 </div>
 
 
@@ -466,7 +757,7 @@
     </dt>
     <dd>
         
-<span class="param-type">THREE.Vector3</span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -475,20 +766,117 @@
     
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var intersected = lib3d.mouse.getIntersected(lib3d.environment.library.children, true, [BookObject]);//intersected.object is an instance of BookObject</code></pre>
+
+
 
         
             
 
     
 
-    <h4 class="name" id=".go"><span class="type-signature">(static) </span>go<span class="signature">(speed)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getTarget"><span class="type-signature">(static) </span>getTarget<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Move camera forward or backward
+    Last down or move event target
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    target
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".move"><span class="type-signature">(static) </span>move<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Update current state by onmousemove event
 </div>
 
 
@@ -524,15 +912,10 @@
 
         <tr>
             
-                <td class="name"><code>speed</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
             
             </td>
 
@@ -540,7 +923,7 @@
 
             
 
-            <td class="description last">move speed, use negative number for backward move</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -581,7 +964,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line59">line 59</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -612,14 +995,14 @@
 
     
 
-    <h4 class="name" id=".rotate"><span class="type-signature">(static) </span>rotate<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".up"><span class="type-signature">(static) </span>up<span class="signature">(event)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Rotate camera by two axes
+    Update current state by onmouseup event
 </div>
 
 
@@ -655,15 +1038,10 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
             
             </td>
 
@@ -671,30 +1049,7 @@
 
             
 
-            <td class="description last">horisontal angle</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">vertical angle</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -735,292 +1090,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line43">line 43</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".setParent"><span class="type-signature">(static) </span>setParent<span class="signature">(parent)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Set new parent
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">THREE.Object3D</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">new parent</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line26">line 26</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".setSize"><span class="type-signature">(static) </span>setSize<span class="signature">(w, h)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Change aspect ratio of camera and screen size values,call it all the time you cange viewport size
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>w</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">viewport width</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>h</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">viewport height</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">camera.js</a>, <a href="camera.js.html#line83">line 83</a>
+        <a href="mouse.js.html">mouse.js</a>, <a href="mouse.js.html#line54">line 54</a>
     </li></ul></dd>
     
 

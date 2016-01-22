@@ -10,7 +10,7 @@
 			list-style-type: none;
 		}
 	</style>
-	<canvas id="LIBRARY"></canvas>
+	<canvas onmousedown="console.log(event)" id="LIBRARY"></canvas>
 
 	<ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
 		<li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
@@ -21,11 +21,11 @@
 		<li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
 	</ul>
 
-	<script src="http://localhost:8080/vendors.js"></script>
-	<script src="http://localhost:8080/bundle.js"></script>
+	<script src="http://localhost:8081/vendors.js"></script>
+	<script src="http://localhost:8081/bundle.js"></script>
 
 	<script type="text/javascript">
-		lib3d.init(document.getElementById("LIBRARY"), 800, 600);
+		lib3d.init(document.getElementById("LIBRARY"), 300, 300);
 		lib3d.addLoop(lib3d.navigation.update);
 
 		lib3d.load({
@@ -35,7 +35,7 @@
 					id: 9,
 			      	pos_x: -0.4,
 			      	pos_y: 0,
-			      	pos_z: -1.5,
+			      	pos_z: -3.5,
       				model: "bookshelf_0001",
       				books: [
 				        {
@@ -56,8 +56,6 @@
 				}
 			]
 		});
-
-
 	</script>
 </body>
 </html>

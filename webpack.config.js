@@ -53,7 +53,7 @@ if (isProd) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
     config.plugins.push(new webpack.optimize.CommonsChunkPlugin('vendors', '/vendors.js'));
     config.entry.app.unshift(
-        'webpack-dev-server/client?http://localhost:8080',
+        'webpack-dev-server/client?http://localhost:8081',
         'webpack/hot/only-dev-server');
     config.devtool = 'eval';
     config.devServer = {
@@ -65,12 +65,11 @@ if (isProd) {
         progress: true,
         stats: 'errors-only',
         host: 'localhost',
-        port: '8080'
+        port: '8081'
     };
     config.addVendor('babel-polyfill');
     config.addVendor('lodash');
     config.addVendor('three');
 }
-
 
 module.exports = config;

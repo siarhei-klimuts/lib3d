@@ -6,10 +6,13 @@ import THREE from 'three';
 
 import CameraObject from './models/CameraObject';
 
+export var width = 300;
+export var height = 300;
+
 /**
  * @type {THREE.PerspectiveCamera}
  */
-export var camera = new THREE.PerspectiveCamera(45, 1.33, 0.01, 50);
+export var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 50);
 
 /**
  * @type {CameraObject}
@@ -72,11 +75,15 @@ export function getVector() {
 }
 
 /**
- * Change aspect ratio of camera, call it all the time
- * you cange viewport size
- * @param {Number} aspect - aspect ratio (width / height)
+ * Change aspect ratio of camera and screen size values,
+ * call it all the time you cange viewport size
+ * @param {Number} w - viewport width
+ * @param {Number} h - viewport height
  */
-export function setAspect(aspect) {
-	camera.aspect = aspect;
+export function setSize(w, h) {
+	width = w;
+	height = h;
+
+	camera.aspect = width / height;
 	camera.updateProjectionMatrix();
 }

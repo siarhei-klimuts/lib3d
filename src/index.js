@@ -5,8 +5,8 @@ import THREE from 'three';
 import * as camera from './camera';
 import * as environment from './environment';
 import * as locator from './locator';
+import * as mouse from './mouse';
 
-export {mouse} from './mouse';
 export {preview} from './preview';
 export {selector} from './selector';
 export {navigation} from './navigation';
@@ -20,14 +20,15 @@ export {default as SelectorMetaDto} from './models/SelectorMetaDto';
 export {
 	camera,
 	environment,
-	locator
+	locator,
+	mouse
 };
 
 export var renderer;
 var loops = [];
 
 /**
- * Inits lib3d, should be called first
+ * Inits lib3d, should be called first, use canvas with padding: 0
  * @param {canvas} canvas - chould be provided for lib3d output
  * @param {Number} width - viewport width
  * @param {Number} height- viewport height
@@ -35,7 +36,7 @@ var loops = [];
 export function init(canvas, width, height) {
 	renderer = new THREE.WebGLRenderer({canvas: canvas || undefined, antialias: true});
 	renderer.setSize(width, height);
-	camera.setAspect(width / height);
+	camera.setSize(width, height);
 
 	startRenderLoop();
 }
