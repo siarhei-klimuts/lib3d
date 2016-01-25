@@ -4,10 +4,9 @@
  */
 
 import * as camera from './camera';
-export var navigation = {};
 
-navigation.BUTTONS_ROTATE_SPEED = 100;
-navigation.BUTTONS_GO_SPEED = 0.02;
+const BUTTONS_ROTATE_SPEED = 100;
+export const BUTTONS_GO_SPEED = 0.02;
 
 var state = {
 	forward: false,
@@ -21,73 +20,73 @@ var state = {
 /**
  * @func Stop updating camera
  */
-navigation.goStop = function() {
+export function goStop() {
 	state.forward = false;
 	state.backward = false;
 	state.left = false;
 	state.right = false;
 	state.up = false;
 	state.down = false;
-};
+}
 
 /**
  * @func Start moving camera forward 
  */
-navigation.goForward = function() {
+export function goForward() {
 	state.forward = true;
-};
+}
 
 /**
  * @func Start moving camera backward 
  */
-navigation.goBackward = function() {
+export function goBackward() {
 	state.backward = true;
-};
+}
 
 /**
  * @func Start rotating camera left 
  */
-navigation.goLeft = function() {
+export function goLeft() {
 	state.left = true;
-};
+}
 
 /**
  * @func Start rotating camera right
  */
-navigation.goRight = function() {
+export function goRight() {
 	state.right = true;
-};
+}
 
 /**
  * @func Start rotating camera up
  */
-navigation.goUp = function() {
+export function goUp() {
 	state.up = true;
-};
+}
 
 /**
  * @func Start rotating camera down
  */
-navigation.goDown = function() {
+export function goDown() {
 	state.down = true;
-};
+}
 
 /**
  * @func Update camera
  * @example lib3d.addLoop(lib3d.navigation.update);
  */
-navigation.update = function() {
+export function update() {
 	if(state.forward) {
-		camera.go(navigation.BUTTONS_GO_SPEED);
+		camera.go(BUTTONS_GO_SPEED);
 	} else if(state.backward) {
-		camera.go(-navigation.BUTTONS_GO_SPEED);
+		camera.go(-BUTTONS_GO_SPEED);
 	} else if(state.left) {
-		camera.rotate(navigation.BUTTONS_ROTATE_SPEED, 0);
+		camera.rotate(BUTTONS_ROTATE_SPEED, 0);
 	} else if(state.right) {
-		camera.rotate(-navigation.BUTTONS_ROTATE_SPEED, 0);
+		camera.rotate(-BUTTONS_ROTATE_SPEED, 0);
 	} else if(state.up) {
-		camera.rotate(0, navigation.BUTTONS_ROTATE_SPEED);
+		camera.rotate(0, BUTTONS_ROTATE_SPEED);
 	} else if(state.down) {
-		camera.rotate(0, -navigation.BUTTONS_ROTATE_SPEED);
+		camera.rotate(0, -BUTTONS_ROTATE_SPEED);
 	}
-};
+}

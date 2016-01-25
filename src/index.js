@@ -8,8 +8,8 @@ import * as locator from './locator';
 import * as mouse from './mouse';
 import * as preview from './preview';
 import * as selector from './selector';
+import * as navigation from './navigation';
 
-export {navigation} from './navigation';
 
 export {default as ShelfObject} from './models/ShelfObject';
 export {default as BookObject} from './models/BookObject';
@@ -23,7 +23,8 @@ export {
 	locator,
 	mouse,
 	preview,
-	selector
+	selector,
+	navigation
 };
 
 export var renderer;
