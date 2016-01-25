@@ -7,8 +7,8 @@ import * as environment from './environment';
 import * as locator from './locator';
 import * as mouse from './mouse';
 import * as preview from './preview';
+import * as selector from './selector';
 
-export {selector} from './selector';
 export {navigation} from './navigation';
 
 export {default as ShelfObject} from './models/ShelfObject';
@@ -22,7 +22,8 @@ export {
 	environment,
 	locator,
 	mouse,
-	preview
+	preview,
+	selector
 };
 
 export var renderer;
