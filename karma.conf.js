@@ -1,5 +1,4 @@
 var webpackConfig = require('./webpack.config.js');
-var path = require('path');
 
 module.exports = function(config) {
     config.set({
@@ -8,31 +7,24 @@ module.exports = function(config) {
         files: [
             {pattern: 'dist/obj/**/*.json', included: false, served: true},
             'node_modules/karma-read-json/karma-read-json.js',
-            'src/index.js',
             'test/**/*.js'
         ],
         preprocessors: {
-            'src/index.js': ['webpack', 'sourcemap'],
             'test/**/*.js': ['webpack', 'sourcemap']
         },
         webpack: {
             devtool: 'inline-source-map',
             module: {
                 preLoaders: [
+                    {test: /\.js/, exclude: /(test|node_modules)/, loader: 'isparta'}
+                ],
+                loaders: [
                     {test: /\.js/, exclude: /(node_modules)/, loader: 'babel'},
                     {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'},
-                    {test: /\.(glsl|vs|fs)$/, loader: 'shader'},
-                    {test: /\.js/, include: path.resolve('src/'), loader: 'isparta'}
+                    {test: /\.(glsl|vs|fs)$/, loader: 'shader'}
                 ]
             },
-            resolve: webpackConfig.resolve,
-            isparta: {
-                embedSource: true,
-                noAutoWrap: true,
-                babel: {
-                    presets: ['es2015']
-                }
-            }
+            resolve: webpackConfig.resolve
         },
         reporters: ['progress', 'coverage'],
         port: 9876,
