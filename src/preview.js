@@ -4,7 +4,7 @@
 import THREE from 'three';
 
 import * as camera from './camera';
-import highlight from './highlight';
+import * as highlight from './highlight';
 
 var active = false;
 var container;

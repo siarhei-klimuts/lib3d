@@ -9,7 +9,7 @@ import SectionObject from './models/SectionObject';
 
 import * as environment from './environment';
 import * as preview from './preview';
-import highlight from './highlight';
+import * as highlight from './highlight';
 
 var selected = new SelectorMeta();
 var focused = new SelectorMeta();

@@ -10,7 +10,6 @@ import * as preview from './preview';
 import * as selector from './selector';
 import * as navigation from './navigation';
 
-
 export {default as ShelfObject} from './models/ShelfObject';
 export {default as BookObject} from './models/BookObject';
 export {default as SectionObject} from './models/SectionObject';

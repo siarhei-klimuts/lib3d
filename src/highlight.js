@@ -2,8 +2,6 @@ import THREE from 'three';
 
 import * as environment from './environment';
 
-var highlight = {};
-
 var PLANE_ROTATION = Math.PI * 0.5;
 var PLANE_MULTIPLIER = 2;
 var COLOR_SELECT = 0x005533;
@@ -52,18 +50,16 @@ var commonHighlight = function(which, obj) {
 	}
 };
 
-highlight.enable = function(enable) {
-	focusPlane.visible = selectPlane.visible = enable;
-};
+export function enable(val) {
+	focusPlane.visible = selectPlane.visible = val;
+}
 
-highlight.focus = function(obj) {
+export function focus(obj) {
 	commonHighlight(focusPlane, obj);
-};
+}
 
-highlight.select = function(obj) {
+export function select(obj) {
 	commonHighlight(selectPlane, obj);
-};
+}
 
 init();
-
-export default highlight;
