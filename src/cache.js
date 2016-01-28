@@ -1,11 +1,9 @@
 import * as repository from './repository';
 
-var library = null;
 var sections = {};
 var books = {};
 
-export function init(libraryModel, sectionModels, bookModels) {
-	var libraryLoad = repository.loadLibraryData(libraryModel);
+export function init(sectionModels, bookModels) {
 	var sectionsLoad = [];
 	var booksLoad = [];
 	var model; // iterators
@@ -19,16 +17,9 @@ export function init(libraryModel, sectionModels, bookModels) {
 	}
 
 	return Promise.all([
-		libraryLoad, 
 		Promise.all(sectionsLoad), 
 		Promise.all(booksLoad)
-	]).then(results => {
-		library = results[0];
-	});
-}
-
-export function getLibrary() {
-	return library;
+	]);
 }
 
 export function getSection(model) {

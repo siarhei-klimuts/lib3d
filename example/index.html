@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>lib3d example</title>
+    <title>lib3d example</title>
 </head>
 <body>
-	<style type="text/css">
-		.menu {
-			float: right;
-			list-style-type: none;
-		}
-	</style>
-	<canvas onmousedown="console.log(event)" id="LIBRARY"></canvas>
+    <style type="text/css">
+        .menu {
+            float: right;
+            list-style-type: none;
+        }
+    </style>
+    <canvas onmousedown="console.log(event)" id="LIBRARY"></canvas>
 
-	<ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
-		<li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
-		<li><button onmousedown="lib3d.navigation.goRight()">right</button></li>
-		<li><button onmousedown="lib3d.navigation.goForward()">forward</button></li>
-		<li><button onmousedown="lib3d.navigation.goBackward()">backward</button></li>
-		<li><button onmousedown="lib3d.navigation.goUp()">up</button></li>
-		<li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
-	</ul>
+    <ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
+        <li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
+        <li><button onmousedown="lib3d.navigation.goRight()">right</button></li>
+        <li><button onmousedown="lib3d.navigation.goForward()">forward</button></li>
+        <li><button onmousedown="lib3d.navigation.goBackward()">backward</button></li>
+        <li><button onmousedown="lib3d.navigation.goUp()">up</button></li>
+        <li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
+    </ul>
 
-	<script src="http://localhost:8081/vendors.js"></script>
-	<script src="http://localhost:8081/bundle.js"></script>
+    <script src="http://localhost:8081/vendors.js"></script>
+    <script src="http://localhost:8081/bundle.js"></script>
 
-	<script type="text/javascript">
-		lib3d.init(document.getElementById("LIBRARY"), 300, 300);
-		lib3d.addLoop(lib3d.navigation.update);
+    <script type="text/javascript">
+        lib3d.init(document.getElementById("LIBRARY"), 300, 300);
+        lib3d.addLoop(lib3d.navigation.update);
 
-		lib3d.load({
-			model: "library_0001",
-			sections: [
-				{
-					id: 9,
-			      	pos_x: -0.4,
-			      	pos_y: 0,
-			      	pos_z: -3.5,
-      				model: "bookshelf_0001",
-      				books: [
-				        {
-				          "id": 91,
-				          "pos_x": -0.268246169007469,
-				          "pos_y": -0.069276,
-				          "pos_z": -0.046377028631726,
-				          "shelfId": 4,
-				          "model": "book_0001",
-				          "sectionId": 9,
-				          "userId": 1,
-				          "cover": {
-				            "id": 86,
-				            "url": "http://res.cloudinary.com/galiaf/image/upload/v1429344169/vb/books/covers/r1jwbbfqqtu1jf0vtxj5.jpg"
-			          		}
-			        	}
-      				]
-				}
-			]
-		});
-	</script>
+        lib3d.load({
+            model: "library_0001",
+            sections: [
+                {
+                    id: 9,
+                    pos_x: -0.4,
+                    pos_y: 0,
+                    pos_z: -3.5,
+                    model: "bookshelf_0001",
+                    books: [
+                        {
+                            "id": 91,
+                            "pos_x": -0.268246169007469,
+                            "pos_y": -0.069276,
+                            "pos_z": -0.046377028631726,
+                            "shelfId": 4,
+                            "model": "book_0001",
+                            "sectionId": 9,
+                            "userId": 1,
+                            "cover": {
+                                "id": 86,
+                                "url": "http://res.cloudinary.com/galiaf/image/upload/v1429344169/vb/books/covers/r1jwbbfqqtu1jf0vtxj5.jpg"
+                            }
+                        }
+                    ]
+                }
+            ]
+        });
+    </script>
 </body>
 </html>
