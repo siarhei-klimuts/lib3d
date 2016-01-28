@@ -65,6 +65,7 @@ export function up(event) {
 export function move(event) {
 	if(event) {
 		target = event.target;
+		//TODO x,y to offsetX, offsetY + update mouse.test.js
 		longX = getWidth() * 0.5 - x;
 		longY = getHeight() * 0.5 - y;
 		dX = event.offsetX - x;
