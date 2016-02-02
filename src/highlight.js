@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import * as environment from './environment';
+import * as config from './config';
 
 var PLANE_ROTATION = Math.PI * 0.5;
 var PLANE_MULTIPLIER = 2;
@@ -38,7 +38,7 @@ var commonHighlight = function(which, obj) {
 	if(obj) {
 		var width = obj.geometry.boundingBox.max.x * PLANE_MULTIPLIER;
 		var height = obj.geometry.boundingBox.max.z * PLANE_MULTIPLIER;
-		var bottom = obj.geometry.boundingBox.min.y + environment.CLEARANCE;
+		var bottom = obj.geometry.boundingBox.min.y + config.CLEARANCE;
 		
 		which.position.y = bottom;
 		which.scale.set(width, height, 1);

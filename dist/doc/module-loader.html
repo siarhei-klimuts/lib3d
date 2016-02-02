@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: environment</title>
+    <title>JSDoc: Module: loader</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: environment</h1>
+    <h1 class="page-title">Module: loader</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Main module, contains all the root entities</div>
+            <div class="description">Loads whole library</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="environment.js.html">environment.js</a>, <a href="environment.js.html#line1">line 1</a>
+        <a href="loader.js.html">loader.js</a>, <a href="loader.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -137,14 +137,14 @@
 
     
 
-    <h4 class="name" id=".addLoop"><span class="type-signature">(static) </span>addLoop<span class="signature">(func)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".loadLibrary"><span class="type-signature">(static) </span>loadLibrary<span class="signature">(dto)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
 
 
 <div class="description">
-    Adds function to render loop
+    Loads library by an dto object
 </div>
 
 
@@ -180,13 +180,13 @@
 
         <tr>
             
-                <td class="name"><code>func</code></td>
+                <td class="name"><code>dto</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">object</span>
 
 
             
@@ -196,7 +196,7 @@
 
             
 
-            <td class="description last">function will be called on every render call</td>
+            <td class="description last">full library structure</td>
         </tr>
 
     
@@ -237,7 +237,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="environment.js.html">environment.js</a>, <a href="environment.js.html#line36">line 36</a>
+        <a href="loader.js.html">loader.js</a>, <a href="loader.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -260,183 +260,28 @@
 
 
 
-
-
+<h5>Returns:</h5>
 
         
-            
-
-    
-
-    <h4 class="name" id=".init"><span class="type-signature">(static) </span>init<span class="signature">(canvas, width, height-)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Inits lib3d, should be called first, use canvas with padding: 0
+<div class="param-desc">
+    Resolves with an instance of LibraryObject
 </div>
 
 
 
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>canvas</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">canvas</span>
+<span class="param-type">Promise</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">chould be provided for lib3d output</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>width</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">viewport width</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>height-</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">viewport height</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="environment.js.html">environment.js</a>, <a href="environment.js.html#line22">line 22</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 

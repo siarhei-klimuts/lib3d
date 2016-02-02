@@ -10,8 +10,7 @@ import BaseObject from './models/BaseObject';
 
 import * as cache from './cache';
 import * as environment from './environment';
-
-var debugEnabled = false;
+import * as config from './config';
 
 /** Center an object on scene and avoid collisions
  *
@@ -75,10 +74,6 @@ function getFreePlace(objects, spaceBB, targetBB) {
 	var matrixPrecision = new THREE.Vector3(targetBB.max.x - targetBB.min.x + 0.01, 0, targetBB.max.z - targetBB.min.z + 0.01);
 	var occupiedMatrix = getOccupiedMatrix(objects, matrixPrecision);
 	var freePosition = getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision);
-	
-	if (debugEnabled) {
-		debugShowFree(freePosition, matrixPrecision, environment.library);
-	}
 
 	return freePosition;
 }
@@ -152,7 +147,7 @@ function getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB)
 }
 
 function getBottomY(spaceBB, targetBB) {
-	return spaceBB.min.y - targetBB.min.y + environment.CLEARANCE;
+	return spaceBB.min.y - targetBB.min.y + config.CLEARANCE;
 }
 
 function getOccupiedMatrix(objects, matrixPrecision, obj) {
@@ -175,70 +170,13 @@ function getOccupiedMatrix(objects, matrixPrecision, obj) {
 
 			for(z = minKeyZ; z <= maxKeyZ; z++) {
 				result[z] = result[z] || {};
-				var debugCells = [];
 
 				for(x = minKeyX; x <= maxKeyX; x++) {
 					result[z][x] = true;
-					debugCells.push(x);
-				}
-
-				if(debugEnabled) {
-					debugShowBB(child);
-					debugAddOccupied(debugCells, matrixPrecision, child, z);
 				}
 			}
 		}
 	});
 
 	return result;
-}
-
-export function debug() {
-	cache.getSection('bookshelf_0001').then(function (sectionCache) {
-		debugEnabled = true;
-		var sectionBB = sectionCache.geometry.boundingBox;
-		var libraryBB = environment.library.geometry.boundingBox;
-		getFreePlace(environment.library.children, libraryBB, sectionBB);
-		debugEnabled = false;
-	});
-}
-
-function debugShowBB(obj) {
-	var objectBB = obj.boundingBox;
-	var objBox = new THREE.Mesh(
-		new THREE.BoxGeometry(
-			objectBB.radius.x * 2, 
-			objectBB.radius.y * 2 + 0.1, 
-			objectBB.radius.z * 2
-		), 
-		new THREE.MeshLambertMaterial({
-			color: 0xbbbbff,
-			opacity: 0.2,
-			transparent: true
-		})
-	);
-	
-	objBox.position.x = objectBB.center.x;
-	objBox.position.y = objectBB.center.y;
-	objBox.position.z = objectBB.center.z;
-
-	obj.parent.add(objBox);
-}
-
-function debugAddOccupied(cells, matrixPrecision, obj, zKey) {
-	cells.forEach(function (cell) {
-		var pos = getPositionFromCells([cell], zKey, matrixPrecision, obj.parent.geometry.boundingBox, obj.geometry.boundingBox);
-		var cellBox = new THREE.Mesh(new THREE.BoxGeometry(matrixPrecision.x - 0.01, 0.01, matrixPrecision.z - 0.01), new THREE.MeshLambertMaterial({color: 0xff0000}));
-		
-		cellBox.position.set(pos.x, pos.y, pos.z);
-		obj.parent.add(cellBox);
-	});
-}
-
-function debugShowFree(position, matrixPrecision, obj) {
-	if (position) {
-		var cellBox = new THREE.Mesh(new THREE.BoxGeometry(matrixPrecision.x, 0.5, matrixPrecision.z), new THREE.MeshLambertMaterial({color: 0x00ff00}));
-		cellBox.position.set(position.x, position.y, position.z);
-		obj.parent.add(cellBox);
-	}
 }
