@@ -55,33 +55,3 @@ function startRenderLoop() {
 
     loops.forEach(func => func());
 }
-
-/** Recreates section with new parameters if it has libraryId
- * or removes it if has not
- * @param {Object} dto - Section dto
- * @returns {Promise} Resolves with section dto
- */
-// export function updateSection(dto) {
-//     if(dto.libraryId == library.getId()) {
-//         library.removeSection(dto.id);
-//         return createSection(dto);
-//     } else {
-//         library.removeSection(dto.id);
-//         return Promise.resolve(dto);
-//     }
-// }
-
-/** Recreates book with new parameters if there is appropriate shelf
- * or removes it if shelf is not presented in book or doesn't exist on the scene
- * @param {Object} dto - Book dto
- * @returns {Promise} Resolves with book dto if placed or true if removed
- */
-// export function updateBook(dto) {
-//     if(library.getBookShelf(dto)) {
-//         library.removeBook(dto.id);
-//         return createBook(dto);
-//     } else {
-//         library.removeBook(dto.id);
-//         return Promise.resolve(true);
-//     }
-// }
