@@ -23,10 +23,14 @@ export function init(canvas, width, height) {
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 4, 7);
     renderer = new THREE.WebGLRenderer({canvas: canvas || undefined, antialias: true});
-    renderer.setSize(width, height);
-    camera.setSize(width, height);
+    setSize(width, height);
 
     startRenderLoop();
+}
+
+export function setSize(width, height) {
+    renderer.setSize(width, height);
+    camera.setSize(width, height);
 }
 
 /**

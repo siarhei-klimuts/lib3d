@@ -24,5 +24,13 @@ export {
 	factory
 };
 
-export {init, addLoop, setLibrary, getLibrary} from './environment';
+export {
+	init,
+	setSize, 
+	addLoop, 
+	setLibrary, 
+	getLibrary, 
+	renderer
+} from './environment';
+
 export {loadLibrary} from './loader';
