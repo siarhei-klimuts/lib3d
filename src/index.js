@@ -22,5 +22,5 @@ export {
 	navigation
 };
 
-export {init, addLoop, setLibrary} from './environment';
+export {init, addLoop, setLibrary, getLibrary} from './environment';
 export {loadLibrary} from './loader';

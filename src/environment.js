@@ -7,10 +7,10 @@ import * as camera from './camera';
 import * as locator from './locator';
 import * as loader from './loader';
 
-export var library = null;
 export var renderer;
 export var scene;
 
+var library = null;
 var loops = [];
 
 /**
@@ -43,6 +43,10 @@ export function setLibrary(newLibrary) {
     scene.add(library);
     camera.setParent(library);
     locator.centerObject(camera.object);
+}
+
+export function getLibrary() {
+    return library;
 }
 
 function startRenderLoop() {

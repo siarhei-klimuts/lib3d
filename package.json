@@ -7,8 +7,9 @@
     "test": "test"
   },
   "scripts": {
+    "compile": "cross-env NODE_ENV=production webpack --progress --colors",
     "prebuild": "npm run test & npm run doc",
-    "build": "cross-env NODE_ENV=production webpack --progress --colors",
+    "build": "npm run compile",
     "dev": "webpack-dev-server",
     "test": "karma start --single-run",
     "test-watch": "karma start",

@@ -82,7 +82,7 @@ export function move(event) {
  * @returns {Object} The closest intersected object
  * 
  * @example 
- * var intersected = lib3d.mouse.getIntersected(lib3d.environment.library.children, true, [BookObject]);
+ * var intersected = lib3d.mouse.getIntersected(lib3d.getLibrary().children, true, [BookObject]);
  * //intersected.object is an instance of BookObject
  */
 export function getIntersected(objects, recursive, searchFor) {

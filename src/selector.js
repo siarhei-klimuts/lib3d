@@ -91,9 +91,9 @@ function getObject(meta) {
 	var object;
 
 	if(!meta.isEmpty()) {
-		object = isShelf(meta) ? environment.getShelf(meta.parentId, meta.id)
-			: isBook(meta) ? environment.getBook(meta.id)
-			: isSection(meta) ? environment.getSection(meta.id)
+		object = isShelf(meta) ? environment.getLibrary().getShelf(meta.parentId, meta.id)
+			: isBook(meta) ? environment.getLibrary().getBook(meta.id)
+			: isSection(meta) ? environment.getLibrary().getSection(meta.id)
 			: null;
 	}
 

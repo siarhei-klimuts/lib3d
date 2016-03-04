@@ -9,6 +9,7 @@ import GridCalculator from './gridCalculator';
 import BaseObject from './models/BaseObject';
 
 import * as cache from './cache';
+//TODO: remove environment
 import * as environment from './environment';
 import * as config from './config';
 
@@ -19,10 +20,10 @@ import * as config from './config';
  */
 export function centerObject(obj) {
 	var targetBB = obj.geometry.boundingBox;
-	var spaceBB = environment.library.geometry.boundingBox;
+	var spaceBB = environment.getLibrary().geometry.boundingBox;
 
 	var matrixPrecision = new THREE.Vector3(targetBB.max.x - targetBB.min.x + 0.01, 0, targetBB.max.z - targetBB.min.z + 0.01);
-	var occupiedMatrix = getOccupiedMatrix(environment.library.children, matrixPrecision, obj);
+	var occupiedMatrix = getOccupiedMatrix(environment.getLibrary().children, matrixPrecision, obj);
 	var freePosition = getFreeMatrix(occupiedMatrix, spaceBB, targetBB, matrixPrecision);		
 
 	obj.position.setX(freePosition.x);
@@ -39,8 +40,8 @@ export function centerObject(obj) {
 export function placeSection(sectionDto) {
 	return cache.getSection(sectionDto.model).then(function (sectionCache) {
 		var sectionBB = sectionCache.geometry.boundingBox;
-		var libraryBB = environment.library.geometry.boundingBox;
-		var freePlace = getFreePlace(environment.library.children, libraryBB, sectionBB);
+		var libraryBB = environment.getLibrary().geometry.boundingBox;
+		var freePlace = getFreePlace(environment.getLibrary().children, libraryBB, sectionBB);
 
 		if (freePlace) {
 			return Promise.resolve(freePlace);
