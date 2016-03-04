@@ -6,6 +6,7 @@ import * as mouse from './mouse';
 import * as preview from './preview';
 import * as selector from './selector';
 import * as navigation from './navigation';
+import * as factory from './factory';
 
 export {default as ShelfObject} from './models/ShelfObject';
 export {default as BookObject} from './models/BookObject';
@@ -19,7 +20,8 @@ export {
 	mouse,
 	preview,
 	selector,
-	navigation
+	navigation,
+	factory
 };
 
 export {init, addLoop, setLibrary, getLibrary} from './environment';
