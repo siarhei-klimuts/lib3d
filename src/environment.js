@@ -42,10 +42,11 @@ export function addLoop(func) {
 }
 
 export function setLibrary(newLibrary) {
+    scene.remove(library);
     library = newLibrary;
 
-    scene.add(library);
-    camera.setParent(library);
+    scene.add(newLibrary);
+    camera.setParent(newLibrary);
     locator.centerObject(camera.object);
 }
 
