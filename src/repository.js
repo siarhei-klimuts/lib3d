@@ -1,5 +1,9 @@
 import THREE from 'three';
 
+var books = new Map();
+var sections = new Map();
+var libraries = new Map();
+
 var jsonLoader = new THREE.JSONLoader();
 var dataLoader = new THREE.XHRLoader();
 dataLoader.setResponseType('json');
@@ -64,13 +68,8 @@ export function loadBookData(model) {
     }));
 }
 
-function loadGeometry(url) {
-	return new Promise((resolve, reject) => {
-		jsonLoader.load(url, geometry => {
-			geometry.computeBoundingBox();
-			resolve(geometry);
-		}, () => {}, reject);
-	});
+export function getBookData(model) {
+    return books.get(model);
 }
 
 export function loadImage(url) {
@@ -87,6 +86,27 @@ export function loadImage(url) {
     	img.onerror = function(err) {
     		reject(err);
     	};
+    });
+}
+
+export function registerBook(data) {
+    books.set(data.name, data);
+}
+
+export function registerSection(section) {
+    sections.set(section.NAME, section);
+}
+
+export function registerLibrary(library) {
+    libraries.set(library.NAME, library);
+}
+
+function loadGeometry(url) {
+    return new Promise((resolve, reject) => {
+        jsonLoader.load(url, geometry => {
+            geometry.computeBoundingBox();
+            resolve(geometry);
+        }, () => {}, reject);
     });
 }
 

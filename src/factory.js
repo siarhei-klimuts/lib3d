@@ -13,7 +13,7 @@ import * as repository from './repository';
 
 /**
  * @param {Object} dto - Library dto
- * @returns {Promise} Reolves with an instance of LibraryObject
+ * @returns {Promise} Resolves with an instance of LibraryObject
  */
 export function createLibrary(dto) {
 	return repository.loadLibraryData(dto.model)
@@ -22,7 +22,7 @@ export function createLibrary(dto) {
 
 /**
  * @param {Object} dto - Section dto
- * @returns {Promise} Reolves with an instance of SectionObject
+ * @returns {Promise} Resolves with an instance of SectionObject
  */
 export function createSection(dto) {
 	return cache.getSection(dto.model)
@@ -31,13 +31,20 @@ export function createSection(dto) {
 
 /**
  * @param {Object} dto - Book dto
- * @returns {Promise} Reolves with an instance of BookObject
+ * @returns {BookObject} An instance of BookObject
  */
 export function createBook(dto) {
-	return Promise.all([
-			cache.getBook(dto.model),
-			dto.cover ? repository.loadImage(dto.cover.url) : Promise.resolve(null)
-		]).then(results => buildBook(results[0], results[1], dto));
+	var bookData = repository.getBookData(dto.model);
+	var book = new BookObject(dto, bookData.geometry);
+
+	Promise.all([
+		bookData.asyncData,
+		dto.cover ? repository.loadImage(dto.cover.url) : Promise.resolve(null)
+	]).then(results => {
+		book.material = new BookMaterial(results[0].map, results[0].bumpMap, results[0].specularMap, results[1]);
+	});
+
+	return book;
 }
 
 function buildLibrary(libraryData, dto) {
@@ -61,10 +68,4 @@ function buildSection(sectionData, dto) {
     dto.data = sectionData.data;
 
 	return new SectionObject(dto, sectionData.geometry, material);
-}
-
-function buildBook(bookData, coverMapImage, dto) {
-	var material = new BookMaterial(bookData.mapImage, bookData.bumpMapImage, bookData.specularMapImage, coverMapImage);
-
-	return new BookObject(dto, bookData.geometry, material);
 }

@@ -5,7 +5,6 @@ import THREE from 'three';
 
 import * as camera from './camera';
 import * as locator from './locator';
-import * as loader from './loader';
 
 export var renderer;
 export var scene;

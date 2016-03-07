@@ -7,6 +7,7 @@ import * as preview from './preview';
 import * as selector from './selector';
 import * as navigation from './navigation';
 import * as factory from './factory';
+import * as repository from './repository';
 
 export {default as ShelfObject} from './models/ShelfObject';
 export {default as BookObject} from './models/BookObject';
@@ -34,3 +35,16 @@ export {
 } from './environment';
 
 export {loadLibrary} from './loader';
+
+requireAll(require.context('./objects/books/', true, /\.js$/))
+	.forEach(book => repository.registerBook(book.default));
+
+// requireAll(require.context('./objects/sections/', true, /\.js$/))
+// 	.forEach(section => repository.registerSection(section));
+
+// requireAll(require.context('./objects/libraries/', true, /\.js$/))
+// 	.forEach(library => repository.registerLibrary(library));
+
+function requireAll(requireContext) {
+    return requireContext.keys().map(requireContext);
+}

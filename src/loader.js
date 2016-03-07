@@ -12,7 +12,6 @@ import * as factory from './factory';
  */
 export function loadLibrary(dto) {
     var dict = parseLibraryDto(dto);
-    var library;
 
     return initCache(dict.sections, dict.books)
         .then(function () {
@@ -22,7 +21,8 @@ export function loadLibrary(dto) {
             return createSections(library, dict.sections);
         })
         .then(function (library) {
-            return createBooks(library, dict.books);
+            createBooks(library, dict.books);
+            return library;
         });
 }
 
@@ -75,11 +75,10 @@ function createSections(library, sectionsDict) {
 }
 
 function createBooks(library, booksDict) {
-    return createObjects(booksDict, factory.createBook)
-        .then(results => {
-            results.forEach(book => library.addBook(book));
-            return library;
-        });
+    for (var id in booksDict) {
+        let book = factory.createBook(booksDict[id].dto);   
+        library.addBook(book);
+    }
 }
 
 function createObjects(dict, factory) {

@@ -79,41 +79,38 @@
         }
 
         function createBooks() {
-            return createBook({
+            var library = lib3d.getLibrary();
+            
+            var book1 = lib3d.factory.createBook({
                 model: 'book_0001', 
                 shelfId: '4', 
                 sectionId: '3',
                 pos_x: -0.1,
                 pos_y: -0.07,
                 pos_z: -0.05
-            })
-            .then(function () {
-                return createBook({
-                    model: 'book_0002', 
-                    shelfId: '4', 
-                    sectionId: '3',
-                    pos_x: -0.0,
-                    pos_y: -0.07,
-                    pos_z: -0.05
-                });
-            })
-            .then(function () {
-                return createBook({
-                    model: 'book_0003', 
-                    shelfId: '4', 
-                    sectionId: '3',
-                    pos_x: 0.1,
-                    pos_y: -0.07,
-                    pos_z: -0.05
-                })
             });
-        }
 
-        function createBook(dto) {
-            return lib3d.factory.createBook(dto)
-                .then(function (book) {
-                    return lib3d.getLibrary().addBook(book);
-                });
+            var book2 = lib3d.factory.createBook({
+                model: 'book_0002', 
+                shelfId: '4', 
+                sectionId: '3',
+                pos_x: -0.0,
+                pos_y: -0.07,
+                pos_z: -0.05
+            });
+
+            var book3 = lib3d.factory.createBook({
+                model: 'book_0003', 
+                shelfId: '4', 
+                sectionId: '3',
+                pos_x: 0.1,
+                pos_y: -0.07,
+                pos_z: -0.05
+            });
+
+            library.addBook(book1);
+            library.addBook(book2);
+            library.addBook(book3);
         }
     </script>
 </body>

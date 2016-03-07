@@ -1,5 +1,16 @@
-export {model} from './model.json';
-export {map} from './map.jpg';
-export {bumpMap} from './bump_map.jpg';
-export {specularMap} from './specular_map.jpg';
-export {img} from './img.jpg';
+import BookData from 'data/models/BookData';
+
+import model from './model.json';
+import map from './map.jpg';
+import bumpMap from './bump_map.jpg';
+import specularMap from './specular_map.jpg';
+import img from './img.jpg';
+
+export default new BookData({
+	name: 'book_0002',
+	model,
+	map,
+	bumpMap,
+	specularMap,
+	img
+});

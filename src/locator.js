@@ -11,6 +11,7 @@ import BaseObject from './models/BaseObject';
 import * as cache from './cache';
 //TODO: remove environment
 import * as environment from './environment';
+import * as repository from './repository';
 import * as config from './config';
 
 /** Center an object on scene and avoid collisions
@@ -57,18 +58,14 @@ export function placeSection(sectionDto) {
  * to find appropriate geometry
  * @param {ShelfObject} shelf - an instance of ShelfObject
  *
- * @returns {Promise|THREE.Vector3} free position
+ * @returns {THREE.Vector3} free position
  */
 export function placeBook(bookDto, shelf) {
-	return cache.getBook(bookDto.model).then(function (bookCache) {
-		var shelfBB = shelf.geometry.boundingBox;
-		var bookBB = bookCache.geometry.boundingBox;
-		var freePlace = getFreePlace(shelf.children, shelfBB, bookBB);
+	var bookData = repository.getBookData(bookDto.model);
+	var shelfBB = shelf.geometry.boundingBox;
+	var bookBB = bookData.geometry.boundingBox;
 
-		return freePlace ?
-			Promise.resolve(freePlace) :
-			Promise.reject('there is no free space');
-	});
+	return getFreePlace(shelf.children, shelfBB, bookBB);
 }
 
 function getFreePlace(objects, spaceBB, targetBB) {

@@ -3,25 +3,25 @@ var fs = require('fs');
 var path = require('path');
 
 var NODE_MODULES = __dirname + '/node_modules/';
-var OBJECTS_PATH = path.join(__dirname, 'src/objects');
-var OBJECTS = [
-    'books',
-    'libraries',
-    'sections'
-];
+// var OBJECTS_PATH = path.join(__dirname, 'src/objects');
+// var OBJECTS = [
+//     'books',
+//     'libraries',
+//     'sections'
+// ];
 
 var isProd = process.env.NODE_ENV === 'production';
 
 var config = {
     watch: false,
     entry: {
-        bundle: ['./src/index.js']
+        app: ['./src/index.js']
     },
     output: {
         pathinfo: true,
         path: __dirname + '/dist',
-        publicPath: '/dist',
-        filename: '/[name].js',
+        publicPath: '/',
+        filename: '/bundle.js',
         libraryTarget: 'umd',
         library: 'lib3d'
     },
@@ -80,13 +80,13 @@ if (isProd) {
     config.addVendor('three');
 }
 
-OBJECTS.forEach(function (obj) {
-    var objPath = path.join(OBJECTS_PATH, obj);
-    var dirs = fs.readdirSync(objPath);
+// OBJECTS.forEach(function (obj) {
+//     var objPath = path.join(OBJECTS_PATH, obj);
+//     var dirs = fs.readdirSync(objPath);
     
-    dirs.forEach(function (dir) {
-        config.entry.bundle.unshift(path.join(objPath, dir));
-    });
-});
+//     dirs.forEach(function (dir) {
+//         config.entry.app.unshift(path.join(objPath, dir));
+//     });
+// });
 
 module.exports = config;
