@@ -12,16 +12,16 @@ import * as repository from './repository';
 
 /**
  * @param {Object} dto - Library dto
- * @returns {Promise} Resolves with an instance of LibraryObject
+ * @returns {LibraryObject} An instance of LibraryObject
  */
 export function createLibrary(dto) {
-	return repository.loadLibraryData(dto.model)
-		.then(libraryData => buildLibrary(libraryData, dto));
+    var libraryData = repository.getLibraryData(dto.model);
+    return buildLibrary(libraryData, dto);
 }
 
 /**
  * @param {Object} dto - Section dto
- * @returns {SectionObject} an instance of SectionObject
+ * @returns {SectionObject} An instance of SectionObject
  */
 export function createSection(dto) {
     var sectionData = repository.getSectionData(dto.model);
@@ -50,14 +50,16 @@ export function createBook(dto) {
 }
 
 function buildLibrary(libraryData, dto) {
-    var texture = new THREE.Texture(libraryData.mapImage);
-    var material = new THREE.MeshPhongMaterial({map: texture});
-    var library;
+    var library = new LibraryObject(dto, libraryData.geometry);
+    library.add(new THREE.AmbientLight(0x333333));
 
-    texture.needsUpdate = true;
+    libraryData.asyncData
+        .then(data => {
+            let texture = new THREE.Texture(data.map);
+            texture.needsUpdate = true;
 
-	library = new LibraryObject(dto, libraryData.geometry, material);
-	library.add(new THREE.AmbientLight(0x333333));
+            library.material = new THREE.MeshPhongMaterial({map: texture});
+        });
 
 	return library;
 }
