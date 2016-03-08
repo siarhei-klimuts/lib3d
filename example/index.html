@@ -29,7 +29,7 @@
         lib3d.init(document.getElementById("LIBRARY"), 300, 300);
         lib3d.addLoop(lib3d.navigation.update);
 
-        lib3d.loadLibrary({
+        var library = lib3d.loadLibrary({
             model: "library_0001",
             sections: [
                 {
@@ -56,10 +56,9 @@
                     ]
                 }
             ]
-        })
-        .then(function (library) {
-            lib3d.setLibrary(library);
         });
+
+        lib3d.setLibrary(library);
 
         function createLibrary() {
             var library = lib3d.factory.createLibrary({model: 'library_0002'});

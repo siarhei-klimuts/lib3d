@@ -2,29 +2,21 @@
  * @description Loads whole library
  */
 
-import * as cache from './cache';
 import * as factory from './factory';
 
 /**
  * Loads library by an dto object
  * @param {object} dto - full library structure
- * @returns {Promise} Resolves with an instance of LibraryObject
+ * @returns {LibraryObject} An instance of LibraryObject
  */
 export function loadLibrary(dto) {
     var dict = parseLibraryDto(dto);
+    var library = factory.createLibrary(dto);
 
-    return initCache(dict.sections, dict.books)
-        .then(function () {
-            return factory.createLibrary(dto);
-        })
-        .then(function (library) {
-            createSections(library, dict.sections);
-            return library;
-        })
-        .then(function (library) {
-            createBooks(library, dict.books);
-            return library;
-        });
+    createSections(library, dict.sections);
+    createBooks(library, dict.books);
+
+    return library;
 }
 
 function parseLibraryDto(libraryDto) {
@@ -48,23 +40,6 @@ function parseLibraryDto(libraryDto) {
     delete libraryDto.sections;
 
     return result;
-}
-
-function initCache(sectionsDict, booksDict) {
-    var sectionModels = {};
-    var bookModels = {};
-
-    for (var sectionId in sectionsDict) {
-        var sectionDto = sectionsDict[sectionId].dto;
-        sectionModels[sectionDto.model] = true;
-    }
-
-    for (var bookId in booksDict) {
-        var bookDto = booksDict[bookId].dto;
-        bookModels[bookDto.model] = true;
-    }
-
-    return cache.init(sectionModels, bookModels);
 }
 
 function createSections(library, sectionsDict) {
