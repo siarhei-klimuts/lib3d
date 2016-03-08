@@ -18,7 +18,8 @@ export function loadLibrary(dto) {
             return factory.createLibrary(dto);
         })
         .then(function (library) {
-            return createSections(library, dict.sections);
+            createSections(library, dict.sections);
+            return library;
         })
         .then(function (library) {
             createBooks(library, dict.books);
@@ -67,11 +68,10 @@ function initCache(sectionsDict, booksDict) {
 }
 
 function createSections(library, sectionsDict) {
-    return createObjects(sectionsDict, factory.createSection)
-        .then(results => {
-            results.forEach(section => library.addSection(section));
-            return library;
-        });
+    for (var id in sectionsDict) {
+        let section = factory.createSection(sectionsDict[id].dto);
+        library.addSection(section);
+    }
 }
 
 function createBooks(library, booksDict) {
@@ -79,15 +79,4 @@ function createBooks(library, booksDict) {
         let book = factory.createBook(booksDict[id].dto);   
         library.addBook(book);
     }
-}
-
-function createObjects(dict, factory) {
-    var results = [];
-    var key;
-
-    for(key in dict) {
-        results.push(factory(dict[key].dto));
-    }
-
-    return Promise.all(results);
 }

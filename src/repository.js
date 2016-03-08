@@ -72,6 +72,14 @@ export function getBookData(model) {
     return books.get(model);
 }
 
+export function getSectionData(model) {
+    return sections.get(model);
+}
+
+export function getLibraryData(model) {
+    return libraries.get(model);
+}
+
 export function loadImage(url) {
     var img = new Image();
         

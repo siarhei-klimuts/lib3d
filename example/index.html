@@ -71,11 +71,10 @@
         }
 
         function createSection() {
-            return lib3d.factory.createSection({id: '3', model: 'bookshelf_0001'})
-                .then(function (section) {
-                    lib3d.getLibrary().addSection(section);
-                    section.position.set(-0.3, 0,-2);
-                });
+            var section = lib3d.factory.createSection({id: '3', model: 'bookshelf_0001'})
+
+            lib3d.getLibrary().addSection(section);
+            section.position.set(-0.3, 0,-2);
         }
 
         function createBooks() {

@@ -8,7 +8,6 @@ import _ from 'lodash';
 import GridCalculator from './gridCalculator';
 import BaseObject from './models/BaseObject';
 
-import * as cache from './cache';
 //TODO: remove environment
 import * as environment from './environment';
 import * as repository from './repository';
@@ -36,20 +35,14 @@ export function centerObject(obj) {
  * @param {Object} sectionDto - object with model attribute
  * to find appropriate geometry
  * 
- * @returns {Promise|THREE.Vector3} free position
+ * @returns {THREE.Vector3} free position
  */
 export function placeSection(sectionDto) {
-	return cache.getSection(sectionDto.model).then(function (sectionCache) {
-		var sectionBB = sectionCache.geometry.boundingBox;
-		var libraryBB = environment.getLibrary().geometry.boundingBox;
-		var freePlace = getFreePlace(environment.getLibrary().children, libraryBB, sectionBB);
-
-		if (freePlace) {
-			return Promise.resolve(freePlace);
-		} else {
-			return Promise.reject('there is no free space');
-		}
-	});
+	var sectionData = repository.getSectionData(sectionDto.model);
+	var sectionBB = sectionData.geometry.boundingBox;
+	var libraryBB = environment.getLibrary().geometry.boundingBox;
+	
+	return getFreePlace(environment.getLibrary().children, libraryBB, sectionBB);
 }
 
 /** Find free space for book in provided shelf

@@ -8,7 +8,6 @@ import LibraryObject from './models/LibraryObject';
 import BookObject from './models/BookObject';
 import SectionObject from './models/SectionObject';
 
-import * as cache from './cache';
 import * as repository from './repository';
 
 /**
@@ -22,11 +21,14 @@ export function createLibrary(dto) {
 
 /**
  * @param {Object} dto - Section dto
- * @returns {Promise} Resolves with an instance of SectionObject
+ * @returns {SectionObject} an instance of SectionObject
  */
 export function createSection(dto) {
-	return cache.getSection(dto.model)
-		.then(sectionData => buildSection(sectionData, dto));
+    var sectionData = repository.getSectionData(dto.model);
+    //TODO: separate params from dto
+    dto.data = sectionData.params;
+
+    return buildSection(sectionData, dto);
 }
 
 /**
@@ -61,11 +63,15 @@ function buildLibrary(libraryData, dto) {
 }
 
 function buildSection(sectionData, dto) {
-    var texture = new THREE.Texture(sectionData.mapImage);
-    var material = new THREE.MeshPhongMaterial({map: texture});
+    var section = new SectionObject(dto, sectionData.geometry);
 
-    texture.needsUpdate = true;
-    dto.data = sectionData.data;
+    sectionData.asyncData
+        .then(data => {
+            let texture = new THREE.Texture(data.map);
+            texture.needsUpdate = true;
 
-	return new SectionObject(dto, sectionData.geometry, material);
+            section.material = new THREE.MeshPhongMaterial({map: texture});
+        });
+
+	return section;
 }
