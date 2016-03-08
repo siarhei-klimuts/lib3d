@@ -1,10 +1,4 @@
-import THREE from 'three';
-
 import * as lib3d from 'index.js';
-import * as repository from 'repository';
-import * as environment from 'environment';
-import * as locator from 'locator';
-import * as factory from 'factory';
 
 import SectionObject from 'models/SectionObject';
 
@@ -16,82 +10,62 @@ describe('locator.js', function () {
         userId: 1
     };
 
-    var sectionCache = {
-        geometry: new THREE.BoxGeometry(0.774968 * 2, 2.24895 + 0.0449831, 0.309278 + 0.18316),
-        data: readJSON('dist/obj/sections/bookshelf_0001/data.json')
-    };
-
-    var libraryCache = {
-        geometry: new THREE.BoxGeometry(4.15864 * 2, 2.33378 + 1.8178, 4.15864 * 2)
-    };
-    
-    beforeEach(function (done) {
-        libraryCache.geometry.computeBoundingBox();
-        sectionCache.geometry.computeBoundingBox();
-
-        spyOn(repository, 'loadLibraryData').and.returnValue(Promise.resolve(libraryCache));
-        spyOn(repository, 'loadSectionData').and.returnValue(Promise.resolve(sectionCache));
-
+    beforeEach(function () {
+        var library = lib3d.loadLibrary(libraryDto);
         lib3d.init();
-        lib3d.loadLibrary(libraryDto)
-            .then(library => lib3d.setLibrary(library))
-            .then(done, fail);
+        lib3d.setLibrary(library);
     });
 
-    it('should fill library by sections', function (done) {
+    it('should fill library by sections', function () {
         const MAX = 74;
         var placed = 0;
+        var library = lib3d.getLibrary();
 
         function placeSection(id) {
-            var dto = {
+            let dto = {
                 id: id,
+                libraryId: libraryDto.id,
                 model: 'bookshelf_0001'
             };
+            let position = lib3d.locator.placeSection(dto);
 
-            return locator.placeSection(dto)
-                .then(position => {
-                    let newDto = {
-                        id: dto.id,
-                        libraryId: libraryDto.id,
-                        model: dto.model,
-                        pos_x: position.x,
-                        pos_y: position.y,
-                        pos_z: position.z
-                    };
-
-                    return factory.createSection(newDto);
-                })  
-                .then(section => environment.library.addSection(section))
-                .then(() => placed++);
-        }
-
-        Promise.resolve(0).then(function loop(i) {
-            if (i < MAX) {
-                return placeSection(i)
-                    .then(() => i + 1)
-                    .then(loop);
+            if (!position) {
+                return false;
             }
-        })
-        .then(() => expect(placed).toBe(MAX), fail)
-        .then(() => placeSection(MAX + 1))
-        .then(fail, err => expect(err).toBe('there is no free space'))
-        .then(checkSections, fail)
-        .then(done, fail);
 
-        function checkSections() {
-            let library = environment.library;
+            let newDto = {
+                id: dto.id,
+                libraryId: libraryDto.id,
+                model: dto.model,
+                pos_x: position.x,
+                pos_y: position.y,
+                pos_z: position.z
+            };
 
-            library.children.forEach(function (section) {
-                if (!(section instanceof SectionObject)) return;
+            let section = lib3d.factory.createSection(newDto);
 
-                expect(section.position.x + sectionCache.geometry.boundingBox.min.x).toBeGreaterThan(library.geometry.boundingBox.min.x);
-                expect(section.position.x + sectionCache.geometry.boundingBox.max.x).toBeLessThan(library.geometry.boundingBox.max.x);
-                expect(section.position.z + sectionCache.geometry.boundingBox.min.z).toBeGreaterThan(library.geometry.boundingBox.min.z);
-                expect(section.position.z + sectionCache.geometry.boundingBox.max.z).toBeLessThan(library.geometry.boundingBox.max.z);
+            library.addSection(section);
+            placed++;
 
-                expect(section.isOutOfParrent()).toBeFalsy();
-                expect(section.isCollided()).toBeFalsy();
-            });
+            return true;
         }
+
+        for (let i = 0; i < MAX; i++) {
+            expect(placeSection(i)).toBe(true);
+        }
+        expect(placeSection(MAX + 1)).toBe(false);
+        expect(placed).toBe(MAX);
+
+        library.children.forEach(function (section) {
+            if (!(section instanceof SectionObject)) return;
+
+            expect(section.position.x + section.geometry.boundingBox.min.x).toBeGreaterThan(library.geometry.boundingBox.min.x);
+            expect(section.position.x + section.geometry.boundingBox.max.x).toBeLessThan(library.geometry.boundingBox.max.x);
+            expect(section.position.z + section.geometry.boundingBox.min.z).toBeGreaterThan(library.geometry.boundingBox.min.z);
+            expect(section.position.z + section.geometry.boundingBox.max.z).toBeLessThan(library.geometry.boundingBox.max.z);
+
+            expect(section.isOutOfParrent()).toBeFalsy();
+            expect(section.isCollided()).toBeFalsy();
+        });
     });
 });

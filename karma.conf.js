@@ -16,12 +16,13 @@ module.exports = function(config) {
             devtool: 'inline-source-map',
             module: {
                 preLoaders: [
-                    {test: /\.js/, exclude: /(test|node_modules)/, loader: 'isparta'}
+                    {test: /\.js$/, exclude: /(test|node_modules)/, loader: 'isparta'}
                 ],
                 loaders: [
-                    {test: /\.js/, exclude: /(node_modules)/, loader: 'babel'},
-                    {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'},
-                    {test: /\.(glsl|vs|fs)$/, loader: 'shader'}
+                    {test: /\.js$/, exclude: /(node_modules)/, loader: 'babel'},
+                    {test: /\.(png|jpg)$/, loader: 'url-loader?limit=1024'},
+                    {test: /\.(glsl|vs|fs)$/, loader: 'shader'},
+                    {test: /\.json/, loader: 'json'}
                 ]
             },
             resolve: webpackConfig.resolve
