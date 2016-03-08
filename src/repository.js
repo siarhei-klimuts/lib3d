@@ -93,12 +93,12 @@ export function registerBook(data) {
     books.set(data.name, data);
 }
 
-export function registerSection(section) {
-    sections.set(section.NAME, section);
+export function registerSection(data) {
+    sections.set(data.name, data);
 }
 
-export function registerLibrary(library) {
-    libraries.set(library.NAME, library);
+export function registerLibrary(data) {
+    libraries.set(data.name, data);
 }
 
 function loadGeometry(url) {

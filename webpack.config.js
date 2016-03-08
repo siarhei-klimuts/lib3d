@@ -1,14 +1,6 @@
 var webpack = require('webpack');
-var fs = require('fs');
-var path = require('path');
 
 var NODE_MODULES = __dirname + '/node_modules/';
-// var OBJECTS_PATH = path.join(__dirname, 'src/objects');
-// var OBJECTS = [
-//     'books',
-//     'libraries',
-//     'sections'
-// ];
 
 var isProd = process.env.NODE_ENV === 'production';
 
@@ -79,14 +71,5 @@ if (isProd) {
     config.addVendor('lodash');
     config.addVendor('three');
 }
-
-// OBJECTS.forEach(function (obj) {
-//     var objPath = path.join(OBJECTS_PATH, obj);
-//     var dirs = fs.readdirSync(objPath);
-    
-//     dirs.forEach(function (dir) {
-//         config.entry.app.unshift(path.join(objPath, dir));
-//     });
-// });
 
 module.exports = config;
