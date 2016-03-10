@@ -10,7 +10,10 @@
             list-style-type: none;
         }
     </style>
-    <canvas onmousedown="console.log(event)" id="LIBRARY"></canvas>
+    <canvas id="LIBRARY"
+        onmousedown="lib3d.onMouseDown(event)"
+        onmouseup="lib3d.onMouseUp(event)"
+        onmousemove="lib3d.onMouseMove(event)"></canvas>
 
     <ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
         <li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
@@ -64,16 +67,19 @@
             var library = lib3d.factory.createLibrary({model: 'library_0002'});
             var section = lib3d.factory.createSection({id: '3', model: 'bookshelf_0001'})
             var book1 = lib3d.factory.createBook({
+                id: '1',
                 model: 'book_0001', 
                 shelfId: '4', 
                 sectionId: '3'
             });
             var book2 = lib3d.factory.createBook({
+                id: '2',
                 model: 'book_0002', 
                 shelfId: '4', 
                 sectionId: '3'
             });
             var book3 = lib3d.factory.createBook({
+                id: '3',
                 model: 'book_0003', 
                 shelfId: '4', 
                 sectionId: '3'

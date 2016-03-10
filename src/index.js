@@ -34,6 +34,12 @@ export {
 	renderer
 } from './environment';
 
+export {
+	onMouseDown,
+	onMouseUp,
+	onMouseMove
+} from 'controls';
+
 export {loadLibrary} from './loader';
 
 requireAll(require.context('./objects/books/', true, /\.js$/))
