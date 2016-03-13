@@ -14,8 +14,6 @@ import * as highlight from './highlight';
 var selected = new SelectorMeta();
 var focused = new SelectorMeta();
 
-export var placing = false;
-
 /**
  * @returns {String} id of selected object
  */
@@ -57,8 +55,6 @@ export function select(meta) {
 
 	highlight.select(obj);
 	highlight.focus(null);
-
-	placing = false;
 }
 
 /**

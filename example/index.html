@@ -25,6 +25,7 @@
         <li><button onmousedown="createLibrary()">Create Library</button></li>
     </ul>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
     <script src="http://localhost:8081/vendors.js"></script>
     <script src="http://localhost:8081/bundle.js"></script>
 
@@ -55,6 +56,16 @@
                                 "id": 86,
                                 "url": "http://res.cloudinary.com/galiaf/image/upload/v1429344169/vb/books/covers/r1jwbbfqqtu1jf0vtxj5.jpg"
                             }
+                        },
+                        {
+                            "id": 92,
+                            "pos_x": -0.1,
+                            "pos_y": -0.069276,
+                            "pos_z": -0.046377028631726,
+                            "shelfId": 4,
+                            "model": "book_0001",
+                            "sectionId": 9,
+                            "userId": 1
                         }
                     ]
                 }
@@ -85,10 +96,6 @@
                 sectionId: '3'
             });
 
-            section.position.set(-0.3, 0, -2);
-            book1.position.set(-0.1, -0.07, -0.05);
-            book2.position.set(0.0, -0.07, -0.05);
-            book3.position.set(0.1, -0.07, -0.05);
 
             library.addSection(section);
             library.addBook(book1);
@@ -96,6 +103,11 @@
             library.addBook(book3);
 
             lib3d.setLibrary(library);
+
+            section.move(new THREE.Vector3(-0.3, 0, -2));
+            book1.move(new THREE.Vector3(-0.1, -0.06, -0.046));
+            book2.move(new THREE.Vector3(0.0, -0.06, -0.046));
+            book3.move(new THREE.Vector3(0.1, -0.06, -0.046));
         }
     </script>
 </body>

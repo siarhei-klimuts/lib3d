@@ -6,6 +6,7 @@ export default class BaseObject extends THREE.Mesh {
 
 		this.dataObject = dataObject || {};
 		this.rotation.order = 'XYZ';
+
 		this.setDtoTransformations();
 	}
 	
@@ -65,12 +66,8 @@ export default class BaseObject extends THREE.Mesh {
 	}
 
 	move(newPosition) {
-		var 
-			currentPosition,
-			result;
-
-		result = false;
-		currentPosition = this.position.clone();
+		var result = false;
+		var currentPosition = this.position.clone();
 		
 		if(newPosition.x) {
 			this.position.setX(newPosition.x);
@@ -92,6 +89,9 @@ export default class BaseObject extends THREE.Mesh {
 			}
 		}
 
+		this.position.setY(newPosition.y);
+
+		//TODO: remove as unused
 		this.changed = this.changed || result;
 		this.updateBoundingBox();
 
@@ -123,6 +123,7 @@ export default class BaseObject extends THREE.Mesh {
 			}
 		}
 
+		//TODO: remove as unused
 		this.changed = this.changed || (!isDemo && result);
 		this.updateBoundingBox();
 	}

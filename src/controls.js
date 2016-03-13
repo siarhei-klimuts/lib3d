@@ -1,6 +1,9 @@
 import * as mouse from 'mouse';
 import * as environment from 'environment';
 import * as selector from 'selector';
+import * as camera from 'camera';
+import * as preview from 'preview';
+import * as events from 'events';
 
 import BookObject from 'models/BookObject';
 import ShelfObject from 'models/ShelfObject';
@@ -10,25 +13,35 @@ import SelectorMeta from 'models/SelectorMeta';
 export function onMouseDown(event) {
     mouse.down(event); 
 
-    if (!environment.getLibrary()) return;
+    if (!environment.getLibrary() || preview.isActive()) return;
 
-    if(mouse.keys[1] && !mouse.keys[3]) {
+    if (mouse.keys[1] && !mouse.keys[3]) {
         focusObject();
         selector.selectFocused();
     }
 }
 
 export function onMouseUp(event) {
+    var key = mouse.keys[1];
     mouse.up(event);
+        
+    if (preview.isActive()) return;
+
+    if (key) {
+        if(selector.isSelectedEditable()) {
+            events.triggerObjectChange(selector.getSelectedObject());
+        }
+    }
 }
 
-export function onMouseMove(event) {
+export function onMouseMove(event) {    
+    event.preventDefault();
     mouse.move(event);
 
-    if (!environment.getLibrary()) return;
+    if (!environment.getLibrary() || preview.isActive()) return;
 
     if(mouse.keys[1] && !mouse.keys[3]) {       
-        // controls.moveObject();
+        moveObject();
     } else {
         focusObject();
     }
@@ -48,4 +61,28 @@ function focusObject() {
     }
 
     selector.focus(new SelectorMeta(intersected ? intersected.object : null));
+}
+
+function moveObject() {
+    var mouseVector;
+    var newPosition;
+    var parent;
+    var selectedObject;
+
+    if(selector.isSelectedEditable()) {
+        selectedObject = selector.getSelectedObject();
+
+        if(selectedObject) {
+            mouseVector = camera.getVector();   
+            newPosition = selectedObject.position.clone();
+            parent = selectedObject.parent;
+            parent.localToWorld(newPosition);
+
+            newPosition.x -= (mouseVector.z * mouse.dX + mouseVector.x * mouse.dY) * 0.003;
+            newPosition.z -= (-mouseVector.x * mouse.dX + mouseVector.z * mouse.dY) * 0.003;
+
+            parent.worldToLocal(newPosition);
+            selectedObject.move(newPosition);
+        }
+    }
 }

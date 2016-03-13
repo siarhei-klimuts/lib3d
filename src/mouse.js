@@ -25,6 +25,7 @@ export var longY = null;
 
 var x = null;
 var y = null;
+//TODO: remove as not used
 var target = null;
 
 /** Last down or move event target
