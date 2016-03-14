@@ -10,6 +10,7 @@ import SectionObject from './models/SectionObject';
 import * as environment from './environment';
 import * as preview from './preview';
 import * as highlight from './highlight';
+import * as events from './events';
 
 var selected = new SelectorMeta();
 var focused = new SelectorMeta();
@@ -34,6 +35,8 @@ export function focus(meta) {
 			obj = getFocusedObject();
 			highlight.focus(obj);
 		}
+
+		events.triggerFocus(obj);
 	}
 }
 
@@ -55,6 +58,8 @@ export function select(meta) {
 
 	highlight.select(obj);
 	highlight.focus(null);
+
+	events.triggerSelect(obj);
 }
 
 /**
