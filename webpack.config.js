@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 var NODE_MODULES = __dirname + '/node_modules/';
 
@@ -7,13 +8,13 @@ var isProd = process.env.NODE_ENV === 'production';
 var config = {
     watch: false,
     entry: {
-        app: ['./src/index.js']
+        app: [path.resolve(__dirname, './src/index.js')]
     },
     output: {
         pathinfo: true,
-        path: __dirname + '/dist',
-        publicPath: '/',
-        filename: '/bundle.js',
+        path: path.join(__dirname, 'dist'),
+        publicPath: '',
+        filename: 'bundle.js',
         libraryTarget: 'umd',
         library: 'lib3d'
     },
@@ -28,7 +29,7 @@ var config = {
     },
     plugins: [],
     resolve: {
-        root: __dirname + '/src',
+        root: path.join(__dirname, 'src'),
         alias: {}
     },
 
@@ -52,9 +53,7 @@ if (isProd) {
     config.entry.vendors = [];
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
     config.plugins.push(new webpack.optimize.CommonsChunkPlugin('vendors', '/vendors.js'));
-    config.entry.app.unshift(
-        'webpack-dev-server/client?http://localhost:8081',
-        'webpack/hot/only-dev-server');
+    config.entry.app.unshift('webpack/hot/dev-server');
     config.devtool = 'eval';
     config.devServer = {
         contentBase: 'example/',
