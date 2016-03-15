@@ -6,7 +6,7 @@
 import * as camera from './camera';
 
 const BUTTONS_ROTATE_SPEED = 100;
-export const BUTTONS_GO_SPEED = 0.02;
+const BUTTONS_GO_SPEED = 0.02;
 
 var state = {
 	forward: false,
@@ -14,7 +14,9 @@ var state = {
 	left: false,
 	right: false,
 	up: false,
-	down: false
+	down: false,
+	rotateX: 0,
+	rotateY: 0
 };
 
 /**
@@ -27,6 +29,8 @@ export function goStop() {
 	state.right = false;
 	state.up = false;
 	state.down = false;
+	state.rotateX = 0;
+	state.rotateY = 0;
 }
 
 /**
@@ -72,21 +76,32 @@ export function goDown() {
 }
 
 /**
+ * @func Change rotate camera speed
+ */
+export function rotate(speedX, speedY) {
+	state.rotateX = speedX || 0;
+	state.rotateY = speedY || 0;
+}
+
+/**
  * @func Update camera
  * @example lib3d.addLoop(lib3d.navigation.update);
  */
 export function update() {
-	if(state.forward) {
+	if (state.forward) {
 		camera.go(BUTTONS_GO_SPEED);
-	} else if(state.backward) {
+	} else if (state.backward) {
 		camera.go(-BUTTONS_GO_SPEED);
-	} else if(state.left) {
+	} else if (state.left) {
 		camera.rotate(BUTTONS_ROTATE_SPEED, 0);
-	} else if(state.right) {
+	} else if (state.right) {
 		camera.rotate(-BUTTONS_ROTATE_SPEED, 0);
-	} else if(state.up) {
+	} else if (state.up) {
 		camera.rotate(0, BUTTONS_ROTATE_SPEED);
-	} else if(state.down) {
+	} else if (state.down) {
 		camera.rotate(0, -BUTTONS_ROTATE_SPEED);
+	}
+	if (state.rotateX || state.rotateY) {
+		camera.rotate(state.rotateX, state.rotateY);
 	}
 }

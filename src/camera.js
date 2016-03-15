@@ -58,10 +58,12 @@ export function rotate(x, y) {
  */
 export function go(speed) {
 	var direction = getVector();
+	var yPosition = object.position.y;
 	var newPosition = object.position.clone();
-	newPosition.add(direction.multiplyScalar(speed));
 
+	newPosition.add(direction.multiplyScalar(speed));
 	object.move(newPosition);
+	object.position.setY(yPosition);
 }
 
 /**
