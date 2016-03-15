@@ -47,7 +47,8 @@ if (isProd) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
     config.devtool = 'source-map';
     config.externals = {
-        'three': 'three'
+        'three': 'three',
+        'lodash': 'lodash'
     };
 } else {
     config.entry.vendors = [];

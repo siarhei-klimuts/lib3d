@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/Galiaf47/lib3d#readme",
   "peerDependencies": {
-    "lodash": "^3.10.1",
+    "lodash": "^4.6.1",
     "three": "0.71.0"
   },
   "devDependencies": {
@@ -58,6 +58,7 @@
     "karma-read-json": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
+    "lodash": "^4.6.1",
     "shader-loader": "^1.1.4",
     "three": "0.71.0",
     "url-loader": "^0.5.7",
