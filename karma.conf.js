@@ -5,8 +5,6 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
-            {pattern: 'dist/obj/**/*.json', included: false, served: true},
-            'node_modules/karma-read-json/karma-read-json.js',
             'test/**/*.js'
         ],
         preprocessors: {
