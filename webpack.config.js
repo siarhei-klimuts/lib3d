@@ -14,7 +14,7 @@ var config = {
         pathinfo: true,
         path: path.join(__dirname, 'dist'),
         publicPath: '',
-        filename: 'bundle.js',
+        filename: 'lib3d.js',
         libraryTarget: 'umd',
         library: 'lib3d'
     },
@@ -24,40 +24,27 @@ var config = {
             {test: /\.(png|jpg)$/, loader: 'url-loader?limit=1024&context=./src&name=[path][name].[ext]'}, 
             {test: /\.(glsl|vs|fs)$/, loader: 'shader'},
             {test: /\.json/, loader: 'json'}
-        ],
-        noParse: [],
+        ]
     },
     plugins: [],
     resolve: {
-        root: path.join(__dirname, 'src'),
-        alias: {}
+        root: path.join(__dirname, 'src')
     },
-
-    addVendor: function (name, path) {
-        if (path) {
-            this.resolve.alias[name] = path;
-        }
-
-        this.module.noParse.push(new RegExp('^' + name + '$'));
-        this.entry.vendors.push(name);
+    externals: {
+        'three': 'THREE',
+        'lodash': 'lodash'
     }
 };
 
 if (isProd) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
     config.devtool = 'source-map';
-    config.externals = {
-        'three': 'three',
-        'lodash': 'lodash'
-    };
 } else {
-    config.entry.vendors = [];
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
-    config.plugins.push(new webpack.optimize.CommonsChunkPlugin('vendors', '/vendors.js'));
     config.entry.app.unshift('webpack/hot/dev-server');
     config.devtool = 'eval';
     config.devServer = {
-        contentBase: 'example/',
+        contentBase: '',
         publicPath: '/',
         historyApiFallback: false,
         hot: true,
@@ -67,9 +54,6 @@ if (isProd) {
         host: 'localhost',
         port: '8081'
     };
-    config.addVendor('babel-polyfill');
-    config.addVendor('lodash');
-    config.addVendor('three');
 }
 
 module.exports = config;
