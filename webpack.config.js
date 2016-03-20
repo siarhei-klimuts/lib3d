@@ -10,7 +10,8 @@ var objConfig = function(entry, output, name) {
         entry: path.resolve(__dirname, entry),
         output: {
             path: path.resolve(__dirname, output),
-            filename: name + '.js'
+            filename: name + '.js',
+            libraryTarget: 'umd'
         },
         module: {
             loaders: [
