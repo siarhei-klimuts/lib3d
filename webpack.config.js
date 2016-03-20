@@ -1,9 +1,11 @@
 var webpack = require('webpack');
 var path = require('path');
+var fs = require('fs');
 
 var NODE_MODULES = __dirname + '/node_modules/';
 
 var isProd = process.env.NODE_ENV === 'production';
+var configs = [];
 
 var objConfig = function(entry, output, name) {
     return {
@@ -78,36 +80,16 @@ if (isProd) {
     };
 }
 
-module.exports = [
-    config, 
-    objConfig(
-        './src/objects/books/book_0001',
-        'dist/objects/books/book_0001',
-        'book_0001'
-    ), 
-    objConfig(
-        './src/objects/books/book_0002',
-        'dist/objects/books/book_0002',
-        'book_0002'
-    ), 
-    objConfig(
-        './src/objects/books/book_0003',
-        'dist/objects/books/book_0003',
-        'book_0003'
-    ), 
-    objConfig(
-        './src/objects/sections/bookshelf_0001',
-        'dist/objects/sections/bookshelf_0001',
-        'bookshelf_0001'
-    ), 
-    objConfig(
-        './src/objects/libraries/library_0001',
-        'dist/objects/libraries/library_0001',
-        'library_0001'
-    ), 
-    objConfig(
-        './src/objects/libraries/library_0002',
-        'dist/objects/libraries/library_0002',
-        'library_0002'
-    )
-];
+configs.push(config);
+
+var OBJECT_DIRS = ['libraries', 'sections', 'books'];
+OBJECT_DIRS.forEach(function (dir) {
+    fs.readdirSync(path.join('./src/objects', dir)).forEach(function (objDir) {
+        var entry = path.join('./src/objects', dir, objDir);
+        var output = path.join('dist/objects', dir, objDir);
+
+        configs.push(objConfig(entry, output, objDir));
+    });
+});
+
+module.exports = configs;
