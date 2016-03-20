@@ -1,4 +1,4 @@
-var webpackConfig = require('./webpack.config.js');
+var path = require('path');
 
 module.exports = function(config) {
     config.set({
@@ -23,7 +23,12 @@ module.exports = function(config) {
                     {test: /\.json/, loader: 'json'}
                 ]
             },
-            resolve: webpackConfig.resolve
+            resolve: {
+                root: path.join(__dirname, 'src'),
+                alias: {
+                    lib3d: 'index.js'
+                }
+            }
         },
         reporters: ['progress', 'coverage'],
         port: 9876,

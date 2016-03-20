@@ -1,3 +1,8 @@
+import ModelData from 'data/models/ModelData';
+import BookData from 'data/models/BookData';
+import SectionData from 'data/models/SectionData';
+import LibraryData from 'data/models/LibraryData';
+
 var books = new Map();
 var sections = new Map();
 var libraries = new Map();
@@ -12,6 +17,25 @@ export function getSectionData(model) {
 
 export function getLibraryData(model) {
     return libraries.get(model);
+}
+
+export function registerBook(data) {
+    var book = new BookData(data);
+    books.set(book.name, book);
+}
+
+export function registerSection(data) {
+    var section = new SectionData(data);
+    sections.set(section.name, section);
+}
+
+export function registerLibrary(data) {
+    var library = new LibraryData(data);
+    libraries.set(library.name, library);
+}
+
+export function setObjectsRoot(path) {
+    ModelData.objectsRoot = path;
 }
 
 export function loadImage(url) {
@@ -29,16 +53,4 @@ export function loadImage(url) {
     		reject(err);
     	};
     });
-}
-
-export function registerBook(data) {
-    books.set(data.name, data);
-}
-
-export function registerSection(data) {
-    sections.set(data.name, data);
-}
-
-export function registerLibrary(data) {
-    libraries.set(data.name, data);
 }

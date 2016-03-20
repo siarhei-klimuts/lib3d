@@ -3,8 +3,13 @@
 <head>
     <title>lib3d example</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
-    <script src="dist/lib3d.js"></script>
-
+    <script src="/lib3d.js"></script>
+    <script src="dist/objects/books/book_0001/book_0001.js"></script>
+    <script src="dist/objects/books/book_0002/book_0002.js"></script>
+    <script src="dist/objects/books/book_0003/book_0003.js"></script>
+    <script src="dist/objects/sections/bookshelf_0001/bookshelf_0001.js"></script>
+    <script src="dist/objects/libraries/library_0001/library_0001.js"></script>
+    <script src="dist/objects/libraries/library_0002/library_0002.js"></script>
 </head>
 <body>
     <style type="text/css">
@@ -29,6 +34,7 @@
     </ul>
 
     <script type="text/javascript">
+        lib3d.setObjectsRoot('dist/objects');
         lib3d.init(document.getElementById("LIBRARY"), 300, 300);
         lib3d.addLoop(lib3d.navigation.update);
 
@@ -94,7 +100,6 @@
                 shelfId: '4', 
                 sectionId: '3'
             });
-
 
             library.addSection(section);
             library.addBook(book1);

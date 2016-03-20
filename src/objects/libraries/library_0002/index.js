@@ -1,10 +1,10 @@
-import LibraryData from 'data/models/LibraryData';
+import {registerLibrary} from 'lib3d';
 
 import model from './model.json';
 import map from './map.jpg';
 import img from './img.jpg';
 
-export default new LibraryData({
+registerLibrary({
     name: 'library_0002',
     model,
     map,

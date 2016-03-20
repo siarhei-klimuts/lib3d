@@ -1,4 +1,6 @@
-import * as lib3d from 'index.js';
+import * as lib3d from 'lib3d';
+import 'objects/libraries/library_0001';
+import 'objects/sections/bookshelf_0001';
 
 import SectionObject from 'models/SectionObject';
 

@@ -2,11 +2,13 @@ import THREE from 'three';
 import * as repository from 'repository';
 
 var jsonLoader = new THREE.JSONLoader();
+var _objectsRoot = 'objects';
 
 export default class ModelData {
 	constructor(data) {
 		this._data = data;
 		this._isLoaded = false;
+		this._directory = '';
 
 		this.geometry = jsonLoader.parse(data.model).geometry;
 	}
@@ -30,6 +32,10 @@ export default class ModelData {
 			this.loadData().then(() => this._loadedData);
 	}
 
+	static set objectsRoot(path) {
+		_objectsRoot = path;
+	}
+
 	loadData() {
 		//TODO: avoid multiple save
 		var load = [];
@@ -49,7 +55,7 @@ export default class ModelData {
 	}
 
 	loadImage(key) {
-		var url = this._data[key];
+		var url = `${_objectsRoot}/${this._directory}/${this.name}/${this._data[key]}`;
 
 		return repository.loadImage(url)
 			.then(image => ({image, key}));

@@ -5,6 +5,27 @@ var NODE_MODULES = __dirname + '/node_modules/';
 
 var isProd = process.env.NODE_ENV === 'production';
 
+var objConfig = function(entry, output, name) {
+    return {
+        entry: path.resolve(__dirname, entry),
+        output: {
+            path: path.resolve(__dirname, output),
+            filename: name + '.js'
+        },
+        module: {
+            loaders: [
+                {test: /\.js$/, exclude: /(node_modules)/, loader: 'babel!jshint'},
+                {test: /\.(png|jpg)$/, loader: 'url-loader?limit=1024&name=[name].[ext]'}, 
+                {test: /\.(glsl|vs|fs)$/, loader: 'shader'},
+                {test: /\.json/, loader: 'json'}
+            ]
+        },
+        externals: {
+            'lib3d': 'lib3d'
+        }
+    };
+};
+
 var config = {
     watch: false,
     entry: {
@@ -56,4 +77,36 @@ if (isProd) {
     };
 }
 
-module.exports = config;
+module.exports = [
+    config, 
+    objConfig(
+        './src/objects/books/book_0001',
+        'dist/objects/books/book_0001',
+        'book_0001'
+    ), 
+    objConfig(
+        './src/objects/books/book_0002',
+        'dist/objects/books/book_0002',
+        'book_0002'
+    ), 
+    objConfig(
+        './src/objects/books/book_0003',
+        'dist/objects/books/book_0003',
+        'book_0003'
+    ), 
+    objConfig(
+        './src/objects/sections/bookshelf_0001',
+        'dist/objects/sections/bookshelf_0001',
+        'bookshelf_0001'
+    ), 
+    objConfig(
+        './src/objects/libraries/library_0001',
+        'dist/objects/libraries/library_0001',
+        'library_0001'
+    ), 
+    objConfig(
+        './src/objects/libraries/library_0002',
+        'dist/objects/libraries/library_0002',
+        'library_0002'
+    )
+];

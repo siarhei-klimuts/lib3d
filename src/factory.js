@@ -16,6 +16,12 @@ import * as repository from './repository';
  */
 export function createLibrary(dto) {
     var libraryData = repository.getLibraryData(dto.model);
+
+    if (!libraryData) {
+        console.error(`Library ${dto.model} not found.`);
+        return null;
+    }
+
     return buildLibrary(libraryData, dto);
 }
 
@@ -28,6 +34,11 @@ export function createSection(dto) {
     //TODO: separate params from dto
     dto.data = sectionData.params;
 
+    if (!sectionData) {
+        console.error(`Section ${dto.model} not found.`);
+        return null;
+    }
+
     return buildSection(sectionData, dto);
 }
 
@@ -37,7 +48,14 @@ export function createSection(dto) {
  */
 export function createBook(dto) {
 	var bookData = repository.getBookData(dto.model);
-	var book = new BookObject(dto, bookData.geometry);
+    var book;
+
+    if (!bookData) {
+        console.error(`Book ${dto.model} not found.`);
+        return null;
+    }
+
+	book = new BookObject(dto, bookData.geometry);
 
 	Promise.all([
 		bookData.asyncData,

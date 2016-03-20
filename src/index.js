@@ -42,17 +42,11 @@ export {
 	onMouseMove
 } from 'controls';
 
+export {
+	registerBook,
+	registerSection,
+	registerLibrary,
+	setObjectsRoot
+} from 'repository';
+
 export {loadLibrary} from './loader';
-
-requireAll(require.context('./objects/books/', true, /\.js$/))
-	.forEach(book => repository.registerBook(book.default));
-
-requireAll(require.context('./objects/sections/', true, /\.js$/))
-	.forEach(section => repository.registerSection(section.default));
-
-requireAll(require.context('./objects/libraries/', true, /\.js$/))
-	.forEach(library => repository.registerLibrary(library.default));
-
-function requireAll(requireContext) {
-    return requireContext.keys().map(requireContext);
-}
