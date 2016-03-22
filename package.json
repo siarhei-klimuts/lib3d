@@ -2,18 +2,20 @@
   "name": "lib3d",
   "version": "0.0.0",
   "description": "Display 3D library on your webpage",
-  "main": "/src/index.js",
-  "directories": {
-    "test": "test"
-  },
+  "main": "/dist/lib3d.js",
   "scripts": {
+    "preversion": "npm run build",
+    "version": "",
+    "postversion": "npm run push && npm publish",
+    "push": "git push && git push --tags",
     "compile": "cross-env NODE_ENV=production webpack --progress --colors",
-    "prebuild": "npm run test & npm run doc",
+    "prebuild": "npm run test && npm run doc",
     "build": "npm run compile",
     "dev": "webpack-dev-server",
     "test": "karma start --single-run",
     "test-watch": "karma start",
-    "doc": "jsdoc -c jsdoc.conf.json"
+    "doc": "jsdoc -c jsdoc.conf.json",
+    "update-gh-pages": "git push origin `git subtree split --prefix docs master`:gh-pages --force"
   },
   "repository": {
     "type": "git",
