@@ -31,6 +31,8 @@
         <li><button onmousedown="lib3d.navigation.goUp()">up</button></li>
         <li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
         <li><button onmousedown="createLibrary()">Create Library</button></li>
+        <li><button onmousedown="preview()">Preview</button></li>
+        <li><button onmousedown="lib3d.preview.rotate(10);">Preview rotate</button></li>
     </ul>
 
     <script type="text/javascript">
@@ -112,6 +114,15 @@
             book1.move(new THREE.Vector3(-0.1, -0.06, -0.046));
             book2.move(new THREE.Vector3(0.0, -0.06, -0.046));
             book3.move(new THREE.Vector3(0.1, -0.06, -0.046));
+        }
+
+        function preview() {
+            if (!lib3d.preview.isActive()) {
+                var obj = lib3d.selector.getSelectedObject();
+                lib3d.preview.enable(obj);
+            } else {
+                lib3d.preview.disable();
+            }
         }
     </script>
 </body>

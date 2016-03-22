@@ -32,7 +32,7 @@ export function enable(obj) {
 }
 
 /** Disable preview mode */
-export function disable () {
+export function disable() {
 	clearContainer();
 	activate(false);
 }
