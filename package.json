@@ -6,7 +6,7 @@
   "scripts": {
     "preversion": "npm run build",
     "version": "",
-    "postversion": "npm run push && npm publish",
+    "postversion": "npm run push",
     "push": "git push origin HEAD --follow-tags",
     "compile": "cross-env NODE_ENV=production webpack --progress --colors",
     "prebuild": "npm run test && npm run doc",
