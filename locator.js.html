@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: locator.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: locator.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** @module locator 
+ * @description Helper for finding free place for new objects
+ */
+
+import THREE from 'three';
+import _ from 'lodash';
+
+import GridCalculator from './gridCalculator';
+import BaseObject from './models/BaseObject';
+
+//TODO: remove environment
+import * as environment from './environment';
+import * as repository from './repository';
+import * as config from './config';
+
+/** Center an object on scene and avoid collisions
+ *
+ * @param {BaseObject} obj - an instance of BaseObject,
+ * should have calculated bounding box
+ */
+export function centerObject(obj) {
+	var targetBB = obj.geometry.boundingBox;
+	var spaceBB = environment.getLibrary().geometry.boundingBox;
+
+	var matrixPrecision = new THREE.Vector3(targetBB.max.x - targetBB.min.x + 0.01, 0, targetBB.max.z - targetBB.min.z + 0.01);
+	var occupiedMatrix = getOccupiedMatrix(environment.getLibrary().children, matrixPrecision, obj);
+	var freePosition = getFreeMatrix(occupiedMatrix, spaceBB, targetBB, matrixPrecision);		
+
+	obj.position.setX(freePosition.x);
+	obj.position.setZ(freePosition.z);
+}
+
+/** Find free space for section in current library
+ * 
+ * @param {Object} sectionDto - object with model attribute
+ * to find appropriate geometry
+ * 
+ * @returns {THREE.Vector3} free position
+ */
+export function placeSection(sectionDto) {
+	var sectionData = repository.getSectionData(sectionDto.model);
+	var sectionBB = sectionData.geometry.boundingBox;
+	var libraryBB = environment.getLibrary().geometry.boundingBox;
+	
+	return getFreePlace(environment.getLibrary().children, libraryBB, sectionBB);
+}
+
+/** Find free space for book in provided shelf
+ *
+ * @param {Object} bookDto - object with model attribute
+ * to find appropriate geometry
+ * @param {ShelfObject} shelf - an instance of ShelfObject
+ *
+ * @returns {THREE.Vector3} free position
+ */
+export function placeBook(bookDto, shelf) {
+	var bookData = repository.getBookData(bookDto.model);
+	var shelfBB = shelf.geometry.boundingBox;
+	var bookBB = bookData.geometry.boundingBox;
+
+	return getFreePlace(shelf.children, shelfBB, bookBB);
+}
+
+function getFreePlace(objects, spaceBB, targetBB) {
+	var matrixPrecision = new THREE.Vector3(targetBB.max.x - targetBB.min.x + 0.01, 0, targetBB.max.z - targetBB.min.z + 0.01);
+	var occupiedMatrix = getOccupiedMatrix(objects, matrixPrecision);
+	var freePosition = getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision);
+
+	return freePosition;
+}
+
+function getFreeMatrix(occupiedMatrix, spaceBB, targetBB, matrixPrecision) {
+	var DISTANCE = 1.3;
+
+	var xIndex;
+	var zIndex;
+	var position = {};
+	var minPosition = {};
+	var edges = GridCalculator.getEdges(spaceBB, matrixPrecision);
+
+	for (zIndex = edges.minZCell; zIndex &lt;= edges.maxZCell; zIndex++) {
+		for (xIndex = edges.minXCell; xIndex &lt;= edges.maxXCell; xIndex++) {
+			if (!occupiedMatrix[zIndex] || !occupiedMatrix[zIndex][xIndex]) {
+				position.pos = getPositionFromCells([xIndex], zIndex, matrixPrecision, spaceBB, targetBB);
+				position.length = position.pos.length();
+
+				if(!minPosition.pos || position.length &lt; minPosition.length) {
+					minPosition.pos = position.pos;
+					minPosition.length = position.length;
+				}
+
+				if(minPosition.pos &amp;&amp; minPosition.length &lt; DISTANCE) {
+					return minPosition.pos;
+				}
+			}
+		}
+	}
+
+	return minPosition.pos;
+}
+
+function getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision) {
+	var targetCellsSize = 1;
+	var freeCellsCount = 0;
+	var freeCellsStart;
+	var xIndex;
+	var zIndex;
+	var cells;
+	var edges = GridCalculator.getEdges(spaceBB, matrixPrecision);
+
+	for (zIndex = edges.minZCell; zIndex &lt;= edges.maxZCell; zIndex++) {
+		for (xIndex = edges.minXCell; xIndex &lt;= edges.maxXCell; xIndex++) {
+			if (!occupiedMatrix[zIndex] || !occupiedMatrix[zIndex][xIndex]) {
+				freeCellsStart = freeCellsStart || xIndex;
+				freeCellsCount++;
+
+				if (freeCellsCount === targetCellsSize) {
+					cells = _.range(freeCellsStart, freeCellsStart + freeCellsCount);
+					return getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB);
+				}
+			} else {
+				freeCellsCount = 0;
+			}
+		}
+	}
+
+	return null;
+}
+
+function getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB) {
+	var center = GridCalculator.cellToPos(new THREE.Vector3(cells[0], 0, zIndex), matrixPrecision);
+
+	var offset = new THREE.Vector3();
+	offset.addVectors(targetBB.min, targetBB.max);
+	offset.multiplyScalar(-0.5);
+
+	return center.add(offset).setY(getBottomY(spaceBB, targetBB));
+}
+
+function getBottomY(spaceBB, targetBB) {
+	return spaceBB.min.y - targetBB.min.y + config.CLEARANCE;
+}
+
+function getOccupiedMatrix(objects, matrixPrecision, obj) {
+	var result = {};
+	var objectBB;
+	var minKeyX;
+	var maxKeyX;
+	var minKeyZ;
+	var maxKeyZ;
+	var z, x;
+
+	objects.forEach(function (child) {
+		if(child instanceof BaseObject &amp;&amp; child !== obj) {
+			objectBB = child.boundingBox;
+
+			minKeyX = Math.round((objectBB.center.x - objectBB.radius.x) / matrixPrecision.x);
+			maxKeyX = Math.round((objectBB.center.x + objectBB.radius.x) / matrixPrecision.x);
+			minKeyZ = Math.round((objectBB.center.z - objectBB.radius.z) / matrixPrecision.z);
+			maxKeyZ = Math.round((objectBB.center.z + objectBB.radius.z) / matrixPrecision.z);
+
+			for(z = minKeyZ; z &lt;= maxKeyZ; z++) {
+				result[z] = result[z] || {};
+
+				for(x = minKeyX; x &lt;= maxKeyX; x++) {
+					result[z][x] = true;
+				}
+			}
+		}
+	});
+
+	return result;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-camera.html">camera</a></li><li><a href="module-environment.html">environment</a></li><li><a href="module-factory.html">factory</a></li><li><a href="module-lib3d.html">lib3d</a></li><li><a href="module-loader.html">loader</a></li><li><a href="module-locator.html">locator</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-navigation.html">navigation</a></li><li><a href="module-preview.html">preview</a></li><li><a href="module-selector.html">selector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CLEARANCE">CLEARANCE</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Mar 23 2016 11:56:37 GMT+0300 (Belarus Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
