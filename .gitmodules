@@ -1,0 +1,4 @@
+[submodule "docs"]
+	path = docs
+	url = git@github.com:Galiaf47/lib3d.git
+	branch = gh-pages
