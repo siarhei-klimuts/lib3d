@@ -1,6 +1,6 @@
 {
   "name": "lib3d",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Display 3D library on your webpage",
   "main": "/dist/lib3d.js",
   "scripts": {
