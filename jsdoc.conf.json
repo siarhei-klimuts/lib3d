@@ -1,8 +1,18 @@
 {
     "source": {
-        "include": ["./src/"]
+        "include": ["./src/", "./README.md"]
     },
     "opts": {
-        "destination": "./doc/"
+        "destination": "./doc"
+    },
+    "templates": {
+        "default" : {
+            "outputSourceFiles": false,
+            "includeDate": false,
+            "useLongnameInNav": true,
+            "staticFiles": {
+                "include": ["./screenshot.jpg"]
+            }
+        }
     }
 }
