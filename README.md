@@ -1,7 +1,7 @@
 # lib3d
 Display 3D library on your webpage
 
-![Screenshot](/../master/src/img/screenshot.jpg?raw=true "Screenshot")
+![Screenshot](https://raw.githubusercontent.com/Galiaf47/lib3d/master/src/img/screenshot.jpg "Screenshot")
 
 ## Install
 ```
