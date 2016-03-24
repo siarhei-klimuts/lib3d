@@ -6,7 +6,7 @@ var coverageReporter = {
 };
 var browsers = [];
 
-if (process.env.NODE_ENV === 'prod') {
+if (process.env.NODE_ENV === 'production') {
     reporters.push('coveralls');
     browsers.push('Firefox');
 } else {
