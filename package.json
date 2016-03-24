@@ -16,7 +16,8 @@
     "test": "karma start --single-run",
     "test-watch": "karma start",
     "doc": "esdoc -c ./esdoc.json",
-    "doc-publish": "esdoc-uploader"
+    "doc-publish": "esdoc-uploader",
+    "deploy": ""
   },
   "repository": {
     "type": "git",
@@ -57,6 +58,7 @@
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-coverage": "^0.5.3",
+    "karma-coveralls": "^1.1.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.6",
     "karma-read-json": "^1.1.0",

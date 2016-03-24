@@ -1,4 +1,17 @@
 var path = require('path');
+var reporters = ['progress', 'coverage'];
+var coverageReporter = {
+    type: 'lcov',
+    dir: 'coverage'
+};
+var browsers = [];
+
+if (process.env.NODE_ENV === 'prod') {
+    reporters.push('coveralls');
+    browsers.push('Firefox');
+} else {
+    browsers.push('Chrome');
+}
 
 module.exports = function(config) {
     config.set({
@@ -30,12 +43,13 @@ module.exports = function(config) {
                 }
             }
         },
-        reporters: ['progress', 'coverage'],
+        reporters: reporters,
+        coverageReporter: coverageReporter,
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Firefox'],
+        browsers: browsers,
         singleRun: false
     });
 };
