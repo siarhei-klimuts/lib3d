@@ -1,7 +1,7 @@
 # lib3d
 Display 3D library on your webpage
 
-![Screenshot](screenshot.jpg "Screenshot")
+![Screenshot](/../master/src/img/screenshot.jpg?raw=true "Screenshot")
 
 ## Install
 ```
