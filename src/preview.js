@@ -1,4 +1,4 @@
-/** @module preview
+/** @module lib3d.preview
  * @description Closer look on books
  */
 import THREE from 'three';

@@ -1,4 +1,5 @@
-/** @module factory
+/**
+ * @module lib3d.factory 
  * @description Builds 3d objects
  */
 import THREE from 'three';

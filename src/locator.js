@@ -1,4 +1,4 @@
-/** @module locator 
+/** @module lib3d.locator
  * @description Helper for finding free place for new objects
  */
 

@@ -2,19 +2,33 @@ import BaseObject from './BaseObject';
 
 const TYPE = 'BookObject';
 
-export default class BookObject extends BaseObject {	
+export default
+/** Class for books
+ * @extends BaseObject
+ */
+class BookObject extends BaseObject {	
+    /**
+     * @param {Object} dataObject - DTO from which book is creating
+     * @param {THREE.Geometry} geometry - Geometry for new book
+     * @param {THREE.Material} material - Material for new book
+     */
 	constructor(dataObject, geometry, material) {
 		super(dataObject, geometry, material);
 	}
 
+	/** {string} 'BookObject' */
 	static get TYPE() {
 		return TYPE;
 	}
-	
+
+	/** {string} 'BookObject' */
 	get vbType() {
 		return TYPE;
 	}
 
+	/**
+	 * @returns {Object} New DTO from current book object state
+	 */
 	getDto() {
 		return {
 			id: this.getId(),
@@ -25,6 +39,9 @@ export default class BookObject extends BaseObject {
 		};
 	}
 
+	/**
+	 * @param {?ShelfObject} parent - Shelf as new parent or null to remove
+	 */
 	setParent(parent) {
 		if(this.parent != parent) {
 			if(parent) {

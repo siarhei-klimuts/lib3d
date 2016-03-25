@@ -1,6 +1,6 @@
 {
     "source": "./src",
-    "destination": "./docs",
+    "destination": "./esdoc",
     "includeSource": true,
     "access": ["public"]
 }

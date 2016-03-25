@@ -1,6 +1,15 @@
 import BaseObject from './BaseObject';
 
-export default class LibraryObject extends BaseObject {
+export default
+/** Class for library objects to place on scene
+ * @extends BaseObject
+ */
+class LibraryObject extends BaseObject {
+    /**
+     * @param {Object} params - DTO from which library is creating
+     * @param {THREE.Geometry} geometry - Geometry for new library
+     * @param {THREE.Material} material - Material for new library
+     */
     constructor(params, geometry, material) {
         super(params, geometry, material);
 
@@ -8,16 +17,25 @@ export default class LibraryObject extends BaseObject {
         this.books = {};
     }
 
+    /** Adds section to a library
+     * @param {SectionObject} section - Section to add
+     */
     addSection(section) {
         this.add(section);
         this.addToDict(this.sections, section);
     }
 
+    /** Adds book to a library
+     * @param {BookObject} book - Book to add
+     */
     addBook(book) {
         this.placeBookOnShelf(book);
         this.addToDict(this.books, book);
     }
 
+    /** Places book on shelf specified in book's DTO
+     * @param {SectionObject} section - Section to add
+     */
     placeBookOnShelf(book) {
         var shelf = this.getBookShelf(book.dataObject);
         shelf.add(book);
@@ -25,7 +43,7 @@ export default class LibraryObject extends BaseObject {
 
     /**
      * @param {String} sectionId - Section Id
-     * @returns {lib3d.SectionObject} An instance of a section
+     * @returns {SectionObject} An instance of a section
      */
     getSection(sectionId) {
         return this.getDictObject(this.sections, sectionId);
@@ -34,7 +52,7 @@ export default class LibraryObject extends BaseObject {
     /**
      * @param {String} sectionId - Section Id
      * @param {String} shelfId - Shelf Id
-     * @returns {lib3d.SectionObject} An instance of a shelf
+     * @returns {SectionObject} An instance of a shelf
      */
     getShelf(sectionId, shelfId) {
         var section = this.getSection(sectionId);
@@ -43,13 +61,14 @@ export default class LibraryObject extends BaseObject {
         return shelf;
     }
 
+    /** @private */
     getBookShelf(bookDto) {
         return this.getShelf(bookDto.sectionId, bookDto.shelfId);
     }
 
     /**
      * @param {String} bookId - Book Id
-     * @returns {lib3d.BookObject} An instance of a book
+     * @returns {BookObject} An instance of a book
      */
     getBook(bookId) {
         return this.getDictObject(this.books, bookId);
@@ -69,6 +88,7 @@ export default class LibraryObject extends BaseObject {
         this.removeObject(this.books, id);
     }
 
+    /** @private */
     addToDict(dict, obj) {
         var dictItem = {
             dto: obj.dataObject,
@@ -78,6 +98,7 @@ export default class LibraryObject extends BaseObject {
         dict[obj.getId()] = dictItem;
     }
 
+    /** @private */
     getDictObject(dict, objectId) {
         var dictItem = dict[objectId];
         var dictObject = dictItem && dictItem.obj;
@@ -85,6 +106,7 @@ export default class LibraryObject extends BaseObject {
         return dictObject;
     }
 
+    /** @private */
     removeObject(dict, key) {
         var dictItem = dict[key];
 

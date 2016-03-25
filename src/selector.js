@@ -1,4 +1,4 @@
-/** @module selector 
+/** @module lib3d.selector 
  * @description Helper for focusing and selecting objects
  */
 

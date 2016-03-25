@@ -1,6 +1,3 @@
-/** @module environment
- * @description Main module, contains all the root entities
- */
 import THREE from 'three';
 
 import * as camera from './camera';
@@ -14,9 +11,10 @@ var loops = [];
 
 /**
  * Inits lib3d, should be called first, use canvas with padding: 0
+ * @alias module:lib3d.init
  * @param {canvas} canvas - chould be provided for lib3d output
  * @param {Number} width - viewport width
- * @param {Number} height- viewport height
+ * @param {Number} height - viewport height
  */
 export function init(canvas, width, height) {
     scene = new THREE.Scene();
@@ -34,6 +32,7 @@ export function setSize(width, height) {
 
 /**
  * Adds function to render loop
+ * @alias module:lib3d.addLoop
  * @param {function} func - function will be called on every render call
  */
 export function addLoop(func) {

@@ -1,6 +1,15 @@
 import THREE from 'three';
 
-export default class BaseObject extends THREE.Mesh {
+export default
+/** Base class for every object in a library 
+ * @extends THREE.Mesh
+ */
+class BaseObject extends THREE.Mesh {
+	/**
+	 * @param {Object} dataObject - DTO from which object is creating
+	 * @param {THREE.Geometry} geometry - Geometry for new object
+	 * @param {THREE.Material} material - Material for new object
+	 */
 	constructor(dataObject, geometry, material) {
 		super(geometry, material);
 
@@ -10,14 +19,17 @@ export default class BaseObject extends THREE.Mesh {
 		this.setDtoTransformations();
 	}
 	
+	/** @returns {string} Object type */
 	getType() {
 		return this.vbType;
 	}
 
+	/** @returns {string} Id from DTO */
 	getId() {
 		return this.dataObject && this.dataObject.id;
 	}
 
+	/** Sets position and rotation from DTO */
 	setDtoTransformations() {
 		this.position.setX(this.dataObject.pos_x || 0);
 		this.position.setY(this.dataObject.pos_y || 0);
@@ -28,11 +40,13 @@ export default class BaseObject extends THREE.Mesh {
 		this.updateBoundingBox();		
 	}
 
+	/** @returns {boolean} Is object outside it's parent object */
 	isOutOfParrent() {
 		return Math.abs(this.boundingBox.center.x - this.parent.boundingBox.center.x) > (this.parent.boundingBox.radius.x - this.boundingBox.radius.x) ||
 				Math.abs(this.boundingBox.center.z - this.parent.boundingBox.center.z) > (this.parent.boundingBox.radius.z - this.boundingBox.radius.z);
 	}
 
+	/** @returns {boolean} Is object collided with other objects or it's parent object */
 	isCollided() {
 		var
 			result,
@@ -65,6 +79,10 @@ export default class BaseObject extends THREE.Mesh {
 		return result;
 	}
 
+	/** Moves object
+	 * @param {THREE.Vector3} newPosition - New object position
+	 * @returns {boolean} Was object moved or not
+	 */
 	move(newPosition) {
 		var result = false;
 		var currentPosition = this.position.clone();
@@ -98,6 +116,11 @@ export default class BaseObject extends THREE.Mesh {
 		return result;
 	}
 
+	/** Rotates object
+	 * @param {number} dX - Horisontal rotation size
+	 * @param {number} dY - Vertical rotation size
+	 * @param {boolean} isDemo - Ignore collisions if true
+	 */
 	rotate(dX, dY, isDemo) {
 		var 
 			currentRotation = this.rotation.clone(),
@@ -128,6 +151,10 @@ export default class BaseObject extends THREE.Mesh {
 		this.updateBoundingBox();
 	}
 
+	/**
+	 * Updates BoundingBox, should be called after every transformation
+	 * because collisions calculation depends on it 
+	 */
 	updateBoundingBox() {
 		var
 			boundingBox,
@@ -153,6 +180,9 @@ export default class BaseObject extends THREE.Mesh {
 		};
 	}
 
+	/**
+	 * Sets transformations from current DTO state
+	 */
 	rollback() {
 		this.setDtoTransformations();
 	}

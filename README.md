@@ -1,5 +1,5 @@
 [![GitHub version](https://badge.fury.io/gh/Galiaf47%2Flib3d.svg)](http://badge.fury.io/gh/Galiaf47%2Flib3d)
-[ ![Codeship Status for Galiaf47/lib3d](https://img.shields.io/codeship/dac1bad0-d3da-0133-129e-1e4d5c815c8f/master.svg)](https://codeship.com/projects/142258)
+[![Codeship Status for Galiaf47/lib3d](https://img.shields.io/codeship/dac1bad0-d3da-0133-129e-1e4d5c815c8f/master.svg)](https://codeship.com/projects/142258)
 [![Document](https://doc.esdoc.org/github.com/Galiaf47/lib3d/badge.svg)](https://doc.esdoc.org/github.com/Galiaf47/lib3d)
 [![Coverage Status](https://coveralls.io/repos/github/Galiaf47/lib3d/badge.svg?branch=master)](https://coveralls.io/github/Galiaf47/lib3d?branch=master)
 
@@ -46,3 +46,9 @@ lib3d.setLibrary(library);
 section.move(new THREE.Vector3(-0.3, 0, -2));
 book1.move(new THREE.Vector3(-0.1, -0.06, -0.046));
 ```
+
+## Documentation
+[API reference](http://galiaf47.github.io/lib3d/)
+
+## Contribution
+Star this repository or let me know in any other way that you use or going to use this library.

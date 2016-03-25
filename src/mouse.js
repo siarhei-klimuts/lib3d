@@ -1,4 +1,4 @@
-/** @module mouse 
+/** @module lib3d.mouse 
  * @description Contains current mouse state,
  * functions to update state trough mouse events,
  * helps to find clicked 3D object

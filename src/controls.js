@@ -10,6 +10,10 @@ import ShelfObject from 'models/ShelfObject';
 import SectionObject from 'models/SectionObject';
 import SelectorMeta from 'models/SelectorMeta';
 
+/** 
+ * @alias module:lib3d.onMouseDown
+ * @param {Object} event - mouse event
+ */
 export function onMouseDown(event) {
     mouse.down(event); 
 
@@ -21,6 +25,10 @@ export function onMouseDown(event) {
     }
 }
 
+/** 
+ * @alias module:lib3d.onMouseUp
+ * @param {Object} event - mouse event
+ */
 export function onMouseUp(event) {
     var key = mouse.keys[1];
     mouse.up(event);
@@ -34,6 +42,10 @@ export function onMouseUp(event) {
     }
 }
 
+/** 
+ * @alias module:lib3d.onMouseMove
+ * @param {Object} event - mouse event
+ */
 export function onMouseMove(event) {    
     event.preventDefault();
     mouse.move(event);

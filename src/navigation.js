@@ -1,5 +1,5 @@
 /** 
- * @module navigation
+ * @module lib3d.navigation
  * @description Helper for smooth camera control
  */
 

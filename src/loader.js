@@ -1,11 +1,8 @@
-/** @module loader
- * @description Loads whole library
- */
-
 import * as factory from './factory';
 
 /**
  * Loads library by an dto object
+ * @alias module:lib3d.loadLibrary
  * @param {object} dto - full library structure
  * @returns {LibraryObject} An instance of LibraryObject
  */

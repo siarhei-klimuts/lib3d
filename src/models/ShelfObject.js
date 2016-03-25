@@ -3,7 +3,14 @@ import BaseObject from './BaseObject';
 
 const TYPE = 'ShelfObject';
 
-export default class ShelfObject extends BaseObject {
+export default
+/** Class for shelf objects
+ * @extends BaseObject
+ */
+class ShelfObject extends BaseObject {
+	/**
+	 * @param {Object} params - Shelf position and size as a DTO
+	 */
 	constructor(params) {
 		var size = params.size;	
 		var geometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
@@ -18,10 +25,12 @@ export default class ShelfObject extends BaseObject {
 		this.material.opacity = 0;
 	}
 
+	/** {string} 'ShelfObject' */
 	get vbType() {
 		return TYPE;
 	}
 
+	/** {string} 'ShelfObject' */
 	static get TYPE() {
 		return TYPE;
 	}

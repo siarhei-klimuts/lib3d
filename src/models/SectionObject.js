@@ -3,7 +3,16 @@ import ShelfObject from './ShelfObject';
 
 const TYPE = 'SectionObject';
 
-export default class SectionObject extends BaseObject {
+export default
+/** Class for sections
+ * @extends BaseObject
+ */
+class SectionObject extends BaseObject {
+    /**
+     * @param {Object} params - DTO from which section is creating
+     * @param {THREE.Geometry} geometry - Geometry for new section
+     * @param {THREE.Material} material - Material for new section
+     */
 	constructor(params, geometry, material) {
 		super(params, geometry, material);
 
@@ -14,14 +23,19 @@ export default class SectionObject extends BaseObject {
 		}
 	}
 
+	/** {string} 'SectionObject' */
 	static get TYPE() {
 		return TYPE;
 	}
 
+	/** {string} 'SectionObject' */
 	get vbType() {
 		return TYPE;
 	}
 
+	/**
+	 * @returns {Object} New DTO from current section object state
+	 */
 	getDto() {
 		return {
 			id: this.getId(),
@@ -33,6 +47,9 @@ export default class SectionObject extends BaseObject {
 		};
 	}
 
+	/**
+	 * @param {?LibraryObject} parent - Library as new parent or null to remove
+	 */
 	setParent(parent) {
 		if(this.parent != parent) {
 			if(parent) {
