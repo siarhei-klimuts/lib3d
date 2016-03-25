@@ -2,7 +2,7 @@
   "name": "lib3d",
   "version": "0.0.1",
   "description": "Display 3D library on your webpage",
-  "main": "/dist/lib3d.js",
+  "main": "./dist/lib3d.js",
   "scripts": {
     "push": "git push origin HEAD --follow-tags",
     "dev": "webpack-dev-server",
@@ -36,8 +36,8 @@
   },
   "homepage": "https://github.com/Galiaf47/lib3d#readme",
   "peerDependencies": {
-    "lodash": "*",
-    "three": "0.71.0"
+    "lodash": "^3.10.1",
+    "three": "^0.71.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
@@ -61,9 +61,9 @@
     "karma-read-json": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
-    "lodash": "^4.6.1",
+    "lodash": "^3.10.1",
     "shader-loader": "^1.1.4",
-    "three": "0.71.0",
+    "three": "^0.71.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
