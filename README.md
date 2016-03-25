@@ -28,6 +28,9 @@ And add a canvas element to your page
 
 ## Basic Usage
 ```js
+// Where textures will be loaded from
+lib3d.setObjectsRoot('https://raw.githubusercontent.com/Galiaf47/lib3d/master/src/objects');
+
 lib3d.init(document.getElementById("LIBRARY"), 300, 300);
 
 var library = lib3d.factory.createLibrary({model: 'library_0001'});

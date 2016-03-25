@@ -49,50 +49,55 @@ export function createSection(dto) {
  */
 export function createBook(dto) {
 	var bookData = repository.getBookData(dto.model);
-    var book;
 
     if (!bookData) {
         console.error(`Book ${dto.model} not found.`);
         return null;
     }
 
-	book = new BookObject(dto, bookData.geometry);
-
-	Promise.all([
-		bookData.asyncData,
-		dto.cover ? repository.loadImage(dto.cover.url) : Promise.resolve(null)
-	]).then(results => {
-		book.material = new BookMaterial(results[0].map, results[0].bumpMap, results[0].specularMap, results[1]);
-	});
-
-	return book;
+    return buildBook(bookData, dto);
 }
 
 function buildLibrary(libraryData, dto) {
-    var library = new LibraryObject(dto, libraryData.geometry);
+    var material = new THREE.MeshPhongMaterial();
+    var library = new LibraryObject(dto, libraryData.geometry, material);
     library.add(new THREE.AmbientLight(0x333333));
 
     libraryData.asyncData
         .then(data => {
-            let texture = new THREE.Texture(data.map);
-            texture.needsUpdate = true;
-
-            library.material = new THREE.MeshPhongMaterial({map: texture});
-        });
+            library.material.map = new THREE.Texture(data.map);
+            library.material.map.needsUpdate = true;
+            library.material.needsUpdate = true;
+        })
+        .catch(error => console.error('Can not load textures for:', libraryData.name));
 
 	return library;
 }
 
 function buildSection(sectionData, dto) {
-    var section = new SectionObject(dto, sectionData.geometry);
+    var material = new THREE.MeshPhongMaterial();
+    var section = new SectionObject(dto, sectionData.geometry, material);
 
     sectionData.asyncData
         .then(data => {
-            let texture = new THREE.Texture(data.map);
-            texture.needsUpdate = true;
-
-            section.material = new THREE.MeshPhongMaterial({map: texture});
-        });
+            section.material.map = new THREE.Texture(data.map);
+            section.material.map.needsUpdate = true;
+            section.material.needsUpdate = true;
+        })
+        .catch(error => console.error('Can not load textures for:', sectionData.name));
 
 	return section;
+}
+
+function buildBook(bookData, dto) {
+    var book = new BookObject(dto, bookData.geometry, new BookMaterial());
+
+    Promise.all([
+        bookData.asyncData,
+        dto.cover ? repository.loadImage(dto.cover.url) : Promise.resolve(null)
+    ]).then(results => {
+        book.material = new BookMaterial(results[0].map, results[0].bumpMap, results[0].specularMap, results[1]);
+    }).catch(error => console.error('Can not load textures for:', bookData.name));
+
+    return book;
 }
