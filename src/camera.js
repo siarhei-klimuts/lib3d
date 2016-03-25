@@ -1,4 +1,5 @@
 /** @module camera 
+ * @protected
  * @description Represents camera
  */
 
@@ -6,21 +7,26 @@ import THREE from 'three';
 
 import CameraObject from './models/CameraObject';
 
+/** @protected */
 export var width = 300;
+/** @protected */
 export var height = 300;
 
 /**
+ * @protected
  * @type {THREE.PerspectiveCamera}
  */
 export var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 50);
 
 /**
+ * @protected
  * @type {CameraObject}
  */
 export var object = new CameraObject(camera);
 
 /**
  * Set new parent
+ * @protected
  * @param {THREE.Object3D} parent - new parent
  */
 export function setParent(parent) {
@@ -29,6 +35,7 @@ export function setParent(parent) {
 
 /**
  * Camera position
+ * @protected
  * @returns {THREE.Vector3}
  */
 export function getPosition() {
@@ -37,6 +44,7 @@ export function getPosition() {
 
 /**
  * Rotate camera by two axes
+ * @protected
  * @param {Number} x - horisontal angle
  * @param {Number} y - vertical angle
  */
@@ -53,6 +61,7 @@ export function rotate(x, y) {
 
 /**
  * Move camera forward or backward
+ * @protected
  * @param {Number} speed - move speed, 
  * use negative number for backward move
  */
@@ -68,6 +77,7 @@ export function go(speed) {
 
 /**
  * Look vector
+ * @protected
  * @returns {THREE.Vector3} camera look vector
  */
 export function getVector() {
@@ -79,6 +89,7 @@ export function getVector() {
 /**
  * Change aspect ratio of camera and screen size values,
  * call it all the time you cange viewport size
+ * @protected
  * @param {Number} w - viewport width
  * @param {Number} h - viewport height
  */

@@ -1,5 +1,6 @@
 {
     "source": "./src",
     "destination": "./docs",
-    "includeSource": true
+    "includeSource": true,
+    "access": ["public"]
 }
