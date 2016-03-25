@@ -14,7 +14,7 @@
     "build": "webpack --progress --colors",
     "postpublish": "npm run esdoc-publish && npm run jsdoc-publish",
     "esdoc-publish": "esdoc-uploader",
-    "jsdoc-publish": ""
+    "jsdoc-publish": "./jsdoc-publish.sh"
   },
   "repository": {
     "type": "git",
