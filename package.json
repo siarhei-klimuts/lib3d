@@ -8,11 +8,13 @@
     "dev": "webpack-dev-server",
     "test": "karma start --single-run",
     "test-watch": "karma start",
-    "doc": "esdoc -c ./esdoc.json",
+    "esdoc": "esdoc -c ./esdoc.json",
+    "jsdoc": "jsdoc -c ./jsdoc.json",
     "deploy": "npm run build && npm publish",
     "build": "webpack --progress --colors",
-    "postpublish": "npm run doc-publish",
-    "doc-publish": "esdoc-uploader"
+    "postpublish": "npm run esdoc-publish && npm run jsdoc-publish",
+    "esdoc-publish": "esdoc-uploader",
+    "jsdoc-publish": ""
   },
   "repository": {
     "type": "git",
@@ -46,6 +48,7 @@
     "file-loader": "^0.8.5",
     "isparta-loader": "^2.0.0",
     "jasmine-core": "^2.4.1",
+    "jsdoc": "^3.4.0",
     "jshint": "^2.8.0",
     "jshint-loader": "^0.8.3",
     "json-loader": "^0.5.4",
