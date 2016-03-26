@@ -1,16 +1,13 @@
-import THREE from 'three';
 import ModelData from './ModelData';
 
-const _DIR = 'libraries';
+const IMAGES = ['map', 'img'];
 
 export default class LibraryData extends ModelData {
 	constructor(data) {
-		super(data);
-
-        this._directory = _DIR;
-		this._loadedData = {
-			map: null,
-			img: null
-		};
+		super(data, IMAGES);
 	}
+
+    get map() {
+        return this._loadedData.map;
+    }
 }

@@ -1,16 +1,19 @@
 import THREE from 'three';
-import * as repository from 'repository';
 
 var jsonLoader = new THREE.JSONLoader();
 var _objectsRoot = 'objects';
 
 export default class ModelData {
-	constructor(data) {
+	constructor(data, imageKeys) {
 		this._data = data;
-		this._isLoaded = false;
-		this._directory = '';
-
+		this._loadedData = {};
 		this.geometry = jsonLoader.parse(data.model).geometry;
+
+		if (data.isDataURLs) {
+			this._loadDataURLs(imageKeys);
+		} else {
+			this._loadURLs(imageKeys);
+		}
 	}
 
 	get name() {
@@ -26,38 +29,44 @@ export default class ModelData {
 		this._geometry = geometry;
 	}
 
-	get asyncData() {
-		return this._isLoaded ?
-			Promise.resolve(this._loadedData) :
-			this.loadData().then(() => this._loadedData);
-	}
-
 	static set objectsRoot(path) {
 		_objectsRoot = path;
 	}
 
-	loadData() {
-		//TODO: avoid multiple save
-		var load = [];
-
-		for (var key in this._loadedData) {
-			load.push(this.loadImage(key));
-		}
-
-		return Promise.all(load)
-			.then(results => {
-				results.forEach(obj => {
-					this._loadedData[obj.key] = obj.image;
-				});
-				
-				this._isLoaded = true;
-			});
+	_loadURLs(imageKeys) {
+		imageKeys.forEach(key => this._loadImage(key));
 	}
 
-	loadImage(key) {
-		var url = `${_objectsRoot}/${this._directory}/${this.name}/${this._data[key]}`;
-
-		return repository.loadImage(url)
-			.then(image => ({image, key}));
+	_loadImage(key) {
+		var url = `${_objectsRoot}/${this._data[key]}`;
+		this._loadedData[key] = loadImage(url);
 	}
+
+	_loadDataURLs(imageKeys) {
+		imageKeys.forEach(key => this._buildDataUrlImage(key));
+	}
+
+	_buildDataUrlImage(key) {
+		let img = new Image();
+		img.src = this._data[key];
+
+		this._loadedData[key] = Promise.resolve(img);
+	}
+}
+
+export function loadImage(url) {
+    var img = new Image();
+        
+    img.crossOrigin = ''; 
+    img.src = url;
+
+    return new Promise((resolve, reject) => {
+    	img.onload = function() {
+    		resolve(img);
+    	};
+
+    	img.onerror = function(err) {
+    		reject(err);
+    	};
+    });
 }

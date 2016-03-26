@@ -1,18 +1,21 @@
-import THREE from 'three';
 import ModelData from './ModelData';
 
-const _DIR = 'books';
+const IMAGES = ['map', 'bumpMap', 'specularMap', 'img'];
 
 export default class BookData extends ModelData {
 	constructor(data) {
-		super(data);
-
-        this._directory = _DIR;
-		this._loadedData = {
-			map: null,
-			bumpMap: null,
-			specularMap: null,
-			img: null
-		};
+		super(data, IMAGES);
 	}
+
+    get map() {
+        return this._loadedData.map;
+    }
+
+    get bumpMap() {
+        return this._loadedData.bumpMap;
+    }
+
+    get specularMap() {
+        return this._loadedData.specularMap;
+    }
 }

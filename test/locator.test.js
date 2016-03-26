@@ -1,13 +1,9 @@
 import * as lib3d from 'lib3d';
-import 'objects/libraries/library_0001';
-import 'objects/sections/bookshelf_0001';
-
 import SectionObject from 'models/SectionObject';
 
 describe('locator.js', function () {
     var libraryDto = {
         id: 1,
-        model: 'library_0001',
         sections: [],
         userId: 1
     };
@@ -26,8 +22,7 @@ describe('locator.js', function () {
         function placeSection(id) {
             let dto = {
                 id: id,
-                libraryId: libraryDto.id,
-                model: 'bookshelf_0001'
+                libraryId: libraryDto.id
             };
             let position = lib3d.locator.placeSection(dto);
 

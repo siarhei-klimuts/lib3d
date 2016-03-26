@@ -31,7 +31,7 @@ module.exports = function(config) {
                 ],
                 loaders: [
                     {test: /\.js$/, exclude: /(node_modules)/, loader: 'babel'},
-                    {test: /\.(png|jpg)$/, loader: 'url-loader?limit=1024'},
+                    {test: /\.(png|jpg)$/, loader: 'url'},
                     {test: /\.(glsl|vs|fs)$/, loader: 'shader'},
                     {test: /\.json/, loader: 'json'}
                 ]

@@ -3,20 +3,28 @@ import BookData from 'data/models/BookData';
 import SectionData from 'data/models/SectionData';
 import LibraryData from 'data/models/LibraryData';
 
+import defaultBook from 'objects/books/default';
+import defaultSection from 'objects/sections/default';
+import defaultLibrary from 'objects/libraries/default';
+
 var books = new Map();
 var sections = new Map();
 var libraries = new Map();
 
+registerBook(defaultBook);
+registerSection(defaultSection);
+registerLibrary(defaultLibrary);
+
 export function getBookData(model) {
-    return books.get(model);
+    return books.get(model || defaultBook.name);
 }
 
 export function getSectionData(model) {
-    return sections.get(model);
+    return sections.get(model || defaultSection.name);
 }
 
 export function getLibraryData(model) {
-    return libraries.get(model);
+    return libraries.get(model || defaultLibrary.name);
 }
 
 /** Registers external book model
@@ -52,21 +60,4 @@ export function registerLibrary(data) {
  */
 export function setObjectsRoot(path) {
     ModelData.objectsRoot = path;
-}
-
-export function loadImage(url) {
-    var img = new Image();
-        
-    img.crossOrigin = ''; 
-    img.src = url;
-
-    return new Promise((resolve, reject) => {
-    	img.onload = function() {
-    		resolve(img);
-    	};
-
-    	img.onerror = function(err) {
-    		reject(err);
-    	};
-    });
 }

@@ -9,6 +9,7 @@ import LibraryObject from './models/LibraryObject';
 import BookObject from './models/BookObject';
 import SectionObject from './models/SectionObject';
 
+import * as ModelData from 'data/models/ModelData';
 import * as repository from './repository';
 
 /**
@@ -32,14 +33,14 @@ export function createLibrary(dto) {
  */
 export function createSection(dto) {
     var sectionData = repository.getSectionData(dto.model);
-    //TODO: separate params from dto
-    dto.data = sectionData.params;
 
     if (!sectionData) {
         console.error(`Section ${dto.model} not found.`);
         return null;
     }
 
+    //TODO: separate params from dto
+    dto.data = sectionData.params;
     return buildSection(sectionData, dto);
 }
 
@@ -63,9 +64,9 @@ function buildLibrary(libraryData, dto) {
     var library = new LibraryObject(dto, libraryData.geometry, material);
     library.add(new THREE.AmbientLight(0x333333));
 
-    libraryData.asyncData
-        .then(data => {
-            library.material.map = new THREE.Texture(data.map);
+    libraryData.map
+        .then(map => {
+            library.material.map = new THREE.Texture(map);
             library.material.map.needsUpdate = true;
             library.material.needsUpdate = true;
         })
@@ -78,9 +79,9 @@ function buildSection(sectionData, dto) {
     var material = new THREE.MeshPhongMaterial();
     var section = new SectionObject(dto, sectionData.geometry, material);
 
-    sectionData.asyncData
-        .then(data => {
-            section.material.map = new THREE.Texture(data.map);
+    sectionData.map
+        .then(map => {
+            section.material.map = new THREE.Texture(map);
             section.material.map.needsUpdate = true;
             section.material.needsUpdate = true;
         })
@@ -93,11 +94,15 @@ function buildBook(bookData, dto) {
     var book = new BookObject(dto, bookData.geometry, new BookMaterial());
 
     Promise.all([
-        bookData.asyncData,
-        dto.cover ? repository.loadImage(dto.cover.url) : Promise.resolve(null)
-    ]).then(results => {
-        book.material = new BookMaterial(results[0].map, results[0].bumpMap, results[0].specularMap, results[1]);
-    }).catch(error => console.error('Can not load textures for:', bookData.name));
+        bookData.map,
+        bookData.bumpMap,
+        bookData.specularMap,
+        dto.cover ? ModelData.loadImage(dto.cover.url) : null
+    ])
+    .then(results => {
+        book.material = new BookMaterial(results[0], results[1], results[2], results[3]);
+    })
+    .catch(error => console.error('Can not load textures for:', bookData.name));
 
     return book;
 }

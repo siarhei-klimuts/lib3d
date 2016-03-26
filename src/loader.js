@@ -10,8 +10,10 @@ export function loadLibrary(dto) {
     var dict = parseLibraryDto(dto);
     var library = factory.createLibrary(dto);
 
-    createSections(library, dict.sections);
-    createBooks(library, dict.books);
+    if (library) {
+        createSections(library, dict.sections);
+        createBooks(library, dict.books);
+    }
 
     return library;
 }

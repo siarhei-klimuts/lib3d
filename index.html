@@ -3,13 +3,8 @@
 <head>
     <title>lib3d example</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    <script src="/node_modules/lib3d-objects/dist/lib3d-obj.js"></script>
     <script src="/lib3d.js"></script>
-    <script src="dist/objects/books/book_0001/book_0001.js"></script>
-    <script src="dist/objects/books/book_0002/book_0002.js"></script>
-    <script src="dist/objects/books/book_0003/book_0003.js"></script>
-    <script src="dist/objects/sections/bookshelf_0001/bookshelf_0001.js"></script>
-    <script src="dist/objects/libraries/library_0001/library_0001.js"></script>
-    <script src="dist/objects/libraries/library_0002/library_0002.js"></script>
 </head>
 <body>
     <style type="text/css">
@@ -36,19 +31,26 @@
     </ul>
 
     <script type="text/javascript">
-        lib3d.setObjectsRoot('dist/objects');
-        lib3d.init(document.getElementById("LIBRARY"), 300, 300);
+        lib3d.setObjectsRoot('node_modules/lib3d-objects/dist');
+        lib3d.registerLibrary(lib3dObj.library_0001);
+        lib3d.registerLibrary(lib3dObj.library_0002);
+        lib3d.registerSection(lib3dObj.bookshelf_0001);
+        lib3d.registerBook(lib3dObj.book_0001);
+        lib3d.registerBook(lib3dObj.book_0002);
+        lib3d.registerBook(lib3dObj.book_0003);
+
+        lib3d.init(document.getElementById("LIBRARY"), 512, 512);
         lib3d.addLoop(lib3d.navigation.update);
 
         var library = lib3d.loadLibrary({
-            model: "library_0001",
+            model: "default",
             sections: [
                 {
                     id: 9,
                     pos_x: -0.4,
                     pos_y: 0,
                     pos_z: -3.5,
-                    model: "bookshelf_0001",
+                    model: "default",
                     books: [
                         {
                             "id": 91,
@@ -56,7 +58,7 @@
                             "pos_y": -0.069276,
                             "pos_z": -0.046377028631726,
                             "shelfId": 4,
-                            "model": "book_0001",
+                            "model": "default",
                             "sectionId": 9,
                             "userId": 1,
                             "cover": {
@@ -70,7 +72,7 @@
                             "pos_y": -0.069276,
                             "pos_z": -0.046377028631726,
                             "shelfId": 4,
-                            "model": "book_0001",
+                            "model": "default",
                             "sectionId": 9,
                             "userId": 1
                         }
