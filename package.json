@@ -61,6 +61,7 @@
     "karma-read-json": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
+    "lib3d-objects": "0.0.0",
     "lodash": "^3.10.1",
     "shader-loader": "^1.1.4",
     "three": "^0.71.0",

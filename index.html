@@ -3,8 +3,8 @@
 <head>
     <title>lib3d example</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
-    <script src="/node_modules/lib3d-objects/dist/lib3d-obj.js"></script>
     <script src="/lib3d.js"></script>
+    <script src="/node_modules/lib3d-objects/dist/lib3d-objects.js"></script>
 </head>
 <body>
     <style type="text/css">
@@ -32,12 +32,12 @@
 
     <script type="text/javascript">
         lib3d.setObjectsRoot('node_modules/lib3d-objects/dist');
-        lib3d.registerLibrary(lib3dObj.library_0001);
-        lib3d.registerLibrary(lib3dObj.library_0002);
-        lib3d.registerSection(lib3dObj.bookshelf_0001);
-        lib3d.registerBook(lib3dObj.book_0001);
-        lib3d.registerBook(lib3dObj.book_0002);
-        lib3d.registerBook(lib3dObj.book_0003);
+        lib3d.registerLibrary(lib3dObjects.library_0001);
+        lib3d.registerLibrary(lib3dObjects.library_0002);
+        lib3d.registerSection(lib3dObjects.bookshelf_0001);
+        lib3d.registerBook(lib3dObjects.book_0001);
+        lib3d.registerBook(lib3dObjects.book_0002);
+        lib3d.registerBook(lib3dObjects.book_0003);
 
         lib3d.init(document.getElementById("LIBRARY"), 512, 512);
         lib3d.addLoop(lib3d.navigation.update);
