@@ -10,14 +10,15 @@ import ShelfObject from 'models/ShelfObject';
 import SectionObject from 'models/SectionObject';
 import SelectorMeta from 'models/SelectorMeta';
 
-/** 
+/** Triggers object select
  * @alias module:lib3d.onMouseDown
  * @param {Object} event - mouse event
  */
 export function onMouseDown(event) {
     mouse.down(event); 
 
-    if (!environment.getLibrary() || preview.isActive()) return;
+    if (!environment.getLibrary() || preview.isActive()) 
+        return;
 
     if (mouse.keys[1] && !mouse.keys[3]) {
         focusObject();
@@ -25,7 +26,7 @@ export function onMouseDown(event) {
     }
 }
 
-/** 
+/** Triggers object change
  * @alias module:lib3d.onMouseUp
  * @param {Object} event - mouse event
  */
@@ -33,7 +34,8 @@ export function onMouseUp(event) {
     var key = mouse.keys[1];
     mouse.up(event);
         
-    if (preview.isActive()) return;
+    if (preview.isActive())
+        return;
 
     if (key) {
         if(selector.isSelectedEditable()) {
@@ -42,7 +44,7 @@ export function onMouseUp(event) {
     }
 }
 
-/** 
+/** Triggers object focus
  * @alias module:lib3d.onMouseMove
  * @param {Object} event - mouse event
  */
@@ -50,7 +52,8 @@ export function onMouseMove(event) {
     event.preventDefault();
     mouse.move(event);
 
-    if (!environment.getLibrary() || preview.isActive()) return;
+    if (!environment.getLibrary() || preview.isActive())
+        return;
 
     if(mouse.keys[1] && !mouse.keys[3]) {       
         moveObject();
