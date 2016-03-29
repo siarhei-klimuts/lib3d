@@ -26,7 +26,7 @@ class BaseObject extends THREE.Mesh {
 
 	/** @returns {string} Id from DTO */
 	getId() {
-		return this.dataObject && this.dataObject.id;
+		return this.dataObject && String(this.dataObject.id);
 	}
 
 	/** Sets position and rotation from DTO */

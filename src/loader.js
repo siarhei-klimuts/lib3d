@@ -3,10 +3,15 @@ import * as factory from './factory';
 /**
  * Loads library by an dto object
  * @alias module:lib3d.loadLibrary
- * @param {object} dto - full library structure
+ * @param {Object} dto - full library structure
  * @returns {LibraryObject} An instance of LibraryObject
  */
 export function loadLibrary(dto) {
+    if (!dto) {
+        console.error('There is nothing to load.');
+        return null;
+    }
+
     var dict = parseLibraryDto(dto);
     var library = factory.createLibrary(dto);
 
@@ -24,9 +29,17 @@ function parseLibraryDto(libraryDto) {
         books: {}
     };
 
+    if (!libraryDto.sections) {
+        return result;
+    }
+
     for(var sectionIndex = libraryDto.sections.length - 1; sectionIndex >= 0; sectionIndex--) {
         var sectionDto = libraryDto.sections[sectionIndex];
         result.sections[sectionDto.id] = {dto: sectionDto};
+
+        if (!sectionDto.books) {
+            continue;
+        }
 
         for(var bookIndex = sectionDto.books.length - 1; bookIndex >= 0; bookIndex--) {
             var bookDto = sectionDto.books[bookIndex];
