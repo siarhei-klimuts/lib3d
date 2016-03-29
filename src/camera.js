@@ -25,7 +25,13 @@ export var object = new CameraObject(camera);
  * @param {THREE.Object3D} parent - new parent
  */
 export function setParent(parent) {
-	parent.add(object);
+	if (object.parent) {
+		object.parent.remove(object);
+	}
+
+	if (parent) {
+		parent.add(object);
+	}
 }
 
 /**
