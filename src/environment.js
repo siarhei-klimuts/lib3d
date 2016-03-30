@@ -17,9 +17,10 @@ var loops = [];
  * @param {number} [height=300] - viewport height
  */
 export function init(canvas, width=300, height=300) {
-    scene = new THREE.Scene();
+    scene = scene || new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 4, 7);
-    renderer = new THREE.WebGLRenderer({
+    console.log('**', renderer);
+    renderer = renderer || new THREE.WebGLRenderer({
         canvas: canvas || undefined, 
         antialias: true
     });

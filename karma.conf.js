@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'test') {
     reporters.push('coveralls');
     browsers.push('Firefox');
 } else {
-    browsers.push('Chrome');
+    browsers.push('PhantomJS');
 }
 
 module.exports = function(config) {
@@ -18,6 +18,8 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
+            './node_modules/phantomjs-polyfill/bind-polyfill.js',
+            './node_modules/babel-polyfill/dist/polyfill.js',
             'test/**/*.js'
         ],
         preprocessors: {
