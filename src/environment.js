@@ -17,15 +17,19 @@ var loops = [];
  * @param {number} [height=300] - viewport height
  */
 export function init(canvas, width=300, height=300) {
-    scene = scene || new THREE.Scene();
-    scene.fog = new THREE.Fog(0x000000, 4, 7);
-    renderer = renderer || new THREE.WebGLRenderer({
-        canvas: canvas || undefined, 
-        antialias: true
-    });
+    if (!scene) {
+        scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x000000, 4, 7);
+    }
+
+    if (!renderer) {
+        renderer =  new THREE.WebGLRenderer({
+            canvas: canvas || undefined, 
+            antialias: true
+        });
+    }
 
     setSize(width, height);
-
     startRenderLoop();
 }
 
