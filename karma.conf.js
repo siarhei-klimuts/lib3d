@@ -8,7 +8,7 @@ var browsers = [];
 
 if (process.env.NODE_ENV === 'test') {
     reporters.push('coveralls');
-    browsers.push('Firefox');
+    browsers.push('Firefox', 'Chrome');
 } else {
     browsers.push('PhantomJS');
 }
