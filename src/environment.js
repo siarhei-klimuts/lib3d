@@ -19,7 +19,6 @@ var loops = [];
 export function init(canvas, width=300, height=300) {
     scene = scene || new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 4, 7);
-    console.log('**', renderer);
     renderer = renderer || new THREE.WebGLRenderer({
         canvas: canvas || undefined, 
         antialias: true
@@ -67,6 +66,10 @@ export function setLibrary(newLibrary) {
  */
 export function getLibrary() {
     return library;
+}
+
+export function setRenderer(newRenderer) {
+    renderer = newRenderer;
 }
 
 function startRenderLoop() {

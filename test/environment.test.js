@@ -4,6 +4,20 @@ import * as factory from 'factory';
 import * as locator from 'locator';
 
 describe('environment.js', function() {
+	beforeEach(function() {
+        environment.setRenderer({
+        	render: () => {},
+        	setSize: function(w, h) {
+        		this.domElement.width = w;
+        		this.domElement.height = h;
+        	},
+        	domElement: {
+        		width: 0,
+        		height: 0
+        	}
+        });
+	});
+
 	it('should init default environment', function() {
 		environment.init();
 

@@ -1,4 +1,3 @@
-import THREE from 'three';
 import * as lib3d from 'lib3d';
 import * as environment from 'environment';
 import SectionObject from 'models/SectionObject';
@@ -11,7 +10,10 @@ describe('locator.js', function () {
     };
 
     beforeEach(function () {
-        environment.renderer = new THREE.CanvasRenderer();
+        environment.setRenderer({
+            render: () => {},
+            setSize: function(w, h) {}
+        });
 
         var library = lib3d.loadLibrary(libraryDto);
         environment.init();

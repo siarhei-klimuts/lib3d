@@ -23,6 +23,11 @@ describe('controls.js', () => {
 
         library.addSection(section);
 
+        environment.setRenderer({
+            render: () => {},
+            setSize: function(w, h) {}
+        });
+        
         environment.init();
         environment.setLibrary(library);
 
