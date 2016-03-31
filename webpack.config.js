@@ -29,8 +29,7 @@ var config = {
         root: path.join(__dirname, 'src')
     },
     externals: {
-        'three': 'THREE',
-        'lodash': 'lodash'
+        'three': 'THREE'
     }
 };
 

@@ -3,7 +3,6 @@
  */
 
 import THREE from 'three';
-import _ from 'lodash';
 
 import GridCalculator from './gridCalculator';
 import BaseObject from './models/BaseObject';
@@ -115,7 +114,7 @@ function getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision) 
 				freeCellsCount++;
 
 				if (freeCellsCount === targetCellsSize) {
-					cells = _.range(freeCellsStart, freeCellsStart + freeCellsCount);
+					cells = range(freeCellsStart, freeCellsStart + freeCellsCount);
 					return getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB);
 				}
 			} else {
@@ -125,6 +124,17 @@ function getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision) 
 	}
 
 	return null;
+}
+
+function range(start, end) {
+	var result = [];
+	var i = start;
+
+	for (i; i < end; i++) {
+		result.push(i);
+	}
+
+	return result;
 }
 
 function getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB) {
