@@ -25,15 +25,6 @@ export var longY = null;
 
 var x = null;
 var y = null;
-//TODO: remove as not used
-var target = null;
-
-/** Last down or move event target
- * @returns target
- */
-export function getTarget() {
-	return target;
-}
 
 /** Update current state by onmousedown event
  * @param event
@@ -41,7 +32,6 @@ export function getTarget() {
 export function down(event) {
 	if(event) {
 		keys[event.which] = true;
-		target = event.target;
 		x = event.offsetX;
 		y = event.offsetY;
 		longX = getWidth() * 0.5 - x;
@@ -65,8 +55,6 @@ export function up(event) {
  */
 export function move(event) {
 	if(event) {
-		target = event.target;
-		//TODO x,y to offsetX, offsetY + update mouse.test.js
 		longX = getWidth() * 0.5 - x;
 		longY = getHeight() * 0.5 - y;
 		dX = event.offsetX - x;

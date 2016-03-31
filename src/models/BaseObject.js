@@ -108,9 +108,6 @@ class BaseObject extends THREE.Mesh {
 		}
 
 		this.position.setY(newPosition.y);
-
-		//TODO: remove as unused
-		this.changed = this.changed || result;
 		this.updateBoundingBox();
 
 		return result;
@@ -146,8 +143,6 @@ class BaseObject extends THREE.Mesh {
 			}
 		}
 
-		//TODO: remove as unused
-		this.changed = this.changed || (!isDemo && result);
 		this.updateBoundingBox();
 	}
 

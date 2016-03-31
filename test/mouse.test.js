@@ -3,16 +3,13 @@ import THREE from 'three';
 import * as camera from 'camera';
 import * as mouse from 'mouse';
 
-const TARGET = 'stub target';
 const KEY = 1;
 const MOUSE_DOWN_EVENT = {
 	which: KEY,
-	target: TARGET,
 	offsetX: 5,
 	offsetY: 6
 };
 const MOUSE_MOVE_EVENT = {
-	target: TARGET,
 	offsetX: 12,
 	offsetY: 14	
 };
@@ -38,7 +35,6 @@ describe('mouse.js', function() {
 		mouse.up(MOUSE_DOWN_EVENT);
 
 		expect(mouse.keys[KEY]).toBe(false);
-		expect(mouse.getTarget()).toBe(TARGET);
 	});
 
 	it('should find a box', function() {
@@ -52,7 +48,6 @@ describe('mouse.js', function() {
 
 		mouse.down({
 			which: KEY,
-			target: TARGET,
 			offsetX: 0,
 			offsetY: 0
 		});
