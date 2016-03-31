@@ -61,7 +61,7 @@ export function setLibrary(newLibrary) {
 
     if (newLibrary) {
         scene.add(newLibrary);
-        locator.centerObject(camera.object);
+        locator.centerObject(newLibrary, camera.object);
     }
 }
 

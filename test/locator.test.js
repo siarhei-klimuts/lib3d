@@ -30,7 +30,7 @@ describe('locator.js', function () {
                 id: id,
                 libraryId: libraryDto.id
             };
-            let position = lib3d.locator.placeSection(dto);
+            let position = lib3d.locator.placeSection(library, dto);
 
             if (!position) {
                 return false;

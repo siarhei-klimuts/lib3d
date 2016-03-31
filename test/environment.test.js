@@ -63,7 +63,7 @@ describe('environment.js', function() {
 		expect(environment.getLibrary()).toBe(library);
 		expect(camera.object.parent).toBe(library);
 		expect(locator.centerObject).toHaveBeenCalledTimes(1);
-		expect(locator.centerObject).toHaveBeenCalledWith(camera.object);
+		expect(locator.centerObject).toHaveBeenCalledWith(library, camera.object);
 	});
 
 	it('should set new library', function() {
@@ -81,7 +81,7 @@ describe('environment.js', function() {
 		expect(environment.getLibrary()).toBe(newLibrary);
 		expect(camera.object.parent).toBe(newLibrary);
 		expect(locator.centerObject).toHaveBeenCalledTimes(1);
-		expect(locator.centerObject).toHaveBeenCalledWith(camera.object);
+		expect(locator.centerObject).toHaveBeenCalledWith(newLibrary, camera.object);
 	});
 
 	it('should unset library', function() {
