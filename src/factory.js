@@ -43,8 +43,6 @@ export function createSection(dto) {
         return null;
     }
 
-    //TODO: separate params from dto
-    dto.data = sectionData.params;
     return buildSection(sectionData, dto);
 }
 
@@ -83,7 +81,7 @@ function buildLibrary(libraryData, dto) {
 
 function buildSection(sectionData, dto) {
     var material = new THREE.MeshPhongMaterial();
-    var section = new SectionObject(dto, sectionData.geometry, material);
+    var section = new SectionObject(dto, sectionData.params, sectionData.geometry, material);
 
     sectionData.map
         .then(map => {
