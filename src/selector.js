@@ -10,7 +10,6 @@ import SectionObject from './models/SectionObject';
 import * as environment from './environment';
 import * as preview from './preview';
 import * as highlight from './highlight';
-import * as events from './events';
 
 var selected = new SelectorMeta();
 var focused = new SelectorMeta();
@@ -24,6 +23,7 @@ export function getSelectedId() {
 
 /** Focus object
  * @param {lib3d.SelectorMeta} meta - object to focus
+ * @returns {boolean} true if focused object was changed
  */
 export function focus(meta) {
 	var obj;
@@ -36,22 +36,31 @@ export function focus(meta) {
 			highlight.focus(obj);
 		}
 
-		events.triggerFocus(obj);
+		return true;
 	}
+
+	return false;
 }
 
 /**
  * Make current focused object to be selected
+ * @returns {boolean} true if selected object was changed
  */
 export function selectFocused() {
-	select(focused);
+	return select(focused);
 }
 
 /** Select object
  * @param {lib3d.SelectorMeta} meta - object to select
+ * @returns {boolean} true if selected object was changed
  */
 export function select(meta) {
+	var isChanged = false;
 	var obj = getObject(meta);
+
+	if(!meta.equals(selected)) {
+		isChanged = true;
+	}
 	
 	unselect();
 	selected = meta;
@@ -59,7 +68,7 @@ export function select(meta) {
 	highlight.select(obj);
 	highlight.focus(null);
 
-	events.triggerSelect(obj);
+	return isChanged;
 }
 
 /**
