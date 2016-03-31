@@ -29,7 +29,7 @@ var config = {
         root: path.join(__dirname, 'src')
     },
     externals: {
-        'three': 'THREE'
+        'bundle!three': 'THREE'
     }
 };
 
