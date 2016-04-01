@@ -5,11 +5,8 @@ const HEIGTH = 1.5;
 
 export default class CameraObject extends BaseObject {
 	constructor(camera) {
-		var geometry = new THREE.Geometry();
-		geometry.boundingBox = new THREE.Box3(
-			new THREE.Vector3(-0.1, -1, -0.1), 
-			new THREE.Vector3(0.1, 1, 0.1)
-		);
+    	let geometry = new THREE.BoxGeometry(0.2, 2, 0.2);
+    	geometry.computeBoundingBox();
 
 		super(null, geometry);
 
