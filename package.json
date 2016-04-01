@@ -68,6 +68,6 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
-    "three": "^0.72.0"
+    "three": "^0.75.0"
   }
 }

@@ -4,8 +4,11 @@ import THREE from 'three';
 // var fragmentShader = require('./shaders/BookMaterial.fs');
 
 var vertexShader = `
+#define PHONG
+
 varying vec3 vViewPosition;
 varying vec3 vNormal;
+
 ${THREE.ShaderChunk.common}
 ${THREE.ShaderChunk.uv_pars_vertex}
 ${THREE.ShaderChunk.lights_phong_pars_vertex}
@@ -14,37 +17,47 @@ ${THREE.ShaderChunk.color_pars_vertex}
 void main() {
 	${THREE.ShaderChunk.uv_vertex}
 	${THREE.ShaderChunk.color_vertex}
+
 	${THREE.ShaderChunk.beginnormal_vertex}
 	${THREE.ShaderChunk.defaultnormal_vertex}
+	
 	vNormal = normalize(transformedNormal);
+
 	${THREE.ShaderChunk.begin_vertex}
 	${THREE.ShaderChunk.project_vertex}
+
 	vViewPosition = -mvPosition.xyz;
+
 	${THREE.ShaderChunk.worldpos_vertex}
 	${THREE.ShaderChunk.lights_phong_vertex}
 }`;
 
 var fragmentShader = `
+#define PHONG
+
 uniform vec3 diffuse;
-uniform float opacity;
 uniform vec3 emissive;
 uniform vec3 specular;
 uniform float shininess;
+uniform float opacity;
+
 uniform sampler2D coverMap;
 
 ${THREE.ShaderChunk.common}
 ${THREE.ShaderChunk.color_pars_fragment}
+${THREE.ShaderChunk.uv_pars_fragment}
 ${THREE.ShaderChunk.map_pars_fragment}
 ${THREE.ShaderChunk.fog_pars_fragment}
+${THREE.ShaderChunk.bsdfs}
+${THREE.ShaderChunk.lights_pars}
 ${THREE.ShaderChunk.lights_phong_pars_fragment}
 ${THREE.ShaderChunk.bumpmap_pars_fragment}
 ${THREE.ShaderChunk.specularmap_pars_fragment}
 
 void main() {
-	vec3 outgoingLight = vec3(0.0);
 	vec4 diffuseColor = vec4(diffuse, opacity);
-	vec3 totalAmbientLight = ambientLightColor;
-	vec3 totalEmissiveLight = emissive;
+	ReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );
+	vec3 totalEmissiveRadiance = emissive;
 	
 	vec4 baseColor;
 	vec4 testcolor = vec4(1.0, 1.0, 1.0, 1.0);
@@ -66,12 +79,17 @@ void main() {
 		diffuseColor = baseColor;
 	#endif
 
-	${THREE.ShaderChunk.specularmap_fragment}
-	${THREE.ShaderChunk.lights_phong_fragment}
 	${THREE.ShaderChunk.color_fragment}
-	${THREE.ShaderChunk.fog_fragment}
+	${THREE.ShaderChunk.specularmap_fragment}
+	${THREE.ShaderChunk.normal_fragment}
 
+	${THREE.ShaderChunk.lights_phong_fragment}
+	${THREE.ShaderChunk.lights_template}
+
+	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+	
+	${THREE.ShaderChunk.fog_fragment}
 }`;
 
 export default class BookMaterial extends THREE.ShaderMaterial {
@@ -93,7 +111,6 @@ export default class BookMaterial extends THREE.ShaderMaterial {
 		]);
 
 		uniforms.shininess = {type: 'f', value: 10};
-		defines.PHONG = true;
 
 		if(mapImage) {
 			map = new THREE.Texture(mapImage);
@@ -105,7 +122,7 @@ export default class BookMaterial extends THREE.ShaderMaterial {
 			bumpMap = new THREE.Texture(bumpMapImage);
 			bumpMap.needsUpdate = true;
 			uniforms.bumpMap = {type: 't', value: bumpMap};
-			uniforms.bumpScale.value = 0.005;
+			uniforms.bumpScale = {type: 'f', value: 0.005};
 		}
 
 		if(specularMapImage) {
