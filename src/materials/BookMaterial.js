@@ -7,16 +7,18 @@ var vertexShader = `
 varying vec3 vViewPosition;
 varying vec3 vNormal;
 ${THREE.ShaderChunk.common}
-${THREE.ShaderChunk.map_pars_vertex}
+${THREE.ShaderChunk.uv_pars_vertex}
 ${THREE.ShaderChunk.lights_phong_pars_vertex}
 ${THREE.ShaderChunk.color_pars_vertex}
 
 void main() {
-	${THREE.ShaderChunk.map_vertex}
+	${THREE.ShaderChunk.uv_vertex}
 	${THREE.ShaderChunk.color_vertex}
+	${THREE.ShaderChunk.beginnormal_vertex}
 	${THREE.ShaderChunk.defaultnormal_vertex}
 	vNormal = normalize(transformedNormal);
-	${THREE.ShaderChunk.default_vertex}
+	${THREE.ShaderChunk.begin_vertex}
+	${THREE.ShaderChunk.project_vertex}
 	vViewPosition = -mvPosition.xyz;
 	${THREE.ShaderChunk.worldpos_vertex}
 	${THREE.ShaderChunk.lights_phong_vertex}
@@ -41,6 +43,9 @@ ${THREE.ShaderChunk.specularmap_pars_fragment}
 void main() {
 	vec3 outgoingLight = vec3(0.0);
 	vec4 diffuseColor = vec4(diffuse, opacity);
+	vec3 totalAmbientLight = ambientLightColor;
+	vec3 totalEmissiveLight = emissive;
+	
 	vec4 baseColor;
 	vec4 testcolor = vec4(1.0, 1.0, 1.0, 1.0);
 	float eps = 0.004;
