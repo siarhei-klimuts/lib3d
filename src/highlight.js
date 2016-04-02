@@ -1,5 +1,5 @@
 import THREE from 'three';
-
+import glowDatUrl from './img/glow.png';
 import * as config from './config';
 
 var PLANE_ROTATION = Math.PI * 0.5;
@@ -12,12 +12,15 @@ var focusPlane;
 
 var init = function() {
 	var materialProperties = {
-		map: new THREE.ImageUtils.loadTexture(require('./img/glow.png')),
+		map: new THREE.Texture(new Image()),
 		transparent: true, 
 		side: THREE.DoubleSide,
 		blending: THREE.AdditiveBlending,
 		depthTest: false
 	};
+
+	materialProperties.map.image.src = glowDatUrl;
+	materialProperties.map.needsUpdate = true;
 
 	materialProperties.color = COLOR_SELECT;
 	var materialSelect = new THREE.MeshBasicMaterial(materialProperties);
