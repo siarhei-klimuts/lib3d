@@ -12,42 +12,42 @@ Display 3D library on your webpage
 ```
 npm install lib3d
 ```
-Then add lib3d and dependencies to your `index.html`,
-objects should be added after lib3d:
+Add three.js and lib3d to your `index.html`:
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+<script src="/node_modules/three/three.min.js"></script>
 <script src="/node_modules/lib3d/dist/lib3d.js"></script>
-<script src="/node_modules/lib3d/dist/objects/libraries/library_0001/library_0001.js"></script>
-<script src="/node_modules/lib3d/dist/objects/sections/bookshelf_0001/bookshelf_0001.js"></script>
-<script src="/node_modules/lib3d/dist/objects/books/book_0001/book_0001.js"></script>
 ```
 And add a canvas element to your page
 ```html
-<canvas id="LIBRARY"></canvas>
+<body>
+    <canvas id="LIBRARY"></canvas>
 ```
 
 ## Basic Usage
 ```js
-// Where textures will be loaded from
-lib3d.setObjectsRoot('https://raw.githubusercontent.com/Galiaf47/lib3d/master/src/objects');
-
 lib3d.init(document.getElementById("LIBRARY"), 300, 300);
 
-var library = lib3d.factory.createLibrary({model: 'library_0001'});
-var section = lib3d.factory.createSection({id: '3', model: 'bookshelf_0001'})
-var book1 = lib3d.factory.createBook({
-    id: '1',
-    model: 'book_0001', 
+var library = lib3d.factory.createLibrary({
+    id: '1', 
+    model: 'default'
+});
+var section = lib3d.factory.createSection({
+    id: '1', 
+    model: 'default'
+});
+var book = lib3d.factory.createBook({
+    id: '1'
+    model: 'default', 
     shelfId: '4', 
-    sectionId: '3'
+    sectionId: '1'
 });
 
 library.addSection(section);
-library.addBook(book1);
+library.addBook(book);
 lib3d.setLibrary(library);
 
 section.move(new THREE.Vector3(-0.3, 0, -2));
-book1.move(new THREE.Vector3(-0.1, -0.06, -0.046));
+book.move(new THREE.Vector3(-0.1, -0.06, -0.046));
 ```
 
 ## Documentation
