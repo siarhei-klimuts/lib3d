@@ -21,8 +21,7 @@ export default class BookMaterial extends THREE.ShaderMaterial {
 			THREE.UniformsLib.lights
 		]);
 
-		uniforms.shininess = {type: 'f', value: 30};
-		defines.PHONG = true;
+		uniforms.shininess = {type: 'f', value: 10};
 
 		if(mapImage) {
 			map = new THREE.Texture(mapImage);
@@ -34,7 +33,7 @@ export default class BookMaterial extends THREE.ShaderMaterial {
 			bumpMap = new THREE.Texture(bumpMapImage);
 			bumpMap.needsUpdate = true;
 			uniforms.bumpMap = {type: 't', value: bumpMap};
-			uniforms.bumpScale.value = 0.005;
+			uniforms.bumpScale = {type: 'f', value: 0.005};
 		}
 
 		if(specularMapImage) {

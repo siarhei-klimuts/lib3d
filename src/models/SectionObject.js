@@ -13,12 +13,12 @@ class SectionObject extends BaseObject {
      * @param {THREE.Geometry} geometry - Geometry for new section
      * @param {THREE.Material} material - Material for new section
      */
-	constructor(params, geometry, material) {
-		super(params, geometry, material);
+	constructor(dto, params, geometry, material) {
+		super(dto, geometry, material);
 
 		this.shelves = {};
-		for(var key in params.data.shelves) {
-			this.shelves[key] = new ShelfObject(params.data.shelves[key]); 
+		for(var key in params.shelves) {
+			this.shelves[key] = new ShelfObject(params.shelves[key]); 
 			this.add(this.shelves[key]);
 		}
 	}

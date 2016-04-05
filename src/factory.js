@@ -13,11 +13,13 @@ import * as ModelData from 'data/models/ModelData';
 import * as repository from './repository';
 
 /**
- * @param {Object} dto - Library dto
- * @returns {LibraryObject} An instance of LibraryObject
+ * @param {Object} [dto] - Library dto
+ * @param {string} [dto.model=default] - Library model name
+ * @returns {LibraryObject} Library from model specified
+ * in dto.model param
  */
 export function createLibrary(dto) {
-    var libraryData = repository.getLibraryData(dto.model);
+    var libraryData = repository.getLibraryData(dto && dto.model);
 
     if (!libraryData) {
         console.error(`Library ${dto.model} not found.`);
@@ -28,28 +30,30 @@ export function createLibrary(dto) {
 }
 
 /**
- * @param {Object} dto - Section dto
- * @returns {SectionObject} An instance of SectionObject
+ * @param {Object} [dto] - Section dto
+ * @param {string} [dto.model=default] - Section model name
+ * @returns {SectionObject} Section from model specified
+ * in dto.model param
  */
 export function createSection(dto) {
-    var sectionData = repository.getSectionData(dto.model);
+    var sectionData = repository.getSectionData(dto && dto.model);
 
     if (!sectionData) {
         console.error(`Section ${dto.model} not found.`);
         return null;
     }
 
-    //TODO: separate params from dto
-    dto.data = sectionData.params;
     return buildSection(sectionData, dto);
 }
 
 /**
- * @param {Object} dto - Book dto
- * @returns {BookObject} An instance of BookObject
+ * @param {Object} [dto] - Book dto
+ * @param {string} [dto.model=default] - Book model name
+ * @returns {BookObject} Book from model specified
+ * in dto.model param
  */
 export function createBook(dto) {
-	var bookData = repository.getBookData(dto.model);
+	var bookData = repository.getBookData(dto && dto.model);
 
     if (!bookData) {
         console.error(`Book ${dto.model} not found.`);
@@ -77,7 +81,7 @@ function buildLibrary(libraryData, dto) {
 
 function buildSection(sectionData, dto) {
     var material = new THREE.MeshPhongMaterial();
-    var section = new SectionObject(dto, sectionData.geometry, material);
+    var section = new SectionObject(dto, sectionData.params, sectionData.geometry, material);
 
     sectionData.map
         .then(map => {

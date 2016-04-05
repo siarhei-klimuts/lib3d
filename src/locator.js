@@ -3,13 +3,10 @@
  */
 
 import THREE from 'three';
-import _ from 'lodash';
 
 import GridCalculator from './gridCalculator';
 import BaseObject from './models/BaseObject';
 
-//TODO: remove environment
-import * as environment from './environment';
 import * as repository from './repository';
 import * as config from './config';
 
@@ -18,12 +15,12 @@ import * as config from './config';
  * @param {BaseObject} obj - an instance of BaseObject,
  * should have calculated bounding box
  */
-export function centerObject(obj) {
+export function centerObject(library, obj) {
 	var targetBB = obj.geometry.boundingBox;
-	var spaceBB = environment.getLibrary().geometry.boundingBox;
+	var spaceBB = library.geometry.boundingBox;
 
 	var matrixPrecision = new THREE.Vector3(targetBB.max.x - targetBB.min.x + 0.01, 0, targetBB.max.z - targetBB.min.z + 0.01);
-	var occupiedMatrix = getOccupiedMatrix(environment.getLibrary().children, matrixPrecision, obj);
+	var occupiedMatrix = getOccupiedMatrix(library.children, matrixPrecision, obj);
 	var freePosition = getFreeMatrix(occupiedMatrix, spaceBB, targetBB, matrixPrecision);		
 
 	obj.position.setX(freePosition.x);
@@ -37,12 +34,12 @@ export function centerObject(obj) {
  * 
  * @returns {THREE.Vector3} free position
  */
-export function placeSection(sectionDto) {
+export function placeSection(library, sectionDto) {
 	var sectionData = repository.getSectionData(sectionDto.model);
 	var sectionBB = sectionData.geometry.boundingBox;
-	var libraryBB = environment.getLibrary().geometry.boundingBox;
+	var libraryBB = library.geometry.boundingBox;
 	
-	return getFreePlace(environment.getLibrary().children, libraryBB, sectionBB);
+	return getFreePlace(library.children, libraryBB, sectionBB);
 }
 
 /** Find free space for book in provided shelf
@@ -115,7 +112,7 @@ function getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision) 
 				freeCellsCount++;
 
 				if (freeCellsCount === targetCellsSize) {
-					cells = _.range(freeCellsStart, freeCellsStart + freeCellsCount);
+					cells = range(freeCellsStart, freeCellsStart + freeCellsCount);
 					return getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB);
 				}
 			} else {
@@ -125,6 +122,17 @@ function getFreeMatrixCells(occupiedMatrix, spaceBB, targetBB, matrixPrecision) 
 	}
 
 	return null;
+}
+
+function range(start, end) {
+	var result = [];
+	var i = start;
+
+	for (i; i < end; i++) {
+		result.push(i);
+	}
+
+	return result;
 }
 
 function getPositionFromCells(cells, zIndex, matrixPrecision, spaceBB, targetBB) {

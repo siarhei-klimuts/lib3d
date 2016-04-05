@@ -1,4 +1,7 @@
 var path = require('path');
+
+var NODE_MODULES = path.join(__dirname + '/node_modules/');
+
 var reporters = ['progress', 'coverage'];
 var coverageReporter = {
     type: 'lcov',
@@ -8,9 +11,9 @@ var browsers = [];
 
 if (process.env.NODE_ENV === 'test') {
     reporters.push('coveralls');
-    browsers.push('Firefox');
+    browsers.push('Firefox', 'Chrome');
 } else {
-    browsers.push('Chrome');
+    browsers.push('PhantomJS');
 }
 
 module.exports = function(config) {
@@ -18,6 +21,8 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
+            './node_modules/phantomjs-polyfill/bind-polyfill.js',
+            './node_modules/babel-polyfill/dist/polyfill.js',
             'test/**/*.js'
         ],
         preprocessors: {
@@ -35,6 +40,9 @@ module.exports = function(config) {
                     {test: /\.(glsl|vs|fs)$/, loader: 'shader'},
                     {test: /\.json/, loader: 'json'}
                 ]
+            },
+            glsl: {
+                chunkPath: path.join(NODE_MODULES, 'three/src/renderers/shaders/ShaderChunk')
             },
             resolve: {
                 root: path.join(__dirname, 'src'),

@@ -25,7 +25,7 @@ export function enable(obj) {
 	if(obj) {
 		activate(true);
 
-		objClone = obj.clone();
+		objClone = new THREE.Mesh(obj.geometry, obj.material);
 		objClone.position.set(0, 0, 0);
 		container.add(objClone);
 	}

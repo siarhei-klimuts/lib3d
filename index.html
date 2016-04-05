@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>lib3d example</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
-    <script src="/lib3d.js"></script>
-    <script src="/node_modules/lib3d-objects/dist/lib3d-objects.js"></script>
+    <script src="node_modules/three/three.min.js"></script>
+    <script src="lib3d.js"></script>
+    <script src="node_modules/lib3d-objects/dist/lib3d-objects.js"></script>
 </head>
 <body>
     <style type="text/css">
@@ -26,6 +26,7 @@
         <li><button onmousedown="lib3d.navigation.goUp()">up</button></li>
         <li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
         <li><button onmousedown="createLibrary()">Create Library</button></li>
+        <li><button onmousedown="createSection();">Create Section</button></li>
         <li><button onmousedown="preview()">Preview</button></li>
         <li><button onmousedown="lib3d.preview.rotate(10);">Preview rotate</button></li>
     </ul>
@@ -125,6 +126,15 @@
             } else {
                 lib3d.preview.disable();
             }
+        }
+
+        function createSection() {
+            var dto = {model: 'default'};
+            var librar = lib3d.getLibrary();
+            var pos = lib3d.locator.placeSection(library, dto);
+            var section = lib3d.factory.createSection(dto);
+            library.addSection(section);
+            section.move(pos);
         }
     </script>
 </body>

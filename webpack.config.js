@@ -24,13 +24,15 @@ var config = {
             {test: /\.json/, loader: 'json'}
         ]
     },
+    glsl: {
+        chunkPath: path.join(NODE_MODULES, 'three/src/renderers/shaders/ShaderChunk')
+    },
     plugins: [],
     resolve: {
         root: path.join(__dirname, 'src')
     },
     externals: {
-        'three': 'THREE',
-        'lodash': 'lodash'
+        'THREE': 'three'
     }
 };
 

@@ -10,22 +10,27 @@ import ShelfObject from 'models/ShelfObject';
 import SectionObject from 'models/SectionObject';
 import SelectorMeta from 'models/SelectorMeta';
 
-/** 
+/** Triggers object select
  * @alias module:lib3d.onMouseDown
  * @param {Object} event - mouse event
  */
 export function onMouseDown(event) {
+    let focusedObject;
     mouse.down(event); 
 
-    if (!environment.getLibrary() || preview.isActive()) return;
+    if (!environment.getLibrary() || preview.isActive()) 
+        return;
 
     if (mouse.keys[1] && !mouse.keys[3]) {
-        focusObject();
-        selector.selectFocused();
+        focusedObject = focusObject();
+        
+        if (selector.selectFocused()) {
+            events.triggerSelect(focusedObject);
+        }   
     }
 }
 
-/** 
+/** Triggers object change
  * @alias module:lib3d.onMouseUp
  * @param {Object} event - mouse event
  */
@@ -33,7 +38,8 @@ export function onMouseUp(event) {
     var key = mouse.keys[1];
     mouse.up(event);
         
-    if (preview.isActive()) return;
+    if (preview.isActive())
+        return;
 
     if (key) {
         if(selector.isSelectedEditable()) {
@@ -42,7 +48,7 @@ export function onMouseUp(event) {
     }
 }
 
-/** 
+/** Triggers object focus
  * @alias module:lib3d.onMouseMove
  * @param {Object} event - mouse event
  */
@@ -50,7 +56,8 @@ export function onMouseMove(event) {
     event.preventDefault();
     mouse.move(event);
 
-    if (!environment.getLibrary() || preview.isActive()) return;
+    if (!environment.getLibrary() || preview.isActive())
+        return;
 
     if(mouse.keys[1] && !mouse.keys[3]) {       
         moveObject();
@@ -60,8 +67,9 @@ export function onMouseMove(event) {
 }
 
 function focusObject() {
-    var library = environment.getLibrary();
-    var intersected;
+    let library = environment.getLibrary();
+    let intersected;
+    let focusedObject;
 
     //TODO: optimize
     intersected = mouse.getIntersected(library.children, true, [BookObject]);
@@ -72,7 +80,13 @@ function focusObject() {
         intersected = mouse.getIntersected(library.children, true, [SectionObject]);
     }
 
-    selector.focus(new SelectorMeta(intersected ? intersected.object : null));
+    focusedObject = intersected ? intersected.object : null;
+    
+    if (selector.focus(new SelectorMeta(focusedObject))) {
+        events.triggerFocus(focusedObject);
+    }
+
+    return focusedObject;
 }
 
 function moveObject() {
