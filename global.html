@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: SelectorMeta</title>
+    <title>JSDoc: Global</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: SelectorMeta</h1>
+    <h1 class="page-title">Global</h1>
 
     
 
@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2>SelectorMeta</h2>
-        
-            <div class="class-description">Object metadata for selector module created from BaseObject</div>
+        <h2></h2>
         
     
 </header>
@@ -40,75 +38,7 @@
     
         
 
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="SelectorMeta"><span class="type-signature"></span>new SelectorMeta<span class="signature">(selectedObject)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
         
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>selectedObject</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="BaseObject.html">BaseObject</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Origin object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
 
 
 <dl class="details">
@@ -147,20 +77,7 @@
 </dl>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
     
     </div>
 
@@ -184,11 +101,110 @@
 
     
 
-    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(meta)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="getLibrary"><span class="type-signature"></span>getLibrary<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="LibraryObject.html">LibraryObject</a>}</span></h4>
 
     
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Current library
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LibraryObject.html">LibraryObject</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setLibrary"><span class="type-signature"></span>setLibrary<span class="signature">(newLibrary<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets library as current
+</div>
 
 
 
@@ -211,6 +227,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -223,23 +241,33 @@
 
         <tr>
             
-                <td class="name"><code>meta</code></td>
+                <td class="name"><code>newLibrary</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="SelectorMeta.html">SelectorMeta</a></span>
+<span class="param-type"><a href="LibraryObject.html">LibraryObject</a></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Metadata to compare</td>
+            <td class="description last">Library</td>
         </tr>
 
     
@@ -298,28 +326,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Origin object from target metadata matches current origin object
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -328,18 +334,94 @@
 
     
 
-    <h4 class="name" id="isEmpty"><span class="type-signature"></span>isEmpty<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="setSize"><span class="type-signature"></span>setSize<span class="signature">(width, height)</span><span class="type-signature"></span></h4>
 
     
 
 
 
+<div class="description">
+    Sets new canvas size, should be called after canvas size change
+</div>
 
 
 
 
 
 
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">New canvas width</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">New canvas height</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -393,28 +475,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    True if metadata created without origin object
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
