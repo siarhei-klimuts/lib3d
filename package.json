@@ -5,14 +5,15 @@
   "main": "./dist/lib3d.js",
   "scripts": {
     "push": "git push origin HEAD --follow-tags",
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --config webpack.config.dev.js",
     "test": "karma start --single-run",
     "test-watch": "karma start",
     "esdoc": "esdoc -c ./esdoc.json",
     "jsdoc": "jsdoc -c ./jsdoc.json",
-    "deploy": "npm run build && npm publish",
+    "deploy": "npm run build && npm run build-min && npm publish",
+    "postdeploy": "npm run esdoc-publish && npm run jsdoc-publish",
     "build": "webpack --progress --colors",
-    "postpublish": "npm run esdoc-publish && npm run jsdoc-publish",
+    "build-min": "webpack --config webpack.config.min.js",
     "esdoc-publish": "esdoc-uploader",
     "jsdoc-publish": "./jsdoc-publish.sh"
   },

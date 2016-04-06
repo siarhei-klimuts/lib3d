@@ -32,28 +32,13 @@ var config = {
         root: path.join(__dirname, 'src')
     },
     externals: {
-        'THREE': 'three'
+        'three': {
+            root: 'THREE',
+            commonjs2: "three",
+            commonjs: "three",
+            amd: "three"
+        }
     }
 };
-
-if (process.env.NODE_ENV === 'production') {
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
-    config.devtool = 'source-map';
-} else {
-    config.plugins.push(new webpack.HotModuleReplacementPlugin());
-    config.entry.app.unshift('webpack/hot/dev-server');
-    config.devtool = 'eval';
-    config.devServer = {
-        contentBase: '',
-        publicPath: '/',
-        historyApiFallback: false,
-        hot: true,
-        inline: true,
-        progress: true,
-        stats: 'errors-only',
-        host: 'localhost',
-        port: '8081'
-    };
-}
 
 module.exports = config;
