@@ -1,7 +1,7 @@
 checkout master
 merge dev
-version patch
-master push --follow-tags
+npm version patch
+git push origin master --follow-tags
 ***
 docs commit push
 master commit push
