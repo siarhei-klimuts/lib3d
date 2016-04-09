@@ -11,7 +11,7 @@
     "esdoc": "esdoc -c ./esdoc.json",
     "jsdoc": "jsdoc -c ./jsdoc.json",
     "deploy": "npm run build && npm run build-min && npm publish",
-    "postdeploy": "npm run esdoc-publish && npm run jsdoc-publish",
+    "postdeploy": "npm run esdoc-publish",
     "build": "webpack --progress --colors",
     "build-min": "webpack --config webpack.config.min.js",
     "esdoc-publish": "esdoc-uploader",
