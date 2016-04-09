@@ -1,5 +1,5 @@
-checkout master
-merge dev
+git checkout master
+git merge dev
 npm version patch
 git push origin master --follow-tags
 ***
