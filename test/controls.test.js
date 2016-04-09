@@ -40,7 +40,6 @@ describe('controls.js', () => {
             mouse.keys[1] = false;
             mouse.keys[3] = false;
             selector.select(new SelectorMetaDto());
-            selector.focus
         });
 
         it('should selectFocused', () => {
@@ -90,8 +89,8 @@ describe('controls.js', () => {
         it('should trigger object change', () => {
             mouse.keys[1] = true;
             controls.onMouseUp({which: 1});
-            expect(changedObject.getId()).toBe(SECTION_ID);
-            expect(triggered).toBe(true);
+            expect(changedObject).toBeNull();
+            expect(triggered).toBe(false);
         });
 
         it('should not trigger object change while preview', () => {
@@ -105,11 +104,18 @@ describe('controls.js', () => {
 
     describe('onMouseMove', () => {
         var focusedObject;
-        var triggered;
+        var changedObject;
+        var triggeredFocus;
+        var triggeredChange;
 
         events.onFocus(obj => {
             focusedObject = obj;
-            triggered = true;
+            triggeredFocus = true;
+        });
+
+        events.onObjectChange(obj => {
+            changedObject = obj;
+            triggeredChange = true;
         });
 
         beforeEach(() => {
@@ -117,7 +123,9 @@ describe('controls.js', () => {
 
             selector.focus(new SelectorMetaDto());
             focusedObject = null;
-            triggered = false;
+            changedObject = null;
+            triggeredFocus = false;
+            triggeredChange = false;
 
             spyOn(section, 'move').and.callThrough();
         });
@@ -130,19 +138,24 @@ describe('controls.js', () => {
                 preventDefault: () => {}
             });
 
-            expect(triggered).toBe(true);
+            expect(triggeredFocus).toBe(true);
+            expect(triggeredChange).toBe(false);
             expect(focusedObject.getId()).toBe(SECTION_ID);
+            expect(changedObject).toBeNull();
         });
 
         it('should move object under cursor', () => {
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
             mouse.keys[1] = true;
             mouse.keys[3] = false;
             controls.onMouseMove({
                 preventDefault: () => {}
             });
 
-            expect(triggered).toBe(false);
+            expect(triggeredFocus).toBe(false);
+            expect(triggeredChange).toBe(false);
             expect(focusedObject).toBeNull();
+            expect(changedObject).toBeNull();
             expect(section.move).toHaveBeenCalledTimes(1);
         });
 
@@ -154,8 +167,36 @@ describe('controls.js', () => {
                 preventDefault: () => {}
             });
 
-            expect(triggered).toBe(false);
+            expect(triggeredFocus).toBe(false);
+            expect(triggeredChange).toBe(false);
             expect(focusedObject).toBeNull();
+            expect(changedObject).toBeNull();
+        });
+
+        it('should trigger object change once', function() {
+            var event = {preventDefault: () => {}};
+
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
+            mouse.keys[1] = true;
+            mouse.keys[3] = false;
+
+            controls.onMouseMove(event);
+            controls.onMouseMove(event);
+            controls.onMouseMove(event);
+
+            expect(triggeredFocus).toBe(false);
+            expect(triggeredChange).toBe(false);
+            expect(focusedObject).toBeNull();
+            expect(changedObject).toBeNull();
+            expect(section.move).toHaveBeenCalledTimes(3);
+
+            controls.onMouseUp();
+
+            expect(triggeredFocus).toBe(false);
+            expect(triggeredChange).toBe(true);
+            expect(focusedObject).toBeNull();
+            expect(changedObject.getId()).toBe(SECTION_ID);
+            expect(section.move).toHaveBeenCalledTimes(3);
         });
     });
 });

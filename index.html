@@ -32,6 +32,9 @@
     </ul>
 
     <script type="text/javascript">
+        lib3d.events.onObjectChange(function (obj) {
+            console.log('Changed:', obj.getId());
+        });
         lib3d.setObjectsRoot('node_modules/lib3d-objects/dist');
         lib3d.registerLibrary(lib3dObjects.library_0001);
         lib3d.registerLibrary(lib3dObjects.library_0002);

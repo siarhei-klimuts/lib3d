@@ -10,13 +10,15 @@ import ShelfObject from 'models/ShelfObject';
 import SectionObject from 'models/SectionObject';
 import SelectorMeta from 'models/SelectorMeta';
 
+var objectMoved = false;
+
 /** Triggers object select
  * @alias module:lib3d.onMouseDown
  * @param {Object} event - mouse event
  */
 export function onMouseDown(event) {
     let focusedObject;
-    mouse.down(event); 
+    mouse.down(event);
 
     if (!environment.getLibrary() || preview.isActive()) 
         return;
@@ -35,16 +37,17 @@ export function onMouseDown(event) {
  * @param {Object} event - mouse event
  */
 export function onMouseUp(event) {
-    var key = mouse.keys[1];
     mouse.up(event);
         
     if (preview.isActive())
         return;
 
-    if (key) {
+    if (objectMoved) {
         if(selector.isSelectedEditable()) {
             events.triggerObjectChange(selector.getSelectedObject());
         }
+
+        objectMoved = false;
     }
 }
 
@@ -52,7 +55,7 @@ export function onMouseUp(event) {
  * @alias module:lib3d.onMouseMove
  * @param {Object} event - mouse event
  */
-export function onMouseMove(event) {    
+export function onMouseMove(event) {
     event.preventDefault();
     mouse.move(event);
 
@@ -109,6 +112,8 @@ function moveObject() {
 
             parent.worldToLocal(newPosition);
             selectedObject.move(newPosition);
+
+            objectMoved = true;
         }
     }
 }
