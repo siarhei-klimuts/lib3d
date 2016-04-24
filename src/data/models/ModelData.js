@@ -1,10 +1,7 @@
 import THREE from 'three';
 
 var jsonLoader = new THREE.JSONLoader();
-var imageLoader = new THREE.ImageLoader();
 var _objectsRoot = 'objects';
-
-imageLoader.setCrossOrigin('');
 
 export default class ModelData {
 	constructor(data, imageKeys) {
@@ -58,7 +55,12 @@ export default class ModelData {
 }
 
 export function loadImage(url) {
-    return new Promise((resolve, reject) => {
-        imageLoader.load(url, resolve, () => {}, reject);
-    });
+	var img = new Image();
+	img.crossOrigin = '';
+	img.src = url;
+
+	return new Promise((resolve, reject) => {
+		img.onload = () => resolve(img);
+		img.onerror = reject;
+	});
 }
