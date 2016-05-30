@@ -1,9 +1,5 @@
 import THREE from 'three';
 
-import defaultBook from 'objects/books/default';
-import defaultSection from 'objects/sections/default';
-import defaultLibrary from 'objects/libraries/default';
-
 import * as camera from './camera';
 import * as locator from './locator';
 
@@ -32,8 +28,6 @@ export function init(canvas, width=300, height=300) {
             antialias: true
         });
     }
-
-    registerDefaultObjects();
 
     setSize(width, height);
     startRenderLoop();
@@ -80,12 +74,6 @@ export function getLibrary() {
 
 export function setRenderer(newRenderer) {
     renderer = newRenderer;
-}
-
-function registerDefaultObjects() {
-    defaultLibrary.register();
-    defaultSection.register();
-    defaultBook.register();
 }
 
 function startRenderLoop() {

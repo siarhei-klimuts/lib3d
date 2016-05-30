@@ -12,6 +12,14 @@ import SectionObject from './models/SectionObject';
 import * as ModelData from 'data/models/ModelData';
 import * as repository from './repository';
 
+import defaultBook from 'objects/books/default';
+import defaultSection from 'objects/sections/default';
+import defaultLibrary from 'objects/libraries/default';
+
+defaultLibrary.register();
+defaultSection.register();
+defaultBook.register();
+
 /**
  * @param {Object} [dto] - Library dto
  * @param {string} [dto.model=default] - Library model name
@@ -66,7 +74,8 @@ export function createBook(dto) {
 function buildLibrary(libraryData, dto) {
     var materials = libraryData.materials || [new THREE.MeshPhongMaterial({name: 'default'})];
     var library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
-
+    library.add(new THREE.AmbientLight(0x333333)); 
+    
     materials.forEach(material => {
         let materialData = libraryData.getMaterialData(material.name);
         if (!materialData) {

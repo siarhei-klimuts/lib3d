@@ -18,7 +18,7 @@ export function getSectionData(model = DEFAULT_MODEL_NAME) {
 }
 
 export function getLibraryData(model = DEFAULT_MODEL_NAME) {
-    return libraries.get(model || DEFAULT_MODEL_NAME);
+    return libraries.get(model);
 }
 
 /** Registers external book model
