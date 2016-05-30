@@ -1,21 +1,19 @@
 import ModelData from './ModelData';
 
-const IMAGES = ['map', 'bumpMap', 'specularMap', 'img'];
-
 export default class BookData extends ModelData {
 	constructor(data) {
-		super(data, IMAGES);
+		super(data);
 	}
 
     get map() {
-        return this._loadedData.map;
+        return this.getImage('map');
     }
 
     get bumpMap() {
-        return this._loadedData.bumpMap;
+        return this.getImage('bumpMap');
     }
 
     get specularMap() {
-        return this._loadedData.specularMap;
+        return this.getImage('specularMap');
     }
 }

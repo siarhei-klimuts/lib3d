@@ -4,7 +4,6 @@
     <title>lib3d example</title>
     <script src="node_modules/three/three.min.js"></script>
     <script src="lib3d.js"></script>
-    <script src="node_modules/lib3d-objects/dist/lib3d-objects.js"></script>
 </head>
 <body>
     <style type="text/css">
@@ -35,13 +34,6 @@
         lib3d.events.onObjectChange(function (obj) {
             console.log('Changed:', obj.getId());
         });
-        lib3d.setObjectsRoot('node_modules/lib3d-objects/dist');
-        lib3d.registerLibrary(lib3dObjects.library_0001);
-        lib3d.registerLibrary(lib3dObjects.library_0002);
-        lib3d.registerSection(lib3dObjects.bookshelf_0001);
-        lib3d.registerBook(lib3dObjects.book_0001);
-        lib3d.registerBook(lib3dObjects.book_0002);
-        lib3d.registerBook(lib3dObjects.book_0003);
 
         lib3d.init(document.getElementById("LIBRARY"), 512, 512);
         lib3d.addLoop(lib3d.navigation.update);
@@ -88,23 +80,23 @@
         lib3d.setLibrary(library);
 
         function createLibrary() {
-            var library = lib3d.factory.createLibrary({model: 'library_0002'});
-            var section = lib3d.factory.createSection({id: '3', model: 'bookshelf_0001'})
+            var library = lib3d.factory.createLibrary({model: 'default'});
+            var section = lib3d.factory.createSection({id: '3', model: 'default'})
             var book1 = lib3d.factory.createBook({
                 id: '1',
-                model: 'book_0001', 
+                model: 'default', 
                 shelfId: '4', 
                 sectionId: '3'
             });
             var book2 = lib3d.factory.createBook({
                 id: '2',
-                model: 'book_0002', 
+                model: 'default', 
                 shelfId: '4', 
                 sectionId: '3'
             });
             var book3 = lib3d.factory.createBook({
                 id: '3',
-                model: 'book_0003', 
+                model: 'default', 
                 shelfId: '4', 
                 sectionId: '3'
             });

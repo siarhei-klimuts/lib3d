@@ -12,6 +12,9 @@ export {default as BookObject} from './models/BookObject';
 export {default as SectionObject} from './models/SectionObject';
 export {default as SelectorMeta} from './models/SelectorMeta';
 export {default as SelectorMetaDto} from './models/SelectorMetaDto';
+export {default as BookData} from './data/models/BookData';
+export {default as SectionData} from './data/models/SectionData';
+export {default as LibraryData} from './data/models/LibraryData';
 
 export {
 	locator,

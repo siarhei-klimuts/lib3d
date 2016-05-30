@@ -60,7 +60,6 @@
     "karma-read-json": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
-    "lib3d-objects": "0.0.0",
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "^2.1.7",
     "shader-loader": "^1.1.4",

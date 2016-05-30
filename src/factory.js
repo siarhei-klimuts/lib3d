@@ -64,17 +64,44 @@ export function createBook(dto) {
 }
 
 function buildLibrary(libraryData, dto) {
-    var material = new THREE.MeshPhongMaterial();
-    var library = new LibraryObject(dto, libraryData.geometry, material);
-    library.add(new THREE.AmbientLight(0x333333));
+    var materials = libraryData.materials || [new THREE.MeshPhongMaterial({name: 'default'})];
+    var library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
 
-    libraryData.map
-        .then(map => {
-            library.material.map = new THREE.Texture(map);
-            library.material.map.needsUpdate = true;
-            library.material.needsUpdate = true;
-        })
-        .catch(error => console.error('Can not load textures for:', libraryData.name));
+    materials.forEach(material => {
+        let materialData = libraryData.getMaterialData(material.name);
+        if (!materialData) {
+            return;
+        }
+
+        material.bumpScale = materialData.bumpScale;
+        material.shininess = materialData.shininess;
+
+        if (materialData.map) {
+            libraryData.getImage(materialData.map)
+                .then(img => {
+                    let texture =  new THREE.Texture(img);
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                    texture.needsUpdate = true;
+
+                    material.map = texture;
+                    material.needsUpdate = true;
+                })
+                .catch(error => console.error('Can not load textures for:', libraryData.name));     
+        }
+
+        if (materialData.bumpMap) {
+            libraryData.getImage(materialData.bumpMap)
+                .then(img => {
+                    let texture =  new THREE.Texture(img);
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                    texture.needsUpdate = true;
+                    
+                    material.bumpMap = texture;
+                    material.needsUpdate = true;
+                })
+                .catch(error => console.error('Can not load textures for:', libraryData.name));     
+        }
+    });
 
 	return library;
 }
