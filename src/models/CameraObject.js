@@ -12,7 +12,6 @@ export default class CameraObject extends BaseObject {
 
 		this.rotation.order = 'YXZ';
 		this.position.y = HEIGTH;
-		this.add(new THREE.PointLight(0x665555, 1.6, 10));
 		this.add(camera);
 	}
 	

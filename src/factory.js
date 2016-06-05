@@ -72,21 +72,24 @@ export function createBook(dto) {
 }
 
 function buildLibrary(libraryData, dto) {
-    var materials = libraryData.materials || [new THREE.MeshPhongMaterial({name: 'default'})];
+    var materials = libraryData.materials;
     var library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
-    library.add(new THREE.AmbientLight(0x333333)); 
+
+    libraryData.lights.forEach(
+        light => {
+            library.add(light);
+            // library.add(new THREE.PointLightHelper(light, 0.1)); 
+        }
+    );
     
-    materials.forEach(material => {
-        let materialData = libraryData.getMaterialData(material.name);
-        if (!materialData) {
+    materials.forEach((material, index) => {
+        let textures = libraryData.getTextures(index);
+        if (!textures) {
             return;
         }
 
-        material.bumpScale = materialData.bumpScale;
-        material.shininess = materialData.shininess;
-
-        if (materialData.map) {
-            libraryData.getImage(materialData.map)
+        if (textures.map) {
+            libraryData.getImage(textures.map)
                 .then(img => {
                     let texture =  new THREE.Texture(img);
                     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -98,8 +101,8 @@ function buildLibrary(libraryData, dto) {
                 .catch(error => console.error('Can not load textures for:', libraryData.name));     
         }
 
-        if (materialData.bumpMap) {
-            libraryData.getImage(materialData.bumpMap)
+        if (textures.bumpMap) {
+            libraryData.getImage(textures.bumpMap)
                 .then(img => {
                     let texture =  new THREE.Texture(img);
                     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;

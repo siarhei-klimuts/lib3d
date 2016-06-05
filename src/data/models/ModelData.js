@@ -10,7 +10,6 @@ export default class ModelData {
 
 		this._data = data;
 		this._loadedData = {};
-		this._materials = model.materials;
 		this.geometry = model.geometry;
 
 		if (data.isDataURLs) {
@@ -31,14 +30,6 @@ export default class ModelData {
 	set geometry(geometry) {
 		geometry.computeBoundingBox();
 		this._geometry = geometry;
-	}
-
-	get materials() {
-		return this._materials;
-	}
-
-	getMaterialData(material) {
-		return this._data.materials[material];
 	}
 
 	getImage(imageKey) {
