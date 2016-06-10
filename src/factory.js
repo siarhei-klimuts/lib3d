@@ -77,7 +77,7 @@ function buildLibrary(libraryData, dto) {
 
     libraryData.lights.forEach(
         light => {
-            library.add(light);
+            library.add(light.clone());
             // library.add(new THREE.PointLightHelper(light, 0.1)); 
         }
     );

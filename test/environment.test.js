@@ -22,7 +22,6 @@ describe('environment.js', function() {
 		environment.init();
 
 		expect(environment.scene).toBeTruthy();
-		expect(environment.scene.fog).toBeTruthy();
 
 		expect(environment.renderer).toBeTruthy();
 		expect(environment.renderer.domElement.width).toBe(300);

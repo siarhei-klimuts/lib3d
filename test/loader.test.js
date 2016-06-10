@@ -62,15 +62,19 @@ describe('loader.js', function() {
 
 		expect(library).not.toBeNull();
 		expect(library.dataObject).toBe(libraryDto);
-		expect(library.children.length).toBe(1);
+		expect(library.children.length).toBe(2);
 		expect(library.children[0].type).toBe('AmbientLight');
+		expect(library.children[1].type).toBe('PointLight');
 	});
 
 	it('should load library with empty section', function() {
 		libraryDto.sections.shift();
 		let library = loader.loadLibrary(libraryDto);
 
-		expect(library.children.length).toBe(2);
+		expect(library.children.length).toBe(3);
+		expect(library.children[0].type).toBe('AmbientLight');
+		expect(library.children[1].type).toBe('PointLight');
+		expect(library.children[2].type).toBe('Mesh');
 	});
 
 	it('should load full library', function() {
@@ -78,7 +82,7 @@ describe('loader.js', function() {
 		checkLibrary(library);
 	});
 
-	it('should load libbrary twice from the same dto #1', function() {
+	it('should load library twice from the same dto #1', function() {
 		let library1 = loader.loadLibrary(libraryDto);
 		let library2 = loader.loadLibrary(libraryDto);
 
@@ -99,8 +103,11 @@ describe('loader.js', function() {
 
 		expect(library.getId()).toBe('1');
 		expect(library.dataObject.model).toBe('default');
-		expect(library.children.length).toBe(3);
+		expect(library.children.length).toBe(4);
 		expect(library.children[0].type).toBe('AmbientLight');
+		expect(library.children[1].type).toBe('PointLight');
+		expect(library.children[2].type).toBe('Mesh');
+		expect(library.children[3].type).toBe('Mesh');
 
 		expect(section1.getId()).toBe('11');
 		expect(section1.dataObject.model).toBe('default');
