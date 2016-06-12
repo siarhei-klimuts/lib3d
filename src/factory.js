@@ -72,8 +72,9 @@ export function createBook(dto) {
 }
 
 function buildLibrary(libraryData, dto) {
-    var materials = libraryData.materials;
-    var library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
+    let materials = libraryData.materials;
+    let libraryTextures = libraryData.textures;
+    let library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
 
     libraryData.lights.forEach(
         light => {
@@ -83,7 +84,7 @@ function buildLibrary(libraryData, dto) {
     );
     
     materials.forEach((material, index) => {
-        let textures = libraryData.getTextures(index);
+        var textures = libraryTextures[material.name];
         if (!textures) {
             return;
         }

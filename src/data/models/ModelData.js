@@ -10,6 +10,7 @@ export default class ModelData {
 
 		this._data = data;
 		this._loadedData = {};
+		this._materials = model.materials;
 		this.geometry = model.geometry;
 
 		if (data.isDataURLs) {
@@ -21,6 +22,10 @@ export default class ModelData {
 
 	get name() {
 		return this._data.name;
+	}
+
+	get materials() {
+		return this._materials;
 	}
 
 	get geometry() {
