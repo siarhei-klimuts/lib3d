@@ -387,24 +387,24 @@ def parse_mtl(fname):
 
             # Diffuse texture
             # map_Kd texture_diffuse.jpg
-            if chunks[0] == "map_Kd" and len(chunks) == 2:
-                materials[identifier]["mapDiffuse"] = texture_relative_path(chunks[1])
+            # if chunks[0] == "map_Kd" and len(chunks) == 2:
+                # materials[identifier]["mapDiffuse"] = texture_relative_path(chunks[1])
 
             # Specular texture
             # map_Ks texture_specular.jpg
-            if chunks[0] == "map_Ks" and len(chunks) == 2:
-                materials[identifier]["mapSpecular"] = texture_relative_path(chunks[1])
+            # if chunks[0] == "map_Ks" and len(chunks) == 2:
+                # materials[identifier]["mapSpecular"] = texture_relative_path(chunks[1])
 
             # Alpha texture
             # map_d texture_alpha.png
-            if chunks[0] == "map_d" and len(chunks) == 2:
-                materials[identifier]["transparent"] = True
-                materials[identifier]["mapAlpha"] = texture_relative_path(chunks[1])
+            # if chunks[0] == "map_d" and len(chunks) == 2:
+                # materials[identifier]["transparent"] = True
+                # materials[identifier]["mapAlpha"] = texture_relative_path(chunks[1])
 
             # Bump texture
             # map_bump texture_bump.jpg or bump texture_bump.jpg
-            if (chunks[0] == "map_bump" or chunks[0] == "bump") and len(chunks) == 2:
-                materials[identifier]["mapBump"] = texture_relative_path(chunks[1])
+            # if (chunks[0] == "map_bump" or chunks[0] == "bump") and len(chunks) == 2:
+                # materials[identifier]["mapBump"] = texture_relative_path(chunks[1])
 
             # Split the remaining parameters.
             if len(chunks) > 1:
@@ -543,7 +543,7 @@ def parse_obj(fname):
                 mtllib = chunks[1]
 
             # Material
-            if chunks[0] == "usemtl":
+            if chunks[0] == "usemtl" and not chunks[1].endswith("_NONE"):
                 if len(chunks) > 1:
                     material = chunks[1]
                 else:
@@ -917,6 +917,7 @@ def generate_materials(mtl, materials):
             mtl[m]['DbgName'] = m
             mtl[m]['DbgIndex'] = index
             mtl[m]['DbgColor'] = generate_color(index)
+            mtl[m]['shading'] = "phong"
 
             if BAKE_COLORS:
                 mtl[m]['vertexColors'] = "face"
@@ -1585,6 +1586,9 @@ if __name__ == "__main__":
 
         elif o in ("-f", "--framestep"):
             FRAMESTEP = int(a)
+
+    if infile != "" and outfile == "":
+        outfile = os.path.join(os.path.dirname(infile), "..", "model.json")
 
     if infile == "" or outfile == "":
         usage()
