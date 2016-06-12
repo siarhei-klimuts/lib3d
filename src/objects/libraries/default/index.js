@@ -3,29 +3,41 @@ import THREE from 'three';
 import LibraryData from 'data/models/LibraryData';
 import * as repository from 'repository';
 
-import model from './model.json';
+import model from './model/model.json';
 
-import map from './map.png';
-import img from './img.jpg';
+import wall from './img/map.png';
+import img from './img/img.jpg';
 
 var params = {
     name: 'default',
     isDataURLs: true,
     model: model,
     images: {
-        map: map,
-        img: img
+        wall,
+        img
     }
 };
 
 var materials = [
+    //wall
     new THREE.MeshPhongMaterial({
+        color: 0xffffff,
         shininess: 0
+    }),
+    //roof
+    new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        shininess: 30
+    }),
+    //floor
+    new THREE.MeshPhongMaterial({
+        color: 0xE7BE75,
+        shininess: 50
     })
 ];
 
 var textures = [
-    {map: 'map'}
+    {map: 'wall'}
 ];
 
 var lights = [
