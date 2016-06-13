@@ -89,6 +89,8 @@ function buildLibrary(libraryData, dto) {
             return;
         }
 
+        material.emissive = textures.emissive;
+
         if (textures.map) {
             libraryData.getImage(textures.map)
                 .then(img => {
@@ -110,6 +112,7 @@ function buildLibrary(libraryData, dto) {
                     texture.needsUpdate = true;
                     
                     material.bumpMap = texture;
+                    material.bumpScale = textures.bumpScale;
                     material.needsUpdate = true;
                 })
                 .catch(error => console.error('Can not load textures for:', libraryData.name));     
