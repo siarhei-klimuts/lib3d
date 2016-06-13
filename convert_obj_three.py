@@ -543,7 +543,7 @@ def parse_obj(fname):
                 mtllib = chunks[1]
 
             # Material
-            if chunks[0] == "usemtl" and not chunks[1].endswith("_NONE"):
+            if chunks[0] == "usemtl" and not chunks[1].upper().endswith("NONE"):
                 if len(chunks) > 1:
                     material = chunks[1]
                 else:
