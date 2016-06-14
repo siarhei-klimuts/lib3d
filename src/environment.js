@@ -19,6 +19,7 @@ var loops = [];
 export function init(canvas, width=300, height=300) {
     if (!scene) {
         scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x90C3D4, 10, 50);
     }
 
     if (!renderer) {
@@ -26,6 +27,7 @@ export function init(canvas, width=300, height=300) {
             canvas: canvas || undefined, 
             antialias: true
         });
+        renderer.setClearColor(0x90C3D4);
     }
 
     setSize(width, height);
