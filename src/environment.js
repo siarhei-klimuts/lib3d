@@ -19,7 +19,7 @@ var loops = [];
 export function init(canvas, width=300, height=300) {
     if (!scene) {
         scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0x90C3D4, 10, 50);
+        scene.fog = new THREE.Fog(0x90C3D4, 10, 75);
     }
 
     if (!renderer) {
