@@ -30,8 +30,13 @@ var lights = [
 ];
 lights[1].position.set(0, 2, 0);
 
+var boundingBox = {
+    center: new THREE.Vector3(0, 1.15, 0),
+    radius: new THREE.Vector3(4, 1.15, 4)
+};
+
 function register() {
-    var libraryData = new LibraryData(params, textures, lights);
+    var libraryData = new LibraryData(params, textures, lights, boundingBox);
     repository.registerLibrary(libraryData);
 }
 

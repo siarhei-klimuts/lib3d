@@ -11,6 +11,7 @@ import SectionObject from './models/SectionObject';
 
 import * as ModelData from 'data/models/ModelData';
 import * as repository from './repository';
+import * as config from './config';
 
 import defaultBook from 'objects/books/default';
 import defaultSection from 'objects/sections/default';
@@ -76,10 +77,23 @@ function buildLibrary(libraryData, dto) {
     let libraryTextures = libraryData.textures;
     let library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
 
+    library.boundingBox = libraryData.boundingBox;
+    if (config.IS_DEBUG) {
+        let geometry = new THREE.BoxGeometry(
+            library.boundingBox.radius.x * 2,
+            library.boundingBox.radius.y * 2,
+            library.boundingBox.radius.z * 2);
+        let box = new THREE.Mesh(geometry);
+        box.position.copy(library.boundingBox.center);
+        library.add(new THREE.BoxHelper(box));
+    }
+
     libraryData.lights.forEach(
         light => {
             library.add(light.clone());
-            // library.add(new THREE.PointLightHelper(light, 0.1)); 
+            if (config.IS_DEBUG) {
+                library.add(new THREE.PointLightHelper(light, 0.1)); 
+            }
         }
     );
     
