@@ -1,0 +1,44 @@
+# Blender MTL File: 'model.blend'
+# Material Count: 4
+
+newmtl Floor
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.485150 0.799103 0.799103
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Roof
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.163551 0.163551 0.163551
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Wall
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /mnt/data/projects/lib3d/src/objects/libraries/default/img/map.png
+
+newmtl Wall_NONE
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd  /mnt/data/projects/lib3d/src/objects/libraries/default/img/map.png

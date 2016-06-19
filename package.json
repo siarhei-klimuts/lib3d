@@ -6,6 +6,7 @@
   "scripts": {
     "push": "git push origin HEAD --follow-tags",
     "dev": "webpack-dev-server --config webpack.config.dev.js",
+    "watch-obj": "onchange 'src/objects/**/obj/*.obj' -- python convert_obj_three.py -i {{changed}}",
     "test": "karma start --single-run",
     "test-watch": "karma start",
     "esdoc": "esdoc -c ./esdoc.json",
@@ -60,7 +61,7 @@
     "karma-read-json": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
-    "lib3d-objects": "0.0.0",
+    "onchange": "^2.5.0",
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "^2.1.7",
     "shader-loader": "^1.1.4",

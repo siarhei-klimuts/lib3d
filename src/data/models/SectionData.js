@@ -1,11 +1,9 @@
 import ModelData from './ModelData';
 
-const IMAGES = ['map', 'img'];
-
 export default class SectionData extends ModelData {
-	constructor(data) {
-		super(data, IMAGES);
-		this._params = data.data;
+	constructor(data, params) {
+		super(data);
+		this._params = params;
 	}
 
     get map() {

@@ -13,7 +13,7 @@ export var height = 300;
 /**
  * @type {THREE.PerspectiveCamera}
  */
-export var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 50);
+export var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 75);
 
 /**
  * @type {CameraObject}

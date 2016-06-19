@@ -1,16 +1,17 @@
 import THREE from 'three';
 
 var jsonLoader = new THREE.JSONLoader();
-var imageLoader = new THREE.ImageLoader();
 var _objectsRoot = 'objects';
 
-imageLoader.setCrossOrigin('');
-
 export default class ModelData {
-	constructor(data, imageKeys) {
+	constructor(data) {
+		let model = jsonLoader.parse(data.model);
+		let imageKeys = Object.keys(data.images);
+
 		this._data = data;
 		this._loadedData = {};
-		this.geometry = jsonLoader.parse(data.model).geometry;
+		this._materials = model.materials;
+		this.geometry = model.geometry;
 
 		if (data.isDataURLs) {
 			this._loadDataURLs(imageKeys);
@@ -23,6 +24,10 @@ export default class ModelData {
 		return this._data.name;
 	}
 
+	get materials() {
+		return this._materials;
+	}
+
 	get geometry() {
 		return this._geometry;
 	}
@@ -30,6 +35,10 @@ export default class ModelData {
 	set geometry(geometry) {
 		geometry.computeBoundingBox();
 		this._geometry = geometry;
+	}
+
+	getImage(imageKey) {
+		return this._loadedData[imageKey];
 	}
 
 	static set objectsRoot(path) {
@@ -41,7 +50,7 @@ export default class ModelData {
 	}
 
 	_loadImage(key) {
-		var url = `${_objectsRoot}/${this._data[key]}`;
+		var url = `${_objectsRoot}/${this._data.images[key]}`;
 		this._loadedData[key] = loadImage(url);
 	}
 
@@ -51,14 +60,19 @@ export default class ModelData {
 
 	_buildDataUrlImage(key) {
 		let img = new Image();
-		img.src = this._data[key];
+		img.src = this._data.images[key];
 
 		this._loadedData[key] = Promise.resolve(img);
 	}
 }
 
 export function loadImage(url) {
-    return new Promise((resolve, reject) => {
-        imageLoader.load(url, resolve, () => {}, reject);
-    });
+	var img = new Image();
+	img.crossOrigin = '';
+	img.src = url;
+
+	return new Promise((resolve, reject) => {
+		img.onload = () => resolve(img);
+		img.onerror = reject;
+	});
 }

@@ -11,6 +11,15 @@ import SectionObject from './models/SectionObject';
 
 import * as ModelData from 'data/models/ModelData';
 import * as repository from './repository';
+import * as config from './config';
+
+import defaultBook from 'objects/books/default';
+import defaultSection from 'objects/sections/default';
+import defaultLibrary from 'objects/libraries/default';
+
+defaultLibrary.register();
+defaultSection.register();
+defaultBook.register();
 
 /**
  * @param {Object} [dto] - Library dto
@@ -64,17 +73,65 @@ export function createBook(dto) {
 }
 
 function buildLibrary(libraryData, dto) {
-    var material = new THREE.MeshPhongMaterial();
-    var library = new LibraryObject(dto, libraryData.geometry, material);
-    library.add(new THREE.AmbientLight(0x333333));
+    let materials = libraryData.materials;
+    let libraryTextures = libraryData.textures;
+    let library = new LibraryObject(dto, libraryData.geometry, new THREE.MultiMaterial(materials));
 
-    libraryData.map
-        .then(map => {
-            library.material.map = new THREE.Texture(map);
-            library.material.map.needsUpdate = true;
-            library.material.needsUpdate = true;
-        })
-        .catch(error => console.error('Can not load textures for:', libraryData.name));
+    library.boundingBox = libraryData.boundingBox;
+    if (config.IS_DEBUG) {
+        let geometry = new THREE.BoxGeometry(
+            library.boundingBox.radius.x * 2,
+            library.boundingBox.radius.y * 2,
+            library.boundingBox.radius.z * 2);
+        let box = new THREE.Mesh(geometry);
+        box.position.copy(library.boundingBox.center);
+        library.add(new THREE.BoxHelper(box));
+    }
+
+    libraryData.lights.forEach(
+        light => {
+            library.add(light.clone());
+            if (config.IS_DEBUG) {
+                library.add(new THREE.PointLightHelper(light, 0.1)); 
+            }
+        }
+    );
+    
+    materials.forEach((material, index) => {
+        var textures = libraryTextures[material.name];
+        if (!textures) {
+            return;
+        }
+
+        material.emissive = textures.emissive;
+
+        if (textures.map) {
+            libraryData.getImage(textures.map)
+                .then(img => {
+                    let texture =  new THREE.Texture(img);
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                    texture.needsUpdate = true;
+
+                    material.map = texture;
+                    material.needsUpdate = true;
+                })
+                .catch(error => console.error('Can not load textures for:', libraryData.name));     
+        }
+
+        if (textures.bumpMap) {
+            libraryData.getImage(textures.bumpMap)
+                .then(img => {
+                    let texture =  new THREE.Texture(img);
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                    texture.needsUpdate = true;
+                    
+                    material.bumpMap = texture;
+                    material.bumpScale = textures.bumpScale;
+                    material.needsUpdate = true;
+                })
+                .catch(error => console.error('Can not load textures for:', libraryData.name));     
+        }
+    });
 
 	return library;
 }
