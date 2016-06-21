@@ -3,7 +3,7 @@
 git checkout master
 git merge dev
 npm version patch
-git push origin master
+git push origin master --follow-tags
 
 # jsdoc-publish.sh
 
