@@ -39,7 +39,7 @@ export function init(canvas, width=300, height=300) {
  * @param {number} height - New canvas height
  */
 export function setSize(width, height) {
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false);
     camera.setSize(width, height);
 }
 
