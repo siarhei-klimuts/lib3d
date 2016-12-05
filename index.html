@@ -80,7 +80,9 @@
         lib3d.setLibrary(library);
 
         function createLibrary() {
-            var library = lib3d.factory.createLibrary({model: 'default'});
+            var env = new lib3d.Environment();
+
+            var library2 = lib3d.factory.createLibrary({model: 'default'});
             var section = lib3d.factory.createSection({id: '3', model: 'default'})
             var book1 = lib3d.factory.createBook({
                 id: '1',
@@ -101,17 +103,20 @@
                 sectionId: '3'
             });
 
-            library.addSection(section);
-            library.addBook(book1);
-            library.addBook(book2);
-            library.addBook(book3);
+            library2.addSection(section);
+            library2.addBook(book1);
+            library2.addBook(book2);
+            library2.addBook(book3);
 
-            lib3d.setLibrary(library);
+            env.library = library2;
 
             section.move(new THREE.Vector3(-0.3, 0, -2));
             book1.move(new THREE.Vector3(-0.1, -0.06, -0.046));
             book2.move(new THREE.Vector3(0.0, -0.06, -0.046));
             book3.move(new THREE.Vector3(0.1, -0.06, -0.046));
+
+            document.body.append(env.canvas);
+            setTimeout(() => env.destructor(), 2000);
         }
 
         function preview() {
