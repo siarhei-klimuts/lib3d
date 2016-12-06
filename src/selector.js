@@ -25,14 +25,14 @@ export function getSelectedId() {
  * @param {lib3d.SelectorMeta} meta - object to focus
  * @returns {boolean} true if focused object was changed
  */
-export function focus(meta) {
+export function focus(meta, library = environment.getLibrary()) {
 	var obj;
 
 	if(!meta.equals(focused)) {
 		focused = meta;
 
 		if(!focused.isEmpty()) {
-			obj = getFocusedObject();
+			obj = getFocusedObject(library);
 			highlight.focus(obj);
 		}
 
@@ -46,17 +46,17 @@ export function focus(meta) {
  * Make current focused object to be selected
  * @returns {boolean} true if selected object was changed
  */
-export function selectFocused() {
-	return select(focused);
+export function selectFocused(library = environment.getLibrary()) {
+	return select(focused, library);
 }
 
 /** Select object
  * @param {lib3d.SelectorMeta} meta - object to select
  * @returns {boolean} true if selected object was changed
  */
-export function select(meta) {
+export function select(meta, library = environment.getLibrary()) {
 	var isChanged = false;
-	var obj = getObject(meta);
+	var obj = getObject(meta, library);
 
 	if(!meta.equals(selected)) {
 		isChanged = true;
@@ -86,24 +86,24 @@ export function unselect() {
 /**
  * @returns {lib3d.BaseObject} Selected object
  */
-export function getSelectedObject() {
-	return getObject(selected);
+export function getSelectedObject(library = environment.getLibrary()) {
+	return getObject(selected, library);
 }
 
 /**
  * @returns {lib3d.BaseObject} Focused object
  */
-export function getFocusedObject() {
-	return getObject(focused);
+export function getFocusedObject(library = environment.getLibrary()) {
+	return getObject(focused, library);
 }
 
-function getObject(meta) {
+function getObject(meta, library) {
 	var object;
 
 	if(!meta.isEmpty()) {
-		object = isShelf(meta) ? environment.getLibrary().getShelf(meta.parentId, meta.id)
-			: isBook(meta) ? environment.getLibrary().getBook(meta.id)
-			: isSection(meta) ? environment.getLibrary().getSection(meta.id)
+		object = isShelf(meta) ? library.getShelf(meta.parentId, meta.id)
+			: isBook(meta) ? library.getBook(meta.id)
+			: isSection(meta) ? library.getSection(meta.id)
 			: null;
 	}
 

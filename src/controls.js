@@ -16,17 +16,17 @@ var objectMoved = false;
  * @alias module:lib3d.onMouseDown
  * @param {Object} event - mouse event
  */
-export function onMouseDown(event) {
+export function onMouseDown(event, env = environment) {
     let focusedObject;
     mouse.down(event);
 
-    if (!environment.getLibrary() || preview.isActive()) 
+    if (!env.library || preview.isActive()) 
         return;
 
     if (mouse.keys[1] && !mouse.keys[3]) {
-        focusedObject = focusObject();
+        focusedObject = focusObject(env);
         
-        if (selector.selectFocused()) {
+        if (selector.selectFocused(env.library)) {
             events.triggerSelect(focusedObject);
         }   
     }
@@ -36,7 +36,7 @@ export function onMouseDown(event) {
  * @alias module:lib3d.onMouseUp
  * @param {Object} event - mouse event
  */
-export function onMouseUp(event) {
+export function onMouseUp(event, env = environment) {
     mouse.up(event);
         
     if (preview.isActive())
@@ -44,7 +44,7 @@ export function onMouseUp(event) {
 
     if (objectMoved) {
         if(selector.isSelectedEditable()) {
-            events.triggerObjectChange(selector.getSelectedObject());
+            events.triggerObjectChange(selector.getSelectedObject(env.library));
         }
 
         objectMoved = false;
@@ -55,22 +55,22 @@ export function onMouseUp(event) {
  * @alias module:lib3d.onMouseMove
  * @param {Object} event - mouse event
  */
-export function onMouseMove(event) {
+export function onMouseMove(event, env = environment) {
     event.preventDefault();
     mouse.move(event);
 
-    if (!environment.getLibrary() || preview.isActive())
+    if (!env.library || preview.isActive())
         return;
 
     if(mouse.keys[1] && !mouse.keys[3]) {       
-        moveObject();
+        moveObject(env);
     } else {
-        focusObject();
+        focusObject(env);
     }
 }
 
-function focusObject() {
-    let library = environment.getLibrary();
+function focusObject(env) {
+    let library = env.library;
     let intersected;
     let focusedObject;
 
@@ -85,21 +85,21 @@ function focusObject() {
 
     focusedObject = intersected ? intersected.object : null;
     
-    if (selector.focus(new SelectorMeta(focusedObject))) {
+    if (selector.focus(new SelectorMeta(focusedObject), library)) {
         events.triggerFocus(focusedObject);
     }
 
     return focusedObject;
 }
 
-function moveObject() {
+function moveObject(env) {
     var mouseVector;
     var newPosition;
     var parent;
     var selectedObject;
 
     if(selector.isSelectedEditable()) {
-        selectedObject = selector.getSelectedObject();
+        selectedObject = selector.getSelectedObject(env.library);
 
         if(selectedObject) {
             mouseVector = camera.getVector();   

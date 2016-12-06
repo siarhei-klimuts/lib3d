@@ -13,9 +13,13 @@
         }
     </style>
     <canvas id="LIBRARY"
-        onmousedown="lib3d.onMouseDown(event)"
-        onmouseup="lib3d.onMouseUp(event)"
-        onmousemove="lib3d.onMouseMove(event)"></canvas>
+        onmousedown="lib3d.onMouseDown(event, env);"
+        onmouseup="lib3d.onMouseUp(event, env)"
+        onmousemove="lib3d.onMouseMove(event, env)"></canvas>
+    <canvas id="LIBRARY2"
+        onmousedown="lib3d.onMouseDown(event, env2)"
+        onmouseup="lib3d.onMouseUp(event, env2)"
+        onmousemove="lib3d.onMouseMove(event, env2)"></canvas>
 
     <ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
         <li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
@@ -35,8 +39,10 @@
             console.log('Changed:', obj.getId());
         });
 
-        lib3d.init(document.getElementById("LIBRARY"), 512, 512);
-        lib3d.addLoop(lib3d.navigation.update);
+        var env = new lib3d.Environment(document.getElementById("LIBRARY"), 512, 512);
+        var env2;
+
+        env.addLoop(lib3d.navigation.update);
 
         var library = lib3d.loadLibrary({
             model: "default",
@@ -77,10 +83,10 @@
             ]
         });
 
-        lib3d.setLibrary(library);
+        env.library = library;
 
         function createLibrary() {
-            var env = new lib3d.Environment();
+            env2 = new lib3d.Environment(document.getElementById("LIBRARY2"));
 
             var library2 = lib3d.factory.createLibrary({model: 'default'});
             var section = lib3d.factory.createSection({id: '3', model: 'default'})
@@ -108,15 +114,15 @@
             library2.addBook(book2);
             library2.addBook(book3);
 
-            env.library = library2;
+            env2.library = library2;
 
             section.move(new THREE.Vector3(-0.3, 0, -2));
             book1.move(new THREE.Vector3(-0.1, -0.06, -0.046));
             book2.move(new THREE.Vector3(0.0, -0.06, -0.046));
             book3.move(new THREE.Vector3(0.1, -0.06, -0.046));
 
-            document.body.append(env.canvas);
-            setTimeout(() => env.destructor(), 2000);
+            document.body.append(env2.canvas);
+            // setTimeout(() => env2.destructor(), 2000);
         }
 
         function preview() {
