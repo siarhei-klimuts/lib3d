@@ -25,7 +25,7 @@ And add a canvas element to your page
 
 ## Basic Usage
 ```js
-lib3d.init(document.getElementById("LIBRARY"), 300, 300);
+var env2 = new lib3d.Environment(document.getElementById("LIBRARY"), 300, 300);
 
 var library = lib3d.factory.createLibrary({
     id: '1', 
@@ -44,7 +44,7 @@ var book = lib3d.factory.createBook({
 
 library.addSection(section);
 library.addBook(book);
-lib3d.setLibrary(library);
+env.library = library;
 
 section.move(new THREE.Vector3(-0.3, 0, -2));
 book.move(new THREE.Vector3(-0.1, -0.06, -0.046));
