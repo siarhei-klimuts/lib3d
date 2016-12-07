@@ -1,5 +1,4 @@
 import * as mouse from 'mouse';
-import * as selector from 'selector';
 import * as events from 'events';
 
 import BookObject from 'models/BookObject';
@@ -23,9 +22,9 @@ export function onMouseDown(event, env, isSideEffectsDisabled) {
     }
 
     if (mouse.keys[1] && !mouse.keys[3]) {
-        let focusedObject = focusObject(env.library, env.camera);
+        let focusedObject = focusObject(env.library, env.camera, env.selector);
 
-        if (selector.selectFocused(env.library)) {
+        if (env.selector.selectFocused()) {
             events.triggerSelect(focusedObject);
         }   
     }
@@ -45,8 +44,8 @@ export function onMouseUp(event, env, isSideEffectsDisabled) {
     }
 
     if (objectMoved) {
-        if(selector.isSelectedEditable()) {
-            events.triggerObjectChange(selector.getSelectedObject(env.library));
+        if(env.selector.isSelectedEditable()) {
+            events.triggerObjectChange(env.selector.getSelectedObject());
         }
 
         objectMoved = false;
@@ -68,13 +67,13 @@ export function onMouseMove(event, env, isSideEffectsDisabled) {
     }
 
     if(mouse.keys[1] && !mouse.keys[3]) {
-        moveObject(env.library, env.camera);
+        moveObject(env.library, env.camera, env.selector);
     } else {
-        focusObject(env.library, env.camera);
+        focusObject(env.library, env.camera, env.selector);
     }
 }
 
-function focusObject(library, camera) {
+function focusObject(library, camera, selector) {
     let intersected;
     let focusedObject;
 
@@ -93,14 +92,14 @@ function focusObject(library, camera) {
 
     focusedObject = intersected ? intersected.object : null;
     
-    if (selector.focus(new SelectorMeta(focusedObject), library)) {
+    if (selector.focus(new SelectorMeta(focusedObject))) {
         events.triggerFocus(focusedObject);
     }
 
     return focusedObject;
 }
 
-function moveObject(library, camera) {
+function moveObject(library, camera, selector) {
     if(!library || !camera || !selector.isSelectedEditable()) {
         return;
     }

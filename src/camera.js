@@ -1,12 +1,10 @@
-/** @module camera 
- * @ignore
- * @description Represents camera
- */
-
 import THREE from 'three';
 
 import CameraObject from './models/CameraObject';
 
+/**
+ * Represents camera
+ */
 export default class Camera {
     constructor(width, height) {
         this._camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 75);

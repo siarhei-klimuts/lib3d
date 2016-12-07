@@ -1,6 +1,5 @@
 import Environment from 'environment';
 import * as controls from 'controls';
-import * as selector from 'selector';
 import * as factory from 'factory';
 import * as events from 'events';
 import * as mouse from 'mouse';
@@ -14,6 +13,7 @@ describe('controls.js', () => {
     let intersected;
     let library;
     let env;
+    let selector;
 
     function getIntersected() {
         return intersected;
@@ -32,6 +32,7 @@ describe('controls.js', () => {
         
         env = new Environment();
         env.library = library;
+        selector = env.selector;
 
         spyOn(mouse, 'getIntersected').and.callFake(getIntersected);
     });
@@ -61,7 +62,7 @@ describe('controls.js', () => {
 
         it('should unselect object', () => {
             intersected = null;
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
 
             controls.onMouseDown({which: 1}, env);
 
@@ -81,7 +82,7 @@ describe('controls.js', () => {
         beforeEach(() => {
             mouse.keys[1] = false;
             mouse.keys[3] = false;
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
             changedObject = null;
             triggered = false;
         });
@@ -118,7 +119,7 @@ describe('controls.js', () => {
         });
 
         beforeEach(() => {
-            selector.focus(new SelectorMetaDto(), library);
+            selector.focus(new SelectorMetaDto());
             focusedObject = null;
             changedObject = null;
             triggeredFocus = false;
@@ -142,7 +143,7 @@ describe('controls.js', () => {
         });
 
         it('should move object under cursor', () => {
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
             mouse.keys[1] = true;
             mouse.keys[3] = false;
             controls.onMouseMove({
@@ -172,7 +173,7 @@ describe('controls.js', () => {
         it('should trigger object change once', function() {
             var event = {preventDefault: () => {}};
 
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
             mouse.keys[1] = true;
             mouse.keys[3] = false;
 

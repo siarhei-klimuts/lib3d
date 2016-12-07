@@ -1,7 +1,5 @@
 import THREE from 'three';
 
-import * as highlight from './highlight';
-
 /**
  * Closer look on books
  */
@@ -55,7 +53,6 @@ export default class Preview {
     /** @private */
     activate(value) {
         this.active = value;
-        highlight.enable(!this.active);
     }
 
     /** @private */

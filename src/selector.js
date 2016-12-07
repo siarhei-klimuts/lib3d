@@ -1,160 +1,181 @@
-/** @module lib3d.selector 
- * @description Helper for focusing and selecting objects
- */
-
 import SelectorMeta from './models/SelectorMeta';
 import ShelfObject from './models/ShelfObject';
 import BookObject from './models/BookObject';
 import SectionObject from './models/SectionObject';
 
-import * as highlight from './highlight';
+import Highlight from './highlight';
 
-var selected = new SelectorMeta();
-var focused = new SelectorMeta();
-
-/**
- * @returns {String} id of selected object
+/** 
+ * Helper for focusing and selecting objects
  */
-export function getSelectedId() {
-    return selected.id;
-}
+export default class Selector {
+    constructor() {
+        this.highlight = new Highlight();
+        this.selected = new SelectorMeta();
+        this.focused = new SelectorMeta();
+    }
 
-/** Focus object
- * @param {lib3d.SelectorMeta} meta - object to focus
- * @param {LibraryObject} library - library to search for objects
- * @returns {boolean} true if focused object was changed
- */
-export function focus(meta, library) {
-    var obj;
+    /** @type {lib3d.LibraryObject} */
+    get library() {
+        return this._library;
+    }
 
-    if(!meta.equals(focused)) {
-        focused = meta;
+    /** @type {lib3d.LibraryObject} */
+    set library(library) {
+        this._library = library;
+    }
 
-        if(!focused.isEmpty()) {
-            obj = getFocusedObject(library);
-            highlight.focus(obj);
+    /**
+     * @returns {String} id of selected object
+     */
+    getSelectedId() {
+        return this.selected.id;
+    }
+
+    /** Focus object
+     * @param {lib3d.SelectorMeta} meta - object to focus
+     * @returns {boolean} true if focused object was changed
+     */
+    focus(meta) {
+        var obj;
+
+        if(!meta.equals(this.focused)) {
+            this.focused = meta;
+
+            if(!this.focused.isEmpty()) {
+                obj = this.getFocusedObject();
+                this.highlight.focus(obj);
+            }
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 
-    return false;
-}
-
-/**
- * Make current focused object to be selected
- * @param {LibraryObject} library - library to search for objects
- * @returns {boolean} true if selected object was changed
- */
-export function selectFocused(library) {
-    return select(focused, library);
-}
-
-/** Select object
- * @param {lib3d.SelectorMeta} meta - object to select
- * @param {LibraryObject} library - library to search for objects
- * @returns {boolean} true if selected object was changed
- */
-export function select(meta, library) {
-    var isChanged = false;
-    var obj = getObject(meta, library);
-
-    if(!meta.equals(selected)) {
-        isChanged = true;
-    }
-    
-    unselect();
-    selected = meta;
-
-    highlight.select(obj);
-    highlight.focus(null);
-
-    return isChanged;
-}
-
-/**
- * Unselect current sellected object
- */
-export function unselect() {
-    if(!selected.isEmpty()) {
-        highlight.select(null);
-        selected = new SelectorMeta();
-    }
-}
-
-/**
- * @param {LibraryObject} library - library to search for objects
- * @returns {lib3d.BaseObject} Selected object
- */
-export function getSelectedObject(library) {
-    return getObject(selected, library);
-}
-
-/**
- * @param {LibraryObject} library - library to search for objects
- * @returns {lib3d.BaseObject} Focused object
- */
-export function getFocusedObject(library) {
-    return getObject(focused, library);
-}
-
-function getObject(meta, library) {
-    var object;
-
-    if(!meta.isEmpty()) {
-        object = isShelf(meta) ? library.getShelf(meta.parentId, meta.id)
-            : isBook(meta) ? library.getBook(meta.id)
-            : isSection(meta) ? library.getSection(meta.id)
-            : null;
+    /**
+     * Make current focused object to be selected
+     * @returns {boolean} true if selected object was changed
+     */
+    selectFocused() {
+        return this.select(this.focused);
     }
 
-    return object;
-}
+    /** Select object
+     * @param {lib3d.SelectorMeta} meta - object to select
+     * @returns {boolean} true if selected object was changed
+     */
+    select(meta) {
+        let isChanged = false;
+        let obj = this.getObject(meta);
 
-/**
- * @returns {Boolean} Is selected object can be edited
- */
-export function isSelectedEditable() {
-    return isSelectedBook() || isSelectedSection();
-}
+        if(!meta.equals(this.selected)) {
+            isChanged = true;
+        }
+        
+        this.unselect();
+        this.selected = meta;
 
-/**
- * @param {String} id - Book id
- * @returns {Boolean} True if selected object is book with given id
- */
-export function isBookSelected(id) {
-    return isBook(selected) && selected.id === id;
-}
+        this.highlight.select(obj);
+        this.highlight.focus(null);
 
-/**
- * @returns {Boolean} Is shelf selected
- */
-export function isSelectedShelf() {
-    return isShelf(selected);
-}
+        return isChanged;
+    }
 
-/**
- * @returns {Boolean} Is book selected
- */
-export function isSelectedBook() {
-    return isBook(selected);
-}
+    /**
+     * Unselect current sellected object
+     */
+    unselect() {
+        if(!this.selected.isEmpty()) {
+            this.highlight.select(null);
+            this.selected = new SelectorMeta();
+        }
+    }
 
-/**
- * @returns {Boolean} Is section selected
- */
-export function isSelectedSection() {
-    return isSection(selected);
-}
+    /**
+     * @returns {lib3d.BaseObject} Selected object
+     */
+    getSelectedObject() {
+        return this.getObject(this.selected);
+    }
 
-function isShelf(meta) {
-    return meta.type === ShelfObject.TYPE;
-}
+    /**
+     * @returns {lib3d.BaseObject} Focused object
+     */
+    getFocusedObject() {
+        return this.getObject(this.focused);
+    }
 
-function isBook(meta) {
-    return meta.type === BookObject.TYPE;
-}
+    /**
+     * @private
+     */
+    getObject(meta) {
+        let object;
 
-function isSection(meta) {
-    return meta.type === SectionObject.TYPE;
+        if(!meta.isEmpty() && this.library) {
+            object = this.isShelf(meta) ? this.library.getShelf(meta.parentId, meta.id)
+                : this.isBook(meta) ? this.library.getBook(meta.id)
+                : this.isSection(meta) ? this.library.getSection(meta.id)
+                : null;
+        }
+
+        return object;
+    }
+
+    /**
+     * @returns {Boolean} Is selected object can be edited
+     */
+    isSelectedEditable() {
+        return this.isSelectedBook() || this.isSelectedSection();
+    }
+
+    /**
+     * @param {String} id - Book id
+     * @returns {Boolean} True if selected object is book with given id
+     */
+    isBookSelected(id) {
+        return this.isBook(this.selected) && this.selected.id === id;
+    }
+
+    /**
+     * @returns {Boolean} Is shelf selected
+     */
+    isSelectedShelf() {
+        return this.isShelf(this.selected);
+    }
+
+    /**
+     * @returns {Boolean} Is book selected
+     */
+    isSelectedBook() {
+        return this.isBook(this.selected);
+    }
+
+    /**
+     * @returns {Boolean} Is section selected
+     */
+    isSelectedSection() {
+        return this.isSection(this.selected);
+    }
+
+    /**
+     * @private
+     */
+    isShelf(meta) {
+        return meta.type === ShelfObject.TYPE;
+    }
+
+    /**
+     * @private
+     */
+    isBook(meta) {
+        return meta.type === BookObject.TYPE;
+    }
+
+    /**
+     * @private
+     */
+    isSection(meta) {
+        return meta.type === SectionObject.TYPE;
+    }
 }

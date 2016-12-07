@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import Camera from './camera';
+import Selector from './selector';
 import * as locator from './locator';
 
 /*
@@ -19,6 +20,7 @@ class Environment {
         this.initRenderer(canvas);
         this.camera = new Camera(width, height);
         this.setSize(width, height);
+        this.selector = new Selector();
         this.loops = [];
         this.startRenderLoop();
     }
@@ -96,6 +98,7 @@ class Environment {
         this.scene.remove(this._library);
         this._library = library;
         this.camera.setParent(library);
+        this.selector.library = library;
 
         if (library) {
             this.scene.add(library);

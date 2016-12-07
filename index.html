@@ -30,7 +30,7 @@
         <li><button onmousedown="navigation.goDown()">down</button></li>
         <li><button onmousedown="createLibrary()">Create Library</button></li>
         <li><button onmousedown="createSection(env.library);">Create Section</button></li>
-        <li><button onmousedown="togglePreview(preview, env.library)">Preview</button></li>
+        <li><button onmousedown="togglePreview(preview, env.selector)">Preview</button></li>
         <li><button onmousedown="preview.rotate(10);">Preview rotate</button></li>
     </ul>
 
@@ -128,12 +128,14 @@
             // setTimeout(() => env2.destructor(), 2000);
         }
 
-        function togglePreview(preview, library) {
+        function togglePreview(preview, selector) {
             if (!preview.isActive()) {
-                var obj = lib3d.selector.getSelectedObject(library);
+                var obj = selector.getSelectedObject();
                 preview.enable(obj);
+                selector.highlight.enable(false);
             } else {
                 preview.disable();
+                selector.highlight.enable(true);
             }
         }
 

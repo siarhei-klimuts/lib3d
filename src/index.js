@@ -1,7 +1,6 @@
 /**  @module  lib3d */
 import * as locator from './locator';
 import * as mouse from './mouse';
-import * as selector from './selector';
 import * as factory from './factory';
 import * as events from './events';
 
@@ -20,7 +19,6 @@ export {default as Navigation} from './navigation';
 export {
 	locator,
 	mouse,
-	selector,
 	factory,
 	events
 };
