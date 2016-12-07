@@ -25,7 +25,7 @@ And add a canvas element to your page
 
 ## Basic Usage
 ```js
-var env2 = new lib3d.Environment(document.getElementById("LIBRARY"), 300, 300);
+var env = new lib3d.Environment(document.getElementById("LIBRARY"), 300, 300);
 
 var library = lib3d.factory.createLibrary({
     id: '1', 

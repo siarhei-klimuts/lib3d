@@ -1,9 +1,8 @@
-import * as environment from 'environment';
+import Environment from 'environment';
 import * as controls from 'controls';
 import * as selector from 'selector';
 import * as factory from 'factory';
 import * as events from 'events';
-import * as preview from 'preview';
 import * as mouse from 'mouse';
 
 import SelectorMetaDto from 'models/SelectorMetaDto';
@@ -11,25 +10,28 @@ import SectionObject from 'models/SectionObject';
 
 describe('controls.js', () => {
     const SECTION_ID = '123';
-    var section = factory.createSection({id: SECTION_ID});
-    var intersected;
+    let section = factory.createSection({id: SECTION_ID});
+    let intersected;
+    let library;
+    let env;
 
     function getIntersected() {
         return intersected;
     }
     
     beforeEach(() => {
-        let library = factory.createLibrary();
-
+        library = factory.createLibrary();
         library.addSection(section);
-
-        environment.setRenderer({
-            render: () => {},
-            setSize: function(w, h) {}
-        });
         
-        environment.init();
-        environment.setLibrary(library);
+        Environment.prototype.initRenderer = function() {
+            this.renderer = {
+                setSize: () => {},
+                render: () => {}
+            };
+        }
+        
+        env = new Environment();
+        env.library = library;
 
         spyOn(mouse, 'getIntersected').and.callFake(getIntersected);
     });
@@ -39,31 +41,29 @@ describe('controls.js', () => {
             intersected = {object: section};
             mouse.keys[1] = false;
             mouse.keys[3] = false;
-            selector.select(new SelectorMetaDto());
+            selector.select(new SelectorMetaDto(), library);
         });
 
         it('should selectFocused', () => {
-            controls.onMouseDown({which: 1});
+            controls.onMouseDown({which: 1}, env);
             expect(selector.getSelectedId()).toBe(SECTION_ID);
         });
 
         it('should not selectFocused', () => {
-            controls.onMouseDown({which: 3});
+            controls.onMouseDown({which: 3}, env);
             expect(selector.getSelectedId()).not.toBe(SECTION_ID);
         });
 
         it('should not selectFocused while preview', () => {
-            preview.enable(section);
-            controls.onMouseDown({which: 1});
-
+            controls.onMouseDown({which: 1}, env, true);
             expect(selector.getSelectedId()).not.toBe(SECTION_ID);
         });
 
         it('should unselect object', () => {
             intersected = null;
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
 
-            controls.onMouseDown({which: 1});
+            controls.onMouseDown({which: 1}, env);
 
             expect(selector.getSelectedId()).not.toBe(SECTION_ID);
         });
@@ -81,21 +81,20 @@ describe('controls.js', () => {
         beforeEach(() => {
             mouse.keys[1] = false;
             mouse.keys[3] = false;
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
             changedObject = null;
             triggered = false;
         });
 
         it('should trigger object change', () => {
             mouse.keys[1] = true;
-            controls.onMouseUp({which: 1});
+            controls.onMouseUp({which: 1}, env);
             expect(changedObject).toBeNull();
             expect(triggered).toBe(false);
         });
 
         it('should not trigger object change while preview', () => {
-            preview.enable(section);
-            controls.onMouseUp({which: 1});
+            controls.onMouseUp({which: 1}, env);
 
             expect(changedObject).toBeNull();
             expect(triggered).toBe(false);
@@ -119,9 +118,7 @@ describe('controls.js', () => {
         });
 
         beforeEach(() => {
-            preview.disable();
-
-            selector.focus(new SelectorMetaDto());
+            selector.focus(new SelectorMetaDto(), library);
             focusedObject = null;
             changedObject = null;
             triggeredFocus = false;
@@ -136,7 +133,7 @@ describe('controls.js', () => {
             mouse.keys[3] = false;
             controls.onMouseMove({
                 preventDefault: () => {}
-            });
+            }, env);
 
             expect(triggeredFocus).toBe(true);
             expect(triggeredChange).toBe(false);
@@ -145,12 +142,12 @@ describe('controls.js', () => {
         });
 
         it('should move object under cursor', () => {
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
             mouse.keys[1] = true;
             mouse.keys[3] = false;
             controls.onMouseMove({
                 preventDefault: () => {}
-            });
+            }, env);
 
             expect(triggeredFocus).toBe(false);
             expect(triggeredChange).toBe(false);
@@ -162,10 +159,9 @@ describe('controls.js', () => {
         it('should not focus object while preview', () => {
             mouse.keys[1] = false;
             mouse.keys[3] = false;
-            preview.enable(section);
             controls.onMouseMove({
                 preventDefault: () => {}
-            });
+            }, env, true);
 
             expect(triggeredFocus).toBe(false);
             expect(triggeredChange).toBe(false);
@@ -176,13 +172,13 @@ describe('controls.js', () => {
         it('should trigger object change once', function() {
             var event = {preventDefault: () => {}};
 
-            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID));
+            selector.select(new SelectorMetaDto(SectionObject.TYPE, SECTION_ID), library);
             mouse.keys[1] = true;
             mouse.keys[3] = false;
 
-            controls.onMouseMove(event);
-            controls.onMouseMove(event);
-            controls.onMouseMove(event);
+            controls.onMouseMove(event, env);
+            controls.onMouseMove(event, env);
+            controls.onMouseMove(event, env);
 
             expect(triggeredFocus).toBe(false);
             expect(triggeredChange).toBe(false);
@@ -190,7 +186,7 @@ describe('controls.js', () => {
             expect(changedObject).toBeNull();
             expect(section.move).toHaveBeenCalledTimes(3);
 
-            controls.onMouseUp();
+            controls.onMouseUp(null, env);
 
             expect(triggeredFocus).toBe(false);
             expect(triggeredChange).toBe(true);

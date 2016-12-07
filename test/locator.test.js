@@ -1,5 +1,4 @@
 import * as lib3d from 'lib3d';
-import * as environment from 'environment';
 import SectionObject from 'models/SectionObject';
 
 describe('locator.js', function () {
@@ -9,21 +8,23 @@ describe('locator.js', function () {
         userId: 1
     };
 
-    beforeEach(function () {
-        environment.setRenderer({
-            render: () => {},
-            setSize: function(w, h) {}
-        });
+    let env;
 
-        var library = lib3d.loadLibrary(libraryDto);
-        environment.init();
-        lib3d.setLibrary(library);
+    beforeEach(function () {
+        lib3d.Environment.prototype.initRenderer = function() {
+            this.renderer = {
+                setSize: () => {},
+                render: () => {}
+            };
+        }
+        env = new lib3d.Environment();
+        env.library = lib3d.loadLibrary(libraryDto);
     });
 
     it('should fill library by sections', function () {
         const MAX = 74;
         var placed = 0;
-        var library = lib3d.getLibrary();
+        var library = env.library;
 
         function placeSection(id) {
             let dto = {

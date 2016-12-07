@@ -15,7 +15,8 @@ class Environment {
      * @param {number} [height=300] - viewport height
      */
     constructor(canvas = undefined, width = 300, height = 300) {
-        this.init(canvas);
+        this.initScene();
+        this.initRenderer(canvas);
         this.camera = new Camera(width, height);
         this.setSize(width, height);
         this.loops = [];
@@ -38,10 +39,15 @@ class Environment {
     /*
      * @private
      */
-    init(canvas) {
+    initScene() {
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog(0x90C3D4, 10, 75);
+    }
 
+    /*
+     * @private
+     */
+    initRenderer(canvas) {
         this.renderer = new THREE.WebGLRenderer({
             canvas: canvas, 
             antialias: true

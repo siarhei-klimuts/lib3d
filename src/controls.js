@@ -23,8 +23,8 @@ export function onMouseDown(event, env, isSideEffectsDisabled) {
     }
 
     if (mouse.keys[1] && !mouse.keys[3]) {
-        let focusedObject = focusObject(env);
-        
+        let focusedObject = focusObject(env.library, env.camera);
+
         if (selector.selectFocused(env.library)) {
             events.triggerSelect(focusedObject);
         }   

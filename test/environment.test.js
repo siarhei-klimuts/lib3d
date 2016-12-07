@@ -1,101 +1,102 @@
-import * as environment from 'environment';
-import * as camera from 'camera';
+import Environment from 'environment';
 import * as factory from 'factory';
 import * as locator from 'locator';
 
 describe('environment.js', function() {
-	beforeEach(function() {
-        environment.setRenderer({
-        	render: () => {},
-        	setSize: function(w, h) {
-        		this.domElement.width = w;
-        		this.domElement.height = h;
-        	},
-        	domElement: {
-        		width: 0,
-        		height: 0
-        	}
-        });
-	});
+    beforeEach(function() {
+        Environment.prototype.initRenderer = function() {
+            this.renderer = {
+                setSize: function(w, h) {
+                    this.domElement.width = w;
+                    this.domElement.height = h;
+                },
+                render: () => {},
+                domElement: {
+                    width: 0,
+                    height: 0
+                }
+            };
+        }
+    });
 
-	it('should init default environment', function() {
-		environment.init();
+    it('should init default environment', function() {
+        let env = new Environment();
 
-		expect(environment.scene).toBeTruthy();
+        expect(env.scene).toBeTruthy();
 
-		expect(environment.renderer).toBeTruthy();
-		expect(environment.renderer.domElement.width).toBe(300);
-		expect(environment.renderer.domElement.height).toBe(300);
+        expect(env.renderer).toBeTruthy();
+        expect(env.renderer.domElement.width).toBe(300);
+        expect(env.renderer.domElement.height).toBe(300);
 
-		expect(camera.width).toBe(300);
-		expect(camera.height).toBe(300);
-	});
+        expect(env.camera.width).toBe(300);
+        expect(env.camera.height).toBe(300);
+    });
 
-	it('should set new size', function() {
-		environment.init(null, 500, 450);
+    it('should set new size', function() {
+        let env = new Environment(null, 500, 450);
 
-		expect(environment.renderer.domElement.width).toBe(500);
-		expect(environment.renderer.domElement.height).toBe(450);
+        expect(env.renderer.domElement.width).toBe(500);
+        expect(env.renderer.domElement.height).toBe(450);
 
-		expect(camera.width).toBe(500);
-		expect(camera.height).toBe(450);
-	});
+        expect(env.camera.width).toBe(500);
+        expect(env.camera.height).toBe(450);
+    });
 
-	it('should add loop', function(done) {
-		let callback;
-		window.requestAnimationFrame = fn => callback = fn;
+    it('should add loop', function(done) {
+        let callback
+        window.requestAnimationFrame = fn => callback = fn;
 
-		environment.init();
-		environment.addLoop(() => {done()});
+        let env = new Environment();
+        env.addLoop(() => {done()});
 
-		callback();
-	});
+        callback();
+    });
 
-	it('should set library', function() {
-		let library = factory.createLibrary();
-		environment.init();
+    it('should set library', function() {
+        let library = factory.createLibrary();
+        let env = new Environment();
 
-		spyOn(locator, 'centerObject').and.callThrough();
-		environment.setLibrary(library);
+        spyOn(locator, 'centerObject').and.callThrough();
+        env.library = library;
 
-		expect(library.parent).toBe(environment.scene);
-		expect(environment.getLibrary()).toBe(library);
-		expect(camera.object.parent).toBe(library);
-		expect(locator.centerObject).toHaveBeenCalledTimes(1);
-		expect(locator.centerObject).toHaveBeenCalledWith(library, camera.object);
-	});
+        expect(library.parent).toBe(env.scene);
+        expect(env.library).toBe(library);
+        expect(env.camera.object.parent).toBe(library);
+        expect(locator.centerObject).toHaveBeenCalledTimes(1);
+        expect(locator.centerObject).toHaveBeenCalledWith(library, env.camera.object);
+    });
 
-	it('should set new library', function() {
-		let library = factory.createLibrary();
-		let newLibrary = factory.createLibrary();
+    it('should set new library', function() {
+        let library = factory.createLibrary();
+        let newLibrary = factory.createLibrary();
 
-		environment.init();
-		environment.setLibrary(library);
+        let env = new Environment();
+        env.library = library;;
 
-		spyOn(locator, 'centerObject').and.callThrough();
-		environment.setLibrary(newLibrary);
+        spyOn(locator, 'centerObject').and.callThrough();
+        env.library = newLibrary;
 
-		expect(library.parent).toBeFalsy();
-		expect(newLibrary.parent).toBe(environment.scene);
-		expect(environment.getLibrary()).toBe(newLibrary);
-		expect(camera.object.parent).toBe(newLibrary);
-		expect(locator.centerObject).toHaveBeenCalledTimes(1);
-		expect(locator.centerObject).toHaveBeenCalledWith(newLibrary, camera.object);
-	});
+        expect(library.parent).toBeFalsy();
+        expect(newLibrary.parent).toBe(env.scene);
+        expect(env.library).toBe(newLibrary);
+        expect(env.camera.object.parent).toBe(newLibrary);
+        expect(locator.centerObject).toHaveBeenCalledTimes(1);
+        expect(locator.centerObject).toHaveBeenCalledWith(newLibrary, env.camera.object);
+    });
 
-	it('should unset library', function() {
-		let library = factory.createLibrary();
-		let centerObjectCalled = false;
+    it('should unset library', function() {
+        let library = factory.createLibrary();
+        let centerObjectCalled = false;
 
-		environment.init();
-		environment.setLibrary(library);
+        let env = new Environment();
+        env.library = library;
 
-		spyOn(locator, 'centerObject').and.callFake(() => centerObjectCalled = true);
-		environment.setLibrary();
+        spyOn(locator, 'centerObject').and.callFake(() => centerObjectCalled = true);
+        env.library = null;;
 
-		expect(library.parent).toBeFalsy();
-		expect(environment.getLibrary()).toBeFalsy();
-		expect(camera.object.parent).toBeFalsy();
-		expect(centerObjectCalled).toBe(false);
-	});
+        expect(library.parent).toBeFalsy();
+        expect(env.library).toBeFalsy();
+        expect(env.camera.object.parent).toBeFalsy();
+        expect(centerObjectCalled).toBe(false);
+    });
 });
