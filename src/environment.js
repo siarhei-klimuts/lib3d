@@ -1,21 +1,30 @@
 import THREE from 'three';
 
-import * as camera from './camera';
+import Camera from './camera';
 import * as locator from './locator';
 
-/**
- * @deprecated
+/*
+ * Base class to hold library and manipulate it, accept or provide canvas
+ * Responsible for context initialization, render loop, canvas resize, scene update
+ * Use canvas with padding: 0 to avoid mouse coordinates issues
  */
-let environment;
-
 class Environment {
+    /**
+     * @param {canvas} [canvas] - chould be provided for output
+     * @param {number} [width=300] - viewport width
+     * @param {number} [height=300] - viewport height
+     */
     constructor(canvas = undefined, width = 300, height = 300) {
         this.init(canvas);
+        this.camera = new Camera(width, height);
         this.setSize(width, height);
         this.loops = [];
         this.startRenderLoop();
     }
 
+    /**
+     * Call this before removing an instance of Environment
+     */
     destructor() {
         //TODO: make sure that it cancels ONLY current instance's loop
         cancelAnimationFrame(this.renderLoopId);
@@ -26,6 +35,9 @@ class Environment {
         this.renderer = null;
     }
 
+    /*
+     * @private
+     */
     init(canvas) {
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog(0x90C3D4, 10, 75);
@@ -37,87 +49,60 @@ class Environment {
         this.renderer.setClearColor(0x90C3D4);
     }
 
+    /** Sets new canvas size, should be called after canvas size change
+     * @param {number} width - New canvas width
+     * @param {number} height - New canvas height
+     */
     setSize(width, height) {
         this.renderer.setSize(width, height, false);
-        camera.setSize(width, height);
+        this.camera.setSize(width, height);
     }
 
+    /**
+     * @private
+     */
     startRenderLoop() {
-        this.renderer.render(this.scene, camera.camera);
+        this.renderer.render(this.scene, this.camera.camera);
         this.loops.forEach(func => func());
 
         this.renderLoopId = requestAnimationFrame(this.startRenderLoop.bind(this));
     }
 
+    /**
+     * Adds function to render loop
+     * @param {function} func - function will be called on every render call
+     */
     addLoop(func) {
         this.loops.push(func);
     }
 
+    /**
+     * @returns {LibraryObject} Current library
+     */
     get library() {
         return this._library;
     }
 
+    /** Sets library as current
+     * @param {LibraryObject} [newLibrary] - Library
+     */
     set library(library) {
         this.scene.remove(this._library);
         this._library = library;
-        camera.setParent(library);
+        this.camera.setParent(library);
 
         if (library) {
             this.scene.add(library);
-            locator.centerObject(library, camera.object);
+            locator.centerObject(library, this.camera.object);
         }
     }
 
+    /**
+     * @type {HTMLElement}
+     */
     get canvas() {
         return this.renderer.domElement;
     }
-}
-
-/**
- * Inits lib3d, should be called first, use canvas with padding: 0
- * @alias module:lib3d.init
- * @param {canvas} [canvas] - chould be provided for lib3d output
- * @param {number} [width=300] - viewport width
- * @param {number} [height=300] - viewport height
- * @deprecated Use lib3d.new() instead
- */
-export function init(canvas, width, height) {
-    environment = new Environment(canvas, width, height);
-}
-
-/** Sets new canvas size, should be called after canvas size change
- * @param {number} width - New canvas width
- * @param {number} height - New canvas height
- * @deprecated
- */
-export function setSize(width, height) {
-    environment.setSize(width, height);
-}
-
-/**
- * Adds function to render loop
- * @alias module:lib3d.addLoop
- * @param {function} func - function will be called on every render call
- * @deprecated
- */
-export function addLoop(func) {
-    environment.addLoop(func);
-}
-
-/** Sets library as current
- * @param {LibraryObject} [newLibrary] - Library
- * @deprecated
- */
-export function setLibrary(newLibrary) {
-    environment.library = newLibrary;
-}
-
-/**
- * @returns {LibraryObject} Current library
- * @deprecated
- */
-export function getLibrary() {
-    return environment.library;
 }
 
 export default Environment;

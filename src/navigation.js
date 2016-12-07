@@ -1,107 +1,113 @@
-/** 
- * @module lib3d.navigation
- * @description Helper for smooth camera control
- */
-
-import * as camera from './camera';
-
 const BUTTONS_ROTATE_SPEED = 100;
 const BUTTONS_GO_SPEED = 0.02;
 
-var state = {
-	forward: false,
-	backward: false,
-	left: false,
-	right: false,
-	up: false,
-	down: false,
-	rotateX: 0,
-	rotateY: 0
-};
-
-/**
- * @func Stop updating camera
+/** 
+ * Helper for smooth camera control
  */
-export function goStop() {
-	state.forward = false;
-	state.backward = false;
-	state.left = false;
-	state.right = false;
-	state.up = false;
-	state.down = false;
-	state.rotateX = 0;
-	state.rotateY = 0;
-}
+export default class Navigation {
+    /**
+     * @param {Camera} camera
+     */
+    constructor(camera) {
+        this.camera = camera;
+        this.state = {
+            forward: false,
+            backward: false,
+            left: false,
+            right: false,
+            up: false,
+            down: false,
+            rotateX: 0,
+            rotateY: 0
+        };
 
-/**
- * @func Start moving camera forward 
- */
-export function goForward() {
-	state.forward = true;
-}
+        this.update = this.update.bind(this);
+    }
 
-/**
- * @func Start moving camera backward 
- */
-export function goBackward() {
-	state.backward = true;
-}
+    /**
+     * @func Stop updating camera
+     */
+    goStop() {
+        this.state.forward = false;
+        this.state.backward = false;
+        this.state.left = false;
+        this.state.right = false;
+        this.state.up = false;
+        this.state.down = false;
+        this.state.rotateX = 0;
+        this.state.rotateY = 0;
+    }
 
-/**
- * @func Start rotating camera left 
- */
-export function goLeft() {
-	state.left = true;
-}
+    /**
+     * @func Start moving camera forward 
+     */
+    goForward() {
+        this.state.forward = true;
+    }
 
-/**
- * @func Start rotating camera right
- */
-export function goRight() {
-	state.right = true;
-}
+    /**
+     * @func Start moving camera backward 
+     */
+    goBackward() {
+        this.state.backward = true;
+    }
 
-/**
- * @func Start rotating camera up
- */
-export function goUp() {
-	state.up = true;
-}
+    /**
+     * @func Start rotating camera left 
+     */
+    goLeft() {
+        this.state.left = true;
+    }
 
-/**
- * @func Start rotating camera down
- */
-export function goDown() {
-	state.down = true;
-}
+    /**
+     * @func Start rotating camera right
+     */
+    goRight() {
+        this.state.right = true;
+    }
 
-/**
- * @func Change rotate camera speed
- */
-export function rotate(speedX, speedY) {
-	state.rotateX = speedX || 0;
-	state.rotateY = speedY || 0;
-}
+    /**
+     * @func Start rotating camera up
+     */
+    goUp() {
+        this.state.up = true;
+    }
 
-/**
- * @func Update camera
- * @example lib3d.addLoop(lib3d.navigation.update);
- */
-export function update() {
-	if (state.forward) {
-		camera.go(BUTTONS_GO_SPEED);
-	} else if (state.backward) {
-		camera.go(-BUTTONS_GO_SPEED);
-	} else if (state.left) {
-		camera.rotate(BUTTONS_ROTATE_SPEED, 0);
-	} else if (state.right) {
-		camera.rotate(-BUTTONS_ROTATE_SPEED, 0);
-	} else if (state.up) {
-		camera.rotate(0, BUTTONS_ROTATE_SPEED);
-	} else if (state.down) {
-		camera.rotate(0, -BUTTONS_ROTATE_SPEED);
-	}
-	if (state.rotateX || state.rotateY) {
-		camera.rotate(state.rotateX, state.rotateY);
-	}
+    /**
+     * @func Start rotating camera down
+     */
+    goDown() {
+        this.state.down = true;
+    }
+
+    /**
+     * @func Change rotate camera speed
+     */
+    rotate(speedX, speedY) {
+        this.state.rotateX = speedX || 0;
+        this.state.rotateY = speedY || 0;
+    }
+
+    /**
+     * @func Update camera
+     * @example env.addLoop(navigation.update);
+     */
+    update() {
+        if (this.state.forward) {
+            this.camera.go(BUTTONS_GO_SPEED);
+        } else if (this.state.backward) {
+            this.camera.go(-BUTTONS_GO_SPEED);
+        } else if (this.state.left) {
+            this.camera.rotate(BUTTONS_ROTATE_SPEED, 0);
+        } else if (this.state.right) {
+            this.camera.rotate(-BUTTONS_ROTATE_SPEED, 0);
+        } else if (this.state.up) {
+            this.camera.rotate(0, BUTTONS_ROTATE_SPEED);
+        } else if (this.state.down) {
+            this.camera.rotate(0, -BUTTONS_ROTATE_SPEED);
+        }
+        if (this.state.rotateX || this.state.rotateY) {
+            this.camera.rotate(this.state.rotateX, this.state.rotateY);
+        }
+    }
 }

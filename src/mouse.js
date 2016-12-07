@@ -6,8 +6,6 @@
 
 import THREE from 'three';
 
-import * as camera from './camera';
-
 /** Keys states */
 export var keys = {};
 
@@ -28,102 +26,100 @@ var y = null;
 
 /** Update current state by onmousedown event
  * @param event
+ * @param {Camera} [camera] - current environment camera
  */
-export function down(event) {
-	if(event) {
-		keys[event.which] = true;
-		x = event.offsetX;
-		y = event.offsetY;
-		longX = getWidth() * 0.5 - x;
-		longY = getHeight() * 0.5 - y;
-	}
+export function down(event, camera) {
+    if(event) {
+        keys[event.which] = true;
+        x = event.offsetX;
+        y = event.offsetY;
+
+        if (camera) {
+            longX = camera.width * 0.5 - x;
+            longY = camera.height * 0.5 - y;
+        }
+    }
 }
 
 /** Update current state by onmouseup event
  * @param event
  */
 export function up(event) {
-	if(event) {
-		keys[event.which] = false;
-		// linux chrome bug fix (when both keys release then both event.which equal 3)
-		keys[1] = false; 
-	}
+    if(event) {
+        keys[event.which] = false;
+        // linux chrome bug fix (when both keys release then both event.which equal 3)
+        keys[1] = false; 
+    }
 }
 
 /** Update current state by onmousemove event
  * @param event
+ * @param {Camera} [camera] - current environment camera
  */
-export function move(event) {
-	if(event) {
-		longX = getWidth() * 0.5 - x;
-		longY = getHeight() * 0.5 - y;
-		dX = event.offsetX - x;
-		dY = event.offsetY - y;
-		x = event.offsetX;
-		y = event.offsetY;
-	}
+export function move(event, camera) {
+    if(event) {
+        if (camera) {
+            longX = camera.width * 0.5 - x;
+            longY = camera.height * 0.5 - y;
+        }
+
+        dX = event.offsetX - x;
+        dY = event.offsetY - y;
+        x = event.offsetX;
+        y = event.offsetY;
+    }
 }
 
 /**
  * @param {Array} objects - Objects to check for collisions
  * @param {Boolean} recursive - Recursive check
  * @param {Array} searchFor - Array of classes to check
+ * @param {Camera} camera - current environment camera
  * @returns {Object} The closest intersected object
  * 
  * @example 
- * var intersected = lib3d.mouse.getIntersected(lib3d.getLibrary().children, true, [BookObject]);
+ * var intersected = lib3d.mouse.getIntersected(env.library.children, true, [BookObject], env.camera);
  * //intersected.object is an instance of BookObject
  */
-export function getIntersected(objects, recursive, searchFor) {
-	var
-		vector,
-		raycaster,
-		intersects,
-		intersected,
-		result,
-		i, j;
+export function getIntersected(objects, recursive, searchFor, camera) {
+    let result = null;
 
-	result = null;
-	vector = getVector();
-	raycaster = new THREE.Raycaster();
-	raycaster.set(camera.getPosition(), vector);
-	intersects = raycaster.intersectObjects(objects, recursive);
+    if (!camera) {
+        return result;
+    }
 
-	if(searchFor) {
-		if(intersects.length) {
-			for(i = 0; i < intersects.length; i++) {
-				intersected = intersects[i];
-				
-				for(j = searchFor.length - 1; j >= 0; j--) {
-					if(intersected.object instanceof searchFor[j]) {
-						result = intersected;
-						break;
-					}
-				}
+    let vector = getVector(camera);
+    let raycaster = new THREE.Raycaster();
+    raycaster.set(camera.position, vector);
+    let intersects = raycaster.intersectObjects(objects, recursive);
 
-				if(result) {
-					break;
-				}
-			}
-		}		
-	} else {
-		result = intersects;
-	}
+    if(searchFor) {
+        if(intersects.length) {
+            for(let i = 0; i < intersects.length; i++) {
+                let intersected = intersects[i];
 
-	return result;
+                for(let j = searchFor.length - 1; j >= 0; j--) {
+                    if(intersected.object instanceof searchFor[j]) {
+                        result = intersected;
+                        break;
+                    }
+                }
+
+                if(result) {
+                    break;
+                }
+            }
+        }
+    } else {
+        result = intersects;
+    }
+
+    return result;
 }
 
-function getVector() {
-	var vector = new THREE.Vector3((x / getWidth()) * 2 - 1, - (y / getHeight()) * 2 + 1, 0.5);
-	vector.unproject(camera.camera);
+function getVector(camera) {
+    var vector = new THREE.Vector3((x / camera.width) * 2 - 1, - (y / camera.height) * 2 + 1, 0.5);
+    vector.unproject(camera.camera);
 
-	return vector.sub(camera.getPosition()).normalize();
-}
-
-function getWidth() {
-	return camera.width;
-}
-
-function getHeight() {
-	return camera.height;
+    return vector.sub(camera.position).normalize();
 }

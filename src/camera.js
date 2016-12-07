@@ -7,92 +7,101 @@ import THREE from 'three';
 
 import CameraObject from './models/CameraObject';
 
-export var width = 300;
-export var height = 300;
+export default class Camera {
+    constructor(width, height) {
+        this._camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 75);
+        this._object = new CameraObject(this.camera);
+        this.width = width;
+        this.height = height;
+    }
 
-/**
- * @type {THREE.PerspectiveCamera}
- */
-export var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 75);
+    /**
+     * @type {THREE.PerspectiveCamera}
+     */
+    get camera() {
+        return this._camera;
+    }
 
-/**
- * @type {CameraObject}
- */
-export var object = new CameraObject(camera);
+    /**
+     * @type {CameraObject}
+     */
+    get object() {
+        return this._object;
+    }
 
-/**
- * Set new parent
- * @param {THREE.Object3D} parent - new parent
- */
-export function setParent(parent) {
-	if (object.parent) {
-		object.parent.remove(object);
-	}
+    /**
+     * Camera position
+     * @returns {THREE.Vector3}
+     */
+    get position() {
+        return this.object.position;
+    }
 
-	if (parent) {
-		parent.add(object);
-	}
-}
+    /**
+     * Set new parent
+     * @param {THREE.Object3D} parent - new parent
+     */
+    setParent(parent) {
+        if (this.object.parent) {
+            this.object.parent.remove(this.object);
+        }
 
-/**
- * Camera position
- * @returns {THREE.Vector3}
- */
-export function getPosition() {
-	return object.position;
-}
+        if (parent) {
+            parent.add(this.object);
+        }
+    }
 
-/**
- * Rotate camera by two axes
- * @param {Number} x - horisontal angle
- * @param {Number} y - vertical angle
- */
-export function rotate(x, y) {
-	var newX = object.rotation.x + y * 0.0001 || 0;
-	var newY = object.rotation.y + x * 0.0001 || 0;
+    /**
+     * Rotate camera by two axes
+     * @param {Number} x - horisontal angle
+     * @param {Number} y - vertical angle
+     */
+    rotate(x, y) {
+        var newX = this.object.rotation.x + y * 0.0001 || 0;
+        var newY = this.object.rotation.y + x * 0.0001 || 0;
 
-	if(newX < 1.57 && newX > -1.57) {	
-		object.rotation.x = newX;
-	}
+        if(newX < 1.57 && newX > -1.57) {   
+            this.object.rotation.x = newX;
+        }
 
-	object.rotation.y = newY;
-}
+        this.object.rotation.y = newY;
+    }
 
-/**
- * Move camera forward or backward
- * @param {Number} speed - move speed, 
- * use negative number for backward move
- */
-export function go(speed) {
-	var direction = getVector();
-	var yPosition = object.position.y;
-	var newPosition = object.position.clone();
+    /**
+     * Move camera forward or backward
+     * @param {Number} speed - move speed, 
+     * use negative number for backward move
+     */
+    go(speed) {
+        var direction = this.getVector();
+        var yPosition = this.object.position.y;
+        var newPosition = this.object.position.clone();
 
-	newPosition.add(direction.multiplyScalar(speed));
-	object.move(newPosition);
-	object.position.setY(yPosition);
-}
+        newPosition.add(direction.multiplyScalar(speed));
+        this.object.move(newPosition);
+        this.object.position.setY(yPosition);
+    }
 
-/**
- * Look vector
- * @returns {THREE.Vector3} camera look vector
- */
-export function getVector() {
-	var vector = new THREE.Vector3(0, 0, -1);
+    /**
+     * Look direction vector
+     * @returns {THREE.Vector3} camera look vector
+     */
+    getVector() {
+        var vector = new THREE.Vector3(0, 0, -1);
+        return vector.applyEuler(this.object.rotation);
+    }
 
-	return vector.applyEuler(object.rotation);
-}
+    /**
+     * Change aspect ratio of camera and screen size values,
+     * call it all the time you cange viewport size
+     * @param {Number} w - viewport width
+     * @param {Number} h - viewport height
+     */
+    setSize(w, h) {
+        this.width = w;
+        this.height = h;
 
-/**
- * Change aspect ratio of camera and screen size values,
- * call it all the time you cange viewport size
- * @param {Number} w - viewport width
- * @param {Number} h - viewport height
- */
-export function setSize(w, h) {
-	width = w;
-	height = h;
-
-	camera.aspect = width / height;
-	camera.updateProjectionMatrix();
+        this.camera.aspect = w / h;
+        this.camera.updateProjectionMatrix();
+    }
 }

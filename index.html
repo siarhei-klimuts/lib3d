@@ -13,25 +13,25 @@
         }
     </style>
     <canvas id="LIBRARY"
-        onmousedown="lib3d.onMouseDown(event, env);"
-        onmouseup="lib3d.onMouseUp(event, env)"
-        onmousemove="lib3d.onMouseMove(event, env)"></canvas>
+        onmousedown="lib3d.onMouseDown(event, env, preview.isActive());"
+        onmouseup="lib3d.onMouseUp(event, env, preview.isActive())"
+        onmousemove="lib3d.onMouseMove(event, env, preview.isActive())"></canvas>
     <canvas id="LIBRARY2"
         onmousedown="lib3d.onMouseDown(event, env2)"
         onmouseup="lib3d.onMouseUp(event, env2)"
         onmousemove="lib3d.onMouseMove(event, env2)"></canvas>
 
-    <ul class="menu" onmouseup="lib3d.navigation.goStop()" onmouseout="lib3d.navigation.goStop()">
-        <li><button onmousedown="lib3d.navigation.goLeft()">left</button></li>
-        <li><button onmousedown="lib3d.navigation.goRight()">right</button></li>
-        <li><button onmousedown="lib3d.navigation.goForward()">forward</button></li>
-        <li><button onmousedown="lib3d.navigation.goBackward()">backward</button></li>
-        <li><button onmousedown="lib3d.navigation.goUp()">up</button></li>
-        <li><button onmousedown="lib3d.navigation.goDown()">down</button></li>
+    <ul class="menu" onmouseup="navigation.goStop()" onmouseout="navigation.goStop()">
+        <li><button onmousedown="navigation.goLeft()">left</button></li>
+        <li><button onmousedown="navigation.goRight()">right</button></li>
+        <li><button onmousedown="navigation.goForward()">forward</button></li>
+        <li><button onmousedown="navigation.goBackward()">backward</button></li>
+        <li><button onmousedown="navigation.goUp()">up</button></li>
+        <li><button onmousedown="navigation.goDown()">down</button></li>
         <li><button onmousedown="createLibrary()">Create Library</button></li>
-        <li><button onmousedown="createSection();">Create Section</button></li>
-        <li><button onmousedown="preview()">Preview</button></li>
-        <li><button onmousedown="lib3d.preview.rotate(10);">Preview rotate</button></li>
+        <li><button onmousedown="createSection(env.library);">Create Section</button></li>
+        <li><button onmousedown="togglePreview(preview, env.library)">Preview</button></li>
+        <li><button onmousedown="preview.rotate(10);">Preview rotate</button></li>
     </ul>
 
     <script type="text/javascript">
@@ -42,7 +42,10 @@
         var env = new lib3d.Environment(document.getElementById("LIBRARY"), 512, 512);
         var env2;
 
-        env.addLoop(lib3d.navigation.update);
+        var navigation = new lib3d.Navigation(env.camera);
+        env.addLoop(navigation.update);
+
+        var preview = new lib3d.Preview(env.camera);
 
         var library = lib3d.loadLibrary({
             model: "default",
@@ -125,18 +128,17 @@
             // setTimeout(() => env2.destructor(), 2000);
         }
 
-        function preview() {
-            if (!lib3d.preview.isActive()) {
-                var obj = lib3d.selector.getSelectedObject();
-                lib3d.preview.enable(obj);
+        function togglePreview(preview, library) {
+            if (!preview.isActive()) {
+                var obj = lib3d.selector.getSelectedObject(library);
+                preview.enable(obj);
             } else {
-                lib3d.preview.disable();
+                preview.disable();
             }
         }
 
-        function createSection() {
+        function createSection(library) {
             var dto = {model: 'default'};
-            var librar = lib3d.getLibrary();
             var pos = lib3d.locator.placeSection(library, dto);
             var section = lib3d.factory.createSection(dto);
             library.addSection(section);
