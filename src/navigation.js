@@ -21,6 +21,14 @@ export default class Navigation {
             rotateY: 0
         };
 
+        this.goStop = this.goStop.bind(this);
+        this.goForward = this.goForward.bind(this);
+        this.goBackward = this.goBackward.bind(this);
+        this.goLeft = this.goLeft.bind(this);
+        this.goRight = this.goRight.bind(this);
+        this.goUp = this.goUp.bind(this);
+        this.goDown = this.goDown.bind(this);
+        this.rotate = this.rotate.bind(this);
         this.update = this.update.bind(this);
     }
 

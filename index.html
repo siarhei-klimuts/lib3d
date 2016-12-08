@@ -42,10 +42,8 @@
         var env = new lib3d.Environment(document.getElementById("LIBRARY"), 512, 512);
         var env2;
 
-        var navigation = new lib3d.Navigation(env.camera);
-        env.addLoop(navigation.update);
-
-        var preview = new lib3d.Preview(env.camera);
+        var navigation = env.navigation;
+        var preview = env.preview;
 
         var library = lib3d.loadLibrary({
             model: "default",
@@ -124,7 +122,7 @@
             book2.move(new THREE.Vector3(0.0, -0.06, -0.046));
             book3.move(new THREE.Vector3(0.1, -0.06, -0.046));
 
-            document.body.append(env2.canvas);
+            // document.body.append(env2.canvas);
             // setTimeout(() => env2.destructor(), 2000);
         }
 

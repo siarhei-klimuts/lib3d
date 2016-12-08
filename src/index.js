@@ -13,8 +13,6 @@ export {default as BookData} from './data/models/BookData';
 export {default as SectionData} from './data/models/SectionData';
 export {default as LibraryData} from './data/models/LibraryData';
 export {default as Environment} from './environment';
-export {default as Preview} from './preview';
-export {default as Navigation} from './navigation';
 
 export {
 	locator,

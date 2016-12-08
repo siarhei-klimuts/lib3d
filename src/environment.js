@@ -2,6 +2,8 @@ import THREE from 'three';
 
 import Camera from './camera';
 import Selector from './selector';
+import Navigation from './navigation';
+import Preview from './preview';
 import * as locator from './locator';
 
 /*
@@ -16,12 +18,15 @@ class Environment {
      * @param {number} [height=300] - viewport height
      */
     constructor(canvas = undefined, width = 300, height = 300) {
+        this.loops = [];
         this.initScene();
         this.initRenderer(canvas);
         this.camera = new Camera(width, height);
         this.setSize(width, height);
         this.selector = new Selector();
-        this.loops = [];
+        this.navigation = new Navigation(this.camera);
+        this.preview = new Preview(this.camera);
+        this.addLoop(this.navigation.update);
         this.startRenderLoop();
     }
 
