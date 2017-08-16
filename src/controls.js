@@ -14,7 +14,7 @@ var objectMoved = false;
  * @param {Environment} env - affected environment
  * @param {Boolean} isSideEffectsDisabled - disable side effects like focusing, selecting, moving objects
  */
-export function onMouseDown(event, env, isSideEffectsDisabled) {
+function onMouseDown(event, env, isSideEffectsDisabled) {
     mouse.down(event, env ? env.camera : null);
 
     if (!env || isSideEffectsDisabled) {
@@ -36,7 +36,7 @@ export function onMouseDown(event, env, isSideEffectsDisabled) {
  * @param {Environment} env - affected environment
  * @param {Boolean} isSideEffectsDisabled - disable side effects like focusing, selecting, moving objects
  */
-export function onMouseUp(event, env, isSideEffectsDisabled) {
+function onMouseUp(event, env, isSideEffectsDisabled) {
     mouse.up(event);
 
     if (!env || isSideEffectsDisabled) {
@@ -58,7 +58,7 @@ export function onMouseUp(event, env, isSideEffectsDisabled) {
  * @param {Environment} env - affected environment
  * @param {Boolean} isSideEffectsDisabled - disable side effects like focusing, selecting, moving objects
  */
-export function onMouseMove(event, env, isSideEffectsDisabled) {
+function onMouseMove(event, env, isSideEffectsDisabled) {
     event.preventDefault();
     mouse.move(event, env ? env.camera : null);
 
@@ -123,3 +123,31 @@ function moveObject(library, camera, selector) {
 
     objectMoved = true;
 }
+
+/** Rotate an object with avoiiding collisions and triggering objectChangeEvent
+ * @alias module:lib3d.rotateObject
+ * @param {BaseObject} obj - Object to rotate
+ * @param {THREE.Vector3} rotation - A vector with rotation angles in radians
+ * @param {String} order - Euler angles order (optional)
+ */
+function rotateObject(obj, rotation, order) {
+    let originRotation = obj.rotation.clone();
+    obj.rotation.setFromVector3(originRotation.toVector3().add(rotation), order);
+
+    if (obj.isCollided()) {
+        obj.rotation.setFromVector3(originRotation.toVector3(), originRotation.order);
+        return false;
+    }
+
+    obj.updateBoundingBox();
+    events.triggerObjectChange(obj);
+
+    return true;
+}
+
+export {
+    onMouseDown,
+    onMouseUp,
+    onMouseMove,
+    rotateObject
+};

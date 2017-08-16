@@ -64,7 +64,7 @@
     "onchange": "^2.5.0",
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "^2.1.7",
-    "shader-loader": "^1.1.4",
+    "shader-loader": "1.1.4",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"

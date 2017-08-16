@@ -37,7 +37,7 @@ class BaseObject extends THREE.Mesh {
 
 		if(this.dataObject.rotation) this.rotation.fromArray(this.dataObject.rotation.map(Number));
 
-		this.updateBoundingBox();		
+		this.updateBoundingBox();
 	}
 
 	/** @returns {boolean} Is object outside it's parent object */
@@ -144,6 +144,8 @@ class BaseObject extends THREE.Mesh {
 		}
 
 		this.updateBoundingBox();
+
+		return result;
 	}
 
 	/**

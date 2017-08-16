@@ -24,7 +24,8 @@ export {
 export {
 	onMouseDown,
 	onMouseUp,
-	onMouseMove
+	onMouseMove,
+	rotateObject
 } from 'controls';
 
 export {

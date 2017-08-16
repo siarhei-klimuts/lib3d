@@ -32,6 +32,7 @@
         <li><button onmousedown="createSection(env.library);">Create Section</button></li>
         <li><button onmousedown="togglePreview(preview, env.selector)">Preview</button></li>
         <li><button onmousedown="preview.rotate(10);">Preview rotate</button></li>
+        <li><button onmousedown="lib3d.rotateObject(env.selector.getSelectedObject(), new THREE.Vector3(0, Math.PI / 4, 0))">Rotate selected</button></li>
     </ul>
 
     <script type="text/javascript">
