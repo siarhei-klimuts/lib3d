@@ -32,7 +32,7 @@
         <li><button onmousedown="createSection(env.library);">Create Section</button></li>
         <li><button onmousedown="togglePreview(preview, env.selector)">Preview</button></li>
         <li><button onmousedown="preview.rotate(10);">Preview rotate</button></li>
-        <li><button onmousedown="lib3d.rotateObject(env.selector.getSelectedObject(), new THREE.Vector3(0, Math.PI / 4, 0))">Rotate selected</button></li>
+        <li><button onmousedown="rotate(env)">Rotate selected</button></li>
     </ul>
 
     <script type="text/javascript">
@@ -51,6 +51,7 @@
             sections: [
                 {
                     id: 9,
+                    dir: [-0, -0.38268343236508967, -0, -0.9238795325112868],
                     pos_x: -0.4,
                     pos_y: 0,
                     pos_z: -3.5,
@@ -144,6 +145,11 @@
             var section = lib3d.factory.createSection(dto);
             library.addSection(section);
             section.move(pos);
+        }
+
+        function rotate(env) {
+            var obj = env.selector.getSelectedObject();
+            lib3d.rotateObject(obj, new THREE.Vector3(0, Math.PI / 4, 0));
         }
     </script>
 </body>

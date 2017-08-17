@@ -35,7 +35,11 @@ class BaseObject extends THREE.Mesh {
 		this.position.setY(this.dataObject.pos_y || 0);
 		this.position.setZ(this.dataObject.pos_z || 0);
 
-		if(this.dataObject.rotation) this.rotation.fromArray(this.dataObject.rotation.map(Number));
+		if (this.dataObject.dir) {
+			this.quaternion.fromArray(this.dataObject.dir);
+		} else if(this.dataObject.rotation) {
+			this.rotation.fromArray(this.dataObject.rotation.map(Number));
+		}
 
 		this.updateBoundingBox();
 	}

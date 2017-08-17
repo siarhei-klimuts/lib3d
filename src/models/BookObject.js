@@ -27,6 +27,7 @@ class BookObject extends BaseObject {
 	}
 
 	/**
+	 * @deprecated
 	 * @returns {Object} New DTO from current book object state
 	 */
 	getDto() {

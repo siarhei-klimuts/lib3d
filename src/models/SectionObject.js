@@ -34,6 +34,7 @@ class SectionObject extends BaseObject {
 	}
 
 	/**
+	 * @deprecated
 	 * @returns {Object} New DTO from current section object state
 	 */
 	getDto() {
@@ -43,7 +44,8 @@ class SectionObject extends BaseObject {
 			pos_x: this.position.x,
 			pos_y: this.position.y,
 			pos_z: this.position.z,
-			rotation: [this.rotation.x, this.rotation.y, this.rotation.z]
+			rotation: [this.rotation.x, this.rotation.y, this.rotation.z],
+			dir: this.quaternion
 		};
 	}
 
