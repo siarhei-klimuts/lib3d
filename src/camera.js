@@ -36,6 +36,14 @@ export default class Camera {
     }
 
     /**
+     * Camera rotation
+     * @type {THREE.Quaternion}
+     */
+    get rotation() {
+        return this.object.quaternion;
+    }
+
+    /**
      * Set new parent
      * @param {THREE.Object3D} parent - new parent
      */

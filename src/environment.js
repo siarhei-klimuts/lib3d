@@ -117,6 +117,17 @@ class Environment {
     get canvas() {
         return this.renderer.domElement;
     }
+
+    /**
+     * @type {Camera}
+     */
+    get camera() {
+        return this._camera;
+    }
+
+    set camera(camera) {
+        this._camera = camera;
+    }
 }
 
 export default Environment;

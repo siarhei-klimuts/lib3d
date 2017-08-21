@@ -87,6 +87,8 @@
         });
 
         env.library = library;
+        env.camera.position.fromArray([1, 1.5, -2]);
+        env.camera.rotation.fromArray([-0, -0.38268343236508967, -0, -0.9238795325112868]);
 
         function createLibrary() {
             env2 = new lib3d.Environment(document.getElementById("LIBRARY2"));
